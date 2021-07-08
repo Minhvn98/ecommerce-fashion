@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	ctrl "github.com/Minhvn98/ecommerce-fashion/controller"
 	"github.com/gorilla/mux"
 )
 
@@ -27,5 +28,6 @@ func routeProduct(router *mux.Router) {
 }
 
 func routeUser(router *mux.Router) {
-
+	router.HandleFunc("/login", ctrl.Login).Methods(http.MethodPost)
+	router.HandleFunc("/register", ctrl.Register).Methods(http.MethodGet)
 }
