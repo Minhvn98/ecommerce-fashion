@@ -1,7 +1,6 @@
 package router
 
 import (
-	"encoding/json"
 	"net/http"
 
 	ctrl "github.com/Minhvn98/ecommerce-fashion/controller"
@@ -21,13 +20,10 @@ func ConfigRouter() *mux.Router {
 }
 
 func routeProduct(router *mux.Router) {
-	router.HandleFunc("/api/products", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(map[string]bool{"ok": true})
-	}).Methods(http.MethodGet)
+	router.HandleFunc("/api/products", ctrl.GetProduct).Methods(http.MethodGet)
 }
 
 func routeUser(router *mux.Router) {
 	router.HandleFunc("/login", ctrl.Login).Methods(http.MethodPost)
-	router.HandleFunc("/register", ctrl.Register).Methods(http.MethodGet)
+	router.HandleFunc("/register", ctrl.Register).Methods(http.MethodPost)
 }
