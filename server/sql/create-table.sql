@@ -2,7 +2,7 @@ use `ecommerce_fashion`;
 CREATE TABLE `users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `username` varchar(255) UNIQUE NOT NULL,
-  `mobile` varchar(255) UNIQUE,
+  `email` varchar(255),
   `password` varchar(255) NOT NULL,
   `role` ENUM ('admin', 'customer') NOT NULL
 );
