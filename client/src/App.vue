@@ -11,7 +11,6 @@ import TheHeader from "./components/TheHeader.vue";
 import TheFooter from "./components/TheFooter.vue";
 
 // import DetailProduct from "./pages/DetailProduct.vue";
-// import AllProducts from "./pages/AllProducts.vue";
 
 export default {
   name: "App",
