@@ -1,19 +1,17 @@
 <template>
   <div class="card">
-    <img class="card-image" :src="product.image" :alt="product.name" />
-    <div class="card-title">
-      <router-link
-        class="name-product"
-        :to="{
-          name: 'products-detail-router',
-          params: { id: product.id },
-        }"
-        >{{ product.name }}</router-link
-      >
-    </div>
-    <div class="card-body">
-      <span>{{ formatMoney(product.price) }}</span>
-    </div>
+    <router-link
+      class="name-product"
+      :to="{ name: 'products-detail-router', params: { id: product.id } }"
+    >
+      <img class="card-image" :src="product.image" :alt="product.name" />
+      <div class="card-title">
+        {{ product.name }}
+      </div>
+      <div class="card-body">
+        <span>{{ formatMoney(product.price) }}</span>
+      </div>
+    </router-link>
   </div>
 </template>
 
@@ -71,10 +69,10 @@ export default {
   transform: translateY(-2px);
 }
 
-/* 
- 
+/*
+
   ------Responsive -------
- 
+
  */
 
 @media screen and (max-width: 992px) {
