@@ -32,14 +32,15 @@ func main() {
 	defer database.DbConn.Close()
 
 	// Config service
+	Addr := config.Config.Server.Host + ":" + config.Config.Server.Post
 	srv := &http.Server{
 		Handler:      router.ConfigRouter(),
-		Addr:         "127.0.0.1:3000",
+		Addr:         Addr,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
 
-	log.Println("Server will start at http://localhost:3000/")
+	log.Println("Server will start at http://" + Addr + "/")
 	log.Fatal(srv.ListenAndServe())
 
 }
