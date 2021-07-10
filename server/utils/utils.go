@@ -6,6 +6,8 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/Minhvn98/ecommerce-fashion/config"
+	"github.com/Minhvn98/ecommerce-fashion/models"
 	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -41,15 +43,32 @@ func ReadCookieHandler(w http.ResponseWriter, r *http.Request, name string) stri
 	return cookie.Value
 }
 
-func CreateToken(idUser int) (string, error) {
-	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
-		Issuer:    strconv.Itoa(int(idUser)),
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(), //1 day
-	})
+func CreateToken(user models.User) (string, error) {
+	claims := models.Claims{
+		user.Name,
+		user.Role,
+		jwt.StandardClaims{
+			Issuer:    strconv.Itoa(int(user.ID)),
+			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(), //1 day
+		},
+	}
 
-	token, err := claims.SignedString([]byte("learnmorelearnmore"))
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenStr, err := token.SignedString([]byte(config.Config.AccessSecret))
 	if nil != err {
 		log.Fatal(err)
 	}
-	return token, err
+	return tokenStr, err
+}
+
+func VerifyAndParserToken(tokenStr string) (bool, models.Claims) {
+	token, _ := jwt.ParseWithClaims(tokenStr, &models.Claims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(config.Config.AccessSecret), nil
+	})
+
+	if claims, ok := token.Claims.(*models.Claims); ok && token.Valid {
+		return token.Valid, *claims
+	} else {
+		return token.Valid, models.Claims{}
+	}
 }

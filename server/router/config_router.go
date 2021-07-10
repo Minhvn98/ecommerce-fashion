@@ -3,7 +3,8 @@ package router
 import (
 	"net/http"
 
-	ctrl "github.com/Minhvn98/ecommerce-fashion/controller"
+	ctrl "github.com/Minhvn98/ecommerce-fashion/controllers"
+	middle "github.com/Minhvn98/ecommerce-fashion/middlewares"
 	"github.com/gorilla/mux"
 )
 
@@ -12,18 +13,35 @@ func ConfigRouter() *mux.Router {
 
 	fs := http.FileServer(http.Dir("./public"))
 	router.PathPrefix("/public").Handler(http.StripPrefix("/public", fs))
+	router.Use(middle.CommonMiddleware)
 
-	routeProduct(router)
-	routeUser(router)
+	routerNoAuth := router.PathPrefix("/api/v1").Subrouter()
+	routerAuth := router.PathPrefix("/api/v1").Subrouter()
+	routerAuth.Use(middle.Authentication)
+
+	RouterNoAuth(routerNoAuth)
+	RouterAuth(routerAuth)
 
 	return router
 }
 
-func routeProduct(router *mux.Router) {
-	router.HandleFunc("/api/products", ctrl.GetProduct).Methods(http.MethodGet)
-}
-
-func routeUser(router *mux.Router) {
+func RouterNoAuth(router *mux.Router) {
+	// user
 	router.HandleFunc("/login", ctrl.Login).Methods(http.MethodPost)
 	router.HandleFunc("/register", ctrl.Register).Methods(http.MethodPost)
+
+	// product
+	router.HandleFunc("/products", ctrl.GetProducts).Queries("limit", "{limit:[0-9]+}", "offset", "{offset:[0-9]+}").Methods(http.MethodGet)
+	router.HandleFunc("/products/{id}", ctrl.GetProductById).Methods(http.MethodGet)
+
+	// category
+	router.HandleFunc("/categories", ctrl.GetCategories).Methods(http.MethodGet)
+	router.HandleFunc("/categories/{id}/products", ctrl.GetProductsByCategory).Queries("limit", "{limit:[0-9]+}", "offset", "{offset:[0-9]+}").Methods(http.MethodGet)
+}
+
+func RouterAuth(router *mux.Router) {
+	// user
+	router.HandleFunc("/logout", ctrl.Logout).Methods(http.MethodGet)
+
+	// product
 }

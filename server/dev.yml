@@ -2,5 +2,9 @@ db:
     host: localhost
     port: 3306
     user: root
-    pass: abc123
+    pass: 123456
     database: ecommerce_fashion
+server:
+    host: localhost
+    post: 3000
+accessSecret: KeepLearningNeverStop

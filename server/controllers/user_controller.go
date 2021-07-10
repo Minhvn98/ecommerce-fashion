@@ -1,9 +1,10 @@
-package controller
+package controllers
 
 import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 
 	repo "github.com/Minhvn98/ecommerce-fashion/repository"
 	"github.com/Minhvn98/ecommerce-fashion/utils"
@@ -34,7 +35,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create token
-	token, err := utils.CreateToken(user.ID)
+	token, err := utils.CreateToken(user)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
@@ -92,4 +93,16 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"message": "Register sucessfully, please login to shoping"})
+}
+
+func Logout(w http.ResponseWriter, r *http.Request) {
+	cookie := &http.Cookie{
+		Name:     "token",
+		Value:    "",
+		Expires:  time.Now().Add(-time.Hour),
+		HttpOnly: true,
+	}
+	http.SetCookie(w, cookie)
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]interface{}{"message": "Logout sucessfully"})
 }

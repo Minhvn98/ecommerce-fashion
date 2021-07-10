@@ -150,7 +150,7 @@ VALUES(
   ),(
     13,
     'Áo Croptop Dệt Kim Tay Ngắn Cổ Tròn Phong Cách Hàn Quốc Cho Nữ',
-    'Tụi mình vừa ra mắt mẫu áo rất là xinh và hợp với thời tiết mùa này lắm đây khách ơiii 🥰 Áo form siêu tôn dáng và dễ mặc lại giữ ấm tốt lắm ý (À các bạn ở Sài Gòn cũng đừng lo bị nóng nha mặc dù là tay dài nhưng áo có độ thấm hút mồ hôi mặc thoải mái lắm nè ^^).',
+    'Tụi mình vừa ra mắt mẫu áo rất là xinh và hợp với thời tiết mùa này lắm đây khách ơiii , Áo form siêu tôn dáng và dễ mặc lại giữ ấm tốt lắm ý (À các bạn ở Sài Gòn cũng đừng lo bị nóng nha mặc dù là tay dài nhưng áo có độ thấm hút mồ hôi mặc thoải mái lắm nè ^^).',
     159000,
     0,
     2,
@@ -158,7 +158,7 @@ VALUES(
   ),(
     14,
     'Áo Croptop Kiểu Nữ - Áo Crt Khuy Cài Siêu Hot - LP.STORE',
-    'Tụi mình vừa ra mắt mẫu áo rất là xinh và hợp với thời tiết mùa này lắm đây khách ơiii 🥰 Áo form siêu tôn dáng và dễ mặc lại giữ ấm tốt lắm ý (À các bạn ở Sài Gòn cũng đừng lo bị nóng nha mặc dù là tay dài nhưng áo có độ thấm hút mồ hôi mặc thoải mái lắm nè ^^).',
+    'Tụi mình vừa ra mắt mẫu áo rất là xinh và hợp với thời tiết mùa này lắm đây khách ơiii , Áo form siêu tôn dáng và dễ mặc lại giữ ấm tốt lắm ý (À các bạn ở Sài Gòn cũng đừng lo bị nóng nha mặc dù là tay dài nhưng áo có độ thấm hút mồ hôi mặc thoải mái lắm nè ^^).',
     159000,
     0,
     2,
@@ -166,7 +166,7 @@ VALUES(
   ),(
     15,
     'Áo croptop nữ trễ vai tay ngắn kiểu ôm, áo crt ôm đắp chéo ngực siêu dễ thương',
-    'Tụi mình vừa ra mắt mẫu áo rất là xinh và hợp với thời tiết mùa này lắm đây khách ơiii 🥰 Áo mỏng nhẹ nên mặc rất dễ chịu, thoải mái, ngoài ra còn che được 1 số khuyết điểm cơ thể .',
+    'Tụi mình vừa ra mắt mẫu áo rất là xinh và hợp với thời tiết mùa này lắm đây khách ơiii , Áo mỏng nhẹ nên mặc rất dễ chịu, thoải mái, ngoài ra còn che được 1 số khuyết điểm cơ thể .',
     259000,
     0,
     2,
@@ -310,8 +310,8 @@ VALUES(
   ),(
     29,
     'Váy hai dây hoa nhí - Đầm bông hai dây Maina',
-    'Váy nhà Janna mặc được 4 mùa luôn các nàng nhé 😍😍
-    Thích hợp mặc đi học, đi dạo phố, chụp ảnh sống ảo party bất chấp luôn 🔥🔥🔥
+    'Váy nhà Janna mặc được 4 mùa luôn các nàng nhé ,,
+    Thích hợp mặc đi học, đi dạo phố, chụp ảnh sống ảo party bất chấp luôn ,,,
     Đảm bảo mặc vào xinh hơn đứa mình ghét ạ >"<',
     259000,
     0,
@@ -320,8 +320,8 @@ VALUES(
   ),(
     30,
     'Váy ulzzang tiểu thư công chúa phối nơ - V16 - jannahouse',
-    'Váy nhà Janna mặc được 4 mùa luôn các nàng nhé 😍😍
-    Thích hợp mặc đi học, đi dạo phố, chụp ảnh sống ảo party bất chấp luôn 🔥🔥🔥
+    'Váy nhà Janna mặc được 4 mùa luôn các nàng nhé ,,
+    Thích hợp mặc đi học, đi dạo phố, chụp ảnh sống ảo party bất chấp luôn ,,,
     Đảm bảo mặc vào xinh hơn đứa mình ghét ạ >"<',
     269000,
     0,

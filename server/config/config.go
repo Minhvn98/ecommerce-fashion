@@ -7,7 +7,9 @@ import (
 var Config Configuration // global variable
 
 type Configuration struct {
-	Db DBConf
+	Db           DBConf
+	Server       ServerConf
+	AccessSecret string
 }
 
 type DBConf struct {
@@ -16,6 +18,11 @@ type DBConf struct {
 	User     string
 	Pass     string
 	Database string
+}
+
+type ServerConf struct {
+	Host string
+	Post string
 }
 
 func LoadConfig() (err error) {
