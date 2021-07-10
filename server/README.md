@@ -5,4 +5,4 @@
   3. Mở file ```dev.yml``` để để chỉnh sửa cấu hình phù hợp như port, username, password mysql,...
   4. Chạy lệnh ```go run app.go``` để khởi chạy server.
   5. Danh sách các api và hướng dẫn sử dụng api có trong file ```API_Document.json```, chỉ cần import file này vào phần mềm ```Post man``` để xem chi tiết.
-  6. Hết rồi.
+  6. Hết mất rồi.
