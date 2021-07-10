@@ -28,7 +28,7 @@ func main() {
 	database.ConnectDatabase(dbHost, dbPort, dbUserName, dbPass, dbName)
 	database.InitAdminAccount()
 
-	// Disconect database
+	// Disconnect database
 	defer database.DbConn.Close()
 
 	// Config service

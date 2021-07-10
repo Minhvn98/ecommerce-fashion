@@ -1,41 +1,41 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import HomePage from "../pages/HomePage.vue";
-import AllProducts from "../pages/AllProducts.vue";
-import ProductDetail from "../pages/ProductDetail.vue";
-import ShoppingCart from "../pages/ShoppingCart.vue";
-import LoginPage from "../pages/LoginPage.vue";
+// import HomePage from "../pages/HomePage.vue";
+// import AllProducts from "../pages/AllProducts.vue";
+// import ProductDetail from "../pages/ProductDetail.vue";
+// import ShoppingCart from "../pages/ShoppingCart.vue";
+// import LoginPage from "../pages/LoginPage.vue";
 
 const routes = [
   {
     path: "/",
     name: "home-router",
-    component: HomePage
+    component: () => import("../pages/HomePage")
   },
   {
     path: "/products",
     name: "products-router",
-    component: AllProducts
+    component: () => import("../pages/AllProducts")
   },
   {
     path: "/products/:id",
     name: "products-detail-router",
-    component: ProductDetail
+    component: () => import("../pages/ProductDetail")
   },
   {
     path: "/shopping-cart",
     name: "shopping-cart-router",
-    component: ShoppingCart
+    component: () => import("../pages/ShoppingCart")
   },
   {
     path: "/categories/:category",
     name: "products-category",
-    component: AllProducts
+    component: () => import("../pages/AllProducts")
   },
   {
     path: "/login",
     name: "login",
-    component: LoginPage
+    component: () => import("../pages/LoginPage")
   }
 ];
 
