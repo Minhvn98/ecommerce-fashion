@@ -68,6 +68,9 @@ export default {
   },
 
   async created() {
+    document.title =
+      "Shopee Việt Nam | Mua và Bán Trên Ứng Dụng Di Động Hoặc Website";
+
     const productsResponse = await fetchProducts();
     const categoriesResponse = await fetchCategories();
 
