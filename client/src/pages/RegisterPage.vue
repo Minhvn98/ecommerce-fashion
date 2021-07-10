@@ -2,7 +2,7 @@
   <div class="login-wrapper">
     <div class="background-login">
       <div class="form-wrapper">
-        <h1 class="login-title">Đăng Nhập</h1>
+        <h1 class="login-title">Đăng Ký</h1>
         <form action="#" class="login-form">
           <input
             type="email"
@@ -14,16 +14,21 @@
             class="form-input"
             placeholder="Vui lòng nhập password"
           />
-          <button class="btn-submit" type="submit">ĐĂNG NHẬP</button>
-          <div class="text-forgot">
-            <a href="#">Quên mật khẩu</a>
-            <router-link :to="{ name: 'home-router' }"
-              >Quay lại trang chủ</router-link
-            >
-          </div>
+          <input
+            type="password"
+            class="form-input"
+            placeholder="Vui lòng xác nhận lại password"
+          />
+          <button class="btn-submit" type="submit">ĐĂNG KÝ</button>
+
           <div class="text-register">
-            Bạn mới biết đến Shopee?
-            <router-link :to="{ name: 'register' }">Đăng ký</router-link>
+            Bạn đã có tài khoản shopee?
+            <router-link :to="{ name: 'login' }"> Đăng nhập</router-link>
+            <div>
+              <router-link :to="{ name: 'home-router' }"
+                >Quay lại trang chủ</router-link
+              >
+            </div>
           </div>
         </form>
       </div>
@@ -31,13 +36,11 @@
   </div>
 </template>
 
-
 <script>
 export default {
-  name: "LoginPage",
-
+  name: "RegisterPage",
   created() {
-    document.title = "Đăng nhập";
+    document.title = "Đăng ký";
   },
 };
 </script>
@@ -45,11 +48,6 @@ export default {
 <style scoped>
 .login-wrapper {
   background: #ee4d2d;
-}
-
-.text-forgot {
-  display: flex;
-  justify-content: space-between;
 }
 
 .text-register {
@@ -71,7 +69,7 @@ export default {
   border: transparent;
   background: #ed4c2d;
   margin-bottom: 20px;
-  margin-top: 30px;
+  /* margin-top: 30px; */
   cursor: pointer;
 }
 
@@ -100,14 +98,6 @@ export default {
   margin-bottom: 30px;
 }
 
-.text-forgot a {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  display: block;
-  text-decoration: none;
-  font-size: 15px;
-  color: #1328c5;
-}
 .btn-submit:hover {
   background: #c3452d;
 }

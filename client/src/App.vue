@@ -1,5 +1,7 @@
 <template>
-  <the-header></the-header>
+  <the-header
+    v-if="['register', 'login'].indexOf($route.name) === -1"
+  ></the-header>
   <!-- <shopping-cart></shopping-cart> -->
   <router-view></router-view>
   <the-footer></the-footer>
