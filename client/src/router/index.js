@@ -9,22 +9,22 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: "/",
-    name: "home-router",
+    name: "home-page",
     component: () => import("../pages/HomePage")
   },
   {
     path: "/products",
-    name: "products-router",
+    name: "products-page",
     component: () => import("../pages/AllProducts")
   },
   {
-    path: "/products/:id",
-    name: "products-detail-router",
+    path: "/products/:slug",
+    name: "products-detail-page",
     component: () => import("../pages/ProductDetail")
   },
   {
     path: "/shopping-cart",
-    name: "shopping-cart-router",
+    name: "shopping-cart-page",
     component: () => import("../pages/ShoppingCart")
   },
   {

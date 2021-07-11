@@ -1,6 +1,6 @@
 <template>
   <section class="container category-wrap">
-    <div class="category">
+    <div class="category mobile">
       <h3>Danh mục sản phẩm</h3>
       <select
         name="category"
@@ -13,6 +13,25 @@
           {{ cate.name }}
         </option>
       </select>
+    </div>
+    <div class="category pc">
+      <h3>Danh mục sản phẩm</h3>
+      <div class="category-link-wrap">
+        <router-link :to="{ name: 'products-page' }" class="category-link">
+          Tất cả sản phẩm
+        </router-link>
+        <router-link
+          v-for="category in categories"
+          :to="{
+            name: 'products-category',
+            params: { category: category.name },
+          }"
+          class="category-link"
+          :key="category.id"
+        >
+          {{ category.name }}
+        </router-link>
+      </div>
     </div>
 
     <div class="sort-products">
@@ -181,6 +200,28 @@ body {
   justify-content: space-between;
   align-items: flex-end;
 }
+
+.category-link-wrap {
+  margin-top: 15px;
+  display: flex;
+}
+
+.category-link {
+  padding: 10px 20px;
+  background: #fff;
+  text-decoration: none;
+  color: #111;
+  display: block;
+  margin-right: 10px;
+  border-radius: 3px;
+}
+.category-link:hover {
+  color: #ee513c;
+}
+
+.mobile {
+  display: none;
+}
 /*
 
   ------Responsive -------
@@ -207,6 +248,14 @@ body {
   }
 
   .sort-products label {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+  }
+
+  .pc {
     display: none;
   }
 }

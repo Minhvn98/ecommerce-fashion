@@ -3,29 +3,35 @@
     <div class="background-login">
       <div class="form-wrapper">
         <h1 class="login-title">Đăng Ký</h1>
-        <form action="#" class="login-form">
+        <form @submit.prevent="onSubmitRegister" class="login-form">
           <input
-            type="email"
+            type="text"
             class="form-input"
             placeholder="Vui lòng nhập email"
+            v-model="inputEmail"
           />
           <input
             type="password"
             class="form-input"
             placeholder="Vui lòng nhập password"
+            v-model="inputPassword"
           />
           <input
             type="password"
             class="form-input"
             placeholder="Vui lòng xác nhận lại password"
+            v-model="inputConfirmPassword"
           />
+          <div class="message-error">
+            {{ messageError }}
+          </div>
           <button class="btn-submit" type="submit">ĐĂNG KÝ</button>
 
           <div class="text-register">
             Bạn đã có tài khoản shopee?
             <router-link :to="{ name: 'login' }"> Đăng nhập</router-link>
             <div>
-              <router-link :to="{ name: 'home-router' }"
+              <router-link :to="{ name: 'home-page' }"
                 >Quay lại trang chủ</router-link
               >
             </div>
@@ -39,6 +45,30 @@
 <script>
 export default {
   name: "RegisterPage",
+
+  data() {
+    return {
+      inputEmail: "",
+      inputPassword: "",
+      inputConfirmPassword: "",
+      messageError: "",
+    };
+  },
+
+  methods: {
+    onSubmitRegister() {
+      if (this.inputPassword !== this.inputConfirmPassword) {
+        return (this.messageError = "Xác nhận mật khẩu không chính xác!");
+      }
+      this.messageError = "";
+      console.log(
+        this.inputEmail,
+        this.inputPassword,
+        this.inputConfirmPassword
+      );
+    },
+  },
+
   created() {
     document.title = "Đăng ký";
   },
@@ -46,6 +76,10 @@ export default {
 </script>
 
 <style scoped>
+.message-error {
+  margin-bottom: 15px;
+  color: red;
+}
 .login-wrapper {
   background: #ee4d2d;
 }
@@ -79,7 +113,7 @@ export default {
   font-size: 16px;
   border-radius: 3px;
   border: 1px solid #bbb;
-  margin-bottom: 35px;
+  margin-bottom: 25px;
 }
 
 .login-title {
