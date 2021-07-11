@@ -105,7 +105,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/products?limit=23&offset=3",
+							"raw": "http://localhost:3000/api/v1/products?limit=5&offset=0",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -119,11 +119,11 @@
 							"query": [
 								{
 									"key": "limit",
-									"value": "23"
+									"value": "5"
 								},
 								{
 									"key": "offset",
-									"value": "3"
+									"value": "0"
 								}
 							]
 						},
@@ -153,8 +153,108 @@
 						"description": "Api ai này cho trang product detail"
 					},
 					"response": []
+				},
+				{
+					"name": "Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/products/search?text=váy ngủ ban đêm&limit=5&offset=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "text",
+									"value": "váy ngủ ban đêm"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						},
+						"description": "Tim kiếm sản phẩm theo từ khóa keyword"
+					},
+					"response": []
 				}
-			]
+			],
+			"description": "Api for product"
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"categories"
+							]
+						},
+						"description": "Lấy tất cả category"
+					},
+					"response": []
+				},
+				{
+					"name": "Get products by category id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/categories/1/products?limit=5&offset=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"1",
+								"products"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						},
+						"description": "Lấy sản phẩm theo category id có phân trang luôn"
+					},
+					"response": []
+				}
+			],
+			"description": "Api for category"
 		}
 	]
 }
