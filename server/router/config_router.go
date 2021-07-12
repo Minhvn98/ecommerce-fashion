@@ -6,14 +6,15 @@ import (
 	ctrl "github.com/Minhvn98/ecommerce-fashion/controllers"
 	middle "github.com/Minhvn98/ecommerce-fashion/middlewares"
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
-func ConfigRouter() *mux.Router {
+func ConfigRouter() http.Handler {
 	router := mux.NewRouter()
 
 	fs := http.FileServer(http.Dir("./public"))
 	router.PathPrefix("/public").Handler(http.StripPrefix("/public", fs))
-	router.Use(middle.CommonMiddleware)
+	// router.Use(middle.CommonMiddleware)
 
 	routerNoAuth := router.PathPrefix("/api/v1").Subrouter()
 	routerAuth := router.PathPrefix("/api/v1").Subrouter()
@@ -22,7 +23,14 @@ func ConfigRouter() *mux.Router {
 	RouterNoAuth(routerNoAuth)
 	RouterAuth(routerAuth)
 
-	return router
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:8080"},
+		AllowCredentials: true,
+	})
+
+	handler := c.Handler(router)
+
+	return handler
 }
 
 func RouterNoAuth(router *mux.Router) {
@@ -44,5 +52,7 @@ func RouterAuth(router *mux.Router) {
 	// user
 	router.HandleFunc("/logout", ctrl.Logout).Methods(http.MethodGet)
 
-	// product
+	// cart
+	router.HandleFunc("/cart", ctrl.GetProductsInCart).Methods(http.MethodGet)
+	router.HandleFunc("/cart", ctrl.AddProductToCart).Methods(http.MethodPost)
 }
