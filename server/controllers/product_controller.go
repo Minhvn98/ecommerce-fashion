@@ -54,6 +54,13 @@ func GetProductsByCategory(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if categoryId == 0 {
+		products := repo.GetProducts(limit, offset)
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(products)
+		return
+	}
+
 	products := repo.GetProductsByCategory(categoryId, limit, offset)
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(products)

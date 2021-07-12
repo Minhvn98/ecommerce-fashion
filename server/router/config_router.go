@@ -14,7 +14,7 @@ func ConfigRouter() http.Handler {
 
 	fs := http.FileServer(http.Dir("./public"))
 	router.PathPrefix("/public").Handler(http.StripPrefix("/public", fs))
-	// router.Use(middle.CommonMiddleware)
+	router.Use(middle.CommonMiddleware)
 
 	routerNoAuth := router.PathPrefix("/api/v1").Subrouter()
 	routerAuth := router.PathPrefix("/api/v1").Subrouter()
@@ -53,6 +53,6 @@ func RouterAuth(router *mux.Router) {
 	router.HandleFunc("/logout", ctrl.Logout).Methods(http.MethodGet)
 
 	// cart
-	router.HandleFunc("/cart", ctrl.GetProductsInCart).Methods(http.MethodGet)
-	router.HandleFunc("/cart", ctrl.AddProductToCart).Methods(http.MethodPost)
+	router.HandleFunc("/cart", ctrl.GetCart).Methods(http.MethodGet)
+	router.HandleFunc("/cart", ctrl.UpdateCart).Methods(http.MethodPut)
 }
