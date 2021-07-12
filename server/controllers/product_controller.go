@@ -58,3 +58,19 @@ func GetProductsByCategory(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(products)
 }
+
+func GetProductsByTextSearch(w http.ResponseWriter, r *http.Request) {
+	text := r.FormValue("text")
+	limit, err1 := strconv.Atoi(r.FormValue("limit"))
+	offset, err2 := strconv.Atoi(r.FormValue("offset"))
+
+	if err1 != nil || err2 != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]interface{}{"message": "Invalid param"})
+		return
+	}
+
+	products := repo.GetProductsByTextSearch(text, limit, offset)
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(products)
+}

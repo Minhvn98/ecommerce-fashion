@@ -32,7 +32,8 @@ func RouterNoAuth(router *mux.Router) {
 
 	// product
 	router.HandleFunc("/products", ctrl.GetProducts).Queries("limit", "{limit:[0-9]+}", "offset", "{offset:[0-9]+}").Methods(http.MethodGet)
-	router.HandleFunc("/products/{id}", ctrl.GetProductById).Methods(http.MethodGet)
+	router.HandleFunc("/products/{id:[0-9]+}", ctrl.GetProductById).Methods(http.MethodGet)
+	router.HandleFunc("/products/search", ctrl.GetProductsByTextSearch).Queries("text", "{text:.*}", "limit", "{limit:[0-9]+}", "offset", "{offset:[0-9]+}").Methods(http.MethodGet)
 
 	// category
 	router.HandleFunc("/categories", ctrl.GetCategories).Methods(http.MethodGet)
