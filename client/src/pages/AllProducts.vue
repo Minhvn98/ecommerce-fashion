@@ -1,6 +1,6 @@
 <template>
   <section class="container category-wrap">
-    <div class="category">
+    <div class="category mobile">
       <h3>Danh mục sản phẩm</h3>
       <select
         name="category"
@@ -13,6 +13,25 @@
           {{ cate.name }}
         </option>
       </select>
+    </div>
+    <div class="category pc">
+      <h3>Danh mục sản phẩm</h3>
+      <div class="category-link-wrap">
+        <router-link :to="{ name: 'products-page' }" class="category-link">
+          Tất cả sản phẩm
+        </router-link>
+        <router-link
+          v-for="category in categories"
+          :to="{
+            name: 'products-category',
+            params: { category: category.name },
+          }"
+          class="category-link"
+          :key="category.id"
+        >
+          {{ category.name }}
+        </router-link>
+      </div>
     </div>
 
     <div class="sort-products">
@@ -33,6 +52,9 @@
         :key="product.id"
       ></product>
     </div>
+    <button class="btn-view-more" @click="onClickViewMore">
+      {{ viewMoreText }}
+    </button>
   </div>
 </template>
 
@@ -57,6 +79,8 @@ export default {
       idCategory: 0,
       categories: [],
       products: [],
+      offSet: 12,
+      viewMoreText: "Xem Thêm",
     };
   },
 
@@ -75,14 +99,34 @@ export default {
 
       if (sortType === "desc") this.products.sort((a, b) => b.price - a.price);
     },
+
+    async onClickViewMore() {
+      const productsResponse = await fetchProducts(8, this.offSet);
+
+      if (!productsResponse.data) {
+        return (this.viewMoreText = "Đã Hết Sản Phẩm");
+      }
+
+      this.products = this.products.concat(productsResponse.data);
+      this.offSet += 8;
+    },
   },
 
   async created() {
-    const productsResponse = await fetchProducts();
-    const categoriesResponse = await fetchCategories();
+    // const productsResponse = await fetchProducts(this.offSet, 0);
+    // const categoriesResponse = await fetchCategories();
+
+    // this.categories = categoriesResponse.data;
+    // this.products = productsResponse.data;
+    const promiseProducts = fetchProducts(this.offSet, 0);
+    const promiseCategories = fetchCategories();
+
+
+    const categoriesResponse  = await promiseCategories;
+    const productsResponse = await promiseProducts;
 
     this.categories = categoriesResponse.data;
-    this.products = productsResponse.data;
+    this.products = productsResponse.data
   },
 };
 </script>
@@ -91,6 +135,24 @@ export default {
 <style scoped>
 :root {
   --primary-color: #ee4d2d;
+}
+
+.btn-view-more {
+  display: block;
+  margin: auto;
+  padding: 12px 50px;
+  font-size: 17px;
+  border: transparent;
+  background: #ee4d2d;
+  border-radius: 3px;
+  color: #fff;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.btn-view-more:hover {
+  background: #f05d40;
 }
 
 /*
@@ -181,6 +243,28 @@ body {
   justify-content: space-between;
   align-items: flex-end;
 }
+
+.category-link-wrap {
+  margin-top: 15px;
+  display: flex;
+}
+
+.category-link {
+  padding: 10px 20px;
+  background: #fff;
+  text-decoration: none;
+  color: #111;
+  display: block;
+  margin-right: 10px;
+  border-radius: 3px;
+}
+.category-link:hover {
+  color: #ee513c;
+}
+
+.mobile {
+  display: none;
+}
 /*
 
   ------Responsive -------
@@ -207,6 +291,14 @@ body {
   }
 
   .sort-products label {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+  }
+
+  .pc {
     display: none;
   }
 }

@@ -3,21 +3,23 @@
     <div class="background-login">
       <div class="form-wrapper">
         <h1 class="login-title">Đăng Nhập</h1>
-        <form action="#" class="login-form">
+        <form @submit.prevent="onSubmitLogin" class="login-form">
           <input
-            type="email"
+            type="text"
             class="form-input"
-            placeholder="Vui lòng nhập email"
+            placeholder="Vui lòng nhập username"
+            v-model="inputUserName"
           />
           <input
             type="password"
             class="form-input"
             placeholder="Vui lòng nhập password"
+            v-model="inputPassword"
           />
           <button class="btn-submit" type="submit">ĐĂNG NHẬP</button>
           <div class="text-forgot">
             <a href="#">Quên mật khẩu</a>
-            <router-link :to="{ name: 'home-router' }"
+            <router-link :to="{ name: 'home-page' }"
               >Quay lại trang chủ</router-link
             >
           </div>
@@ -33,8 +35,23 @@
 
 
 <script>
+import {loginHandler} from '../services/users.service'
+
 export default {
   name: "LoginPage",
+
+  data() {
+    return {
+      inputUserName: "",
+      inputPassword: "",
+    };
+  },
+
+  methods: {
+    onSubmitLogin() {
+      loginHandler(this.inputUserName, this.inputPassword)
+    },
+  },
 
   created() {
     document.title = "Đăng nhập";

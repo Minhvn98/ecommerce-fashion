@@ -56,7 +56,7 @@ CREATE TABLE `order_items` (
 );
 CREATE TABLE `carts` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `user_id` int
+  `user_id` int NOT NULL UNIQUE
 );
 CREATE TABLE `cart_items` (
   `id` int PRIMARY KEY AUTO_INCREMENT,

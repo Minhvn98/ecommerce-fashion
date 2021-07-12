@@ -2,10 +2,25 @@
   <the-banner></the-banner>
 
   <section class="container category-wrap">
-    <div class="category">
+    <div class="category mobile">
+      <h3>Danh mục sản phẩm</h3>
+      <select
+        name="category"
+        id="category"
+        v-model="idCategory"
+        @change="onFilterByCategory"
+      >
+        <option value="0">Tất cả sản phẩm</option>
+        <option v-for="cate in categories" :value="cate.id" :key="cate.id">
+          {{ cate.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="category pc">
       <h3>Danh mục sản phẩm</h3>
       <div class="category-link-wrap">
-        <router-link :to="{ name: 'products-router' }" class="category-link">
+        <router-link :to="{ name: 'products-page' }" class="category-link">
           Tất cả sản phẩm
         </router-link>
         <router-link
@@ -64,6 +79,7 @@ export default {
     return {
       products: [],
       categories: [],
+      idCategory: 0,
     };
   },
 
@@ -71,7 +87,7 @@ export default {
     document.title =
       "Shopee Việt Nam | Mua và Bán Trên Ứng Dụng Di Động Hoặc Website";
 
-    const productsResponse = await fetchProducts();
+    const productsResponse = await fetchProducts(4, 4);
     const categoriesResponse = await fetchCategories();
 
     this.products = productsResponse.data.slice(0, 4);

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -14,7 +15,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	var userReq = make(map[string]string)
 	err := json.NewDecoder(r.Body).Decode(&userReq)
 	if nil != err {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 
 	user := repo.FindUserByUsername(userReq["username"])

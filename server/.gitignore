@@ -49,3 +49,6 @@ tmp
 ./tmp
 
 dev.yml
+*.yml
+./dev.yml
+./*.yml

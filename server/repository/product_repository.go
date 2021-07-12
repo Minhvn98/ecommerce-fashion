@@ -7,6 +7,30 @@ import (
 	"github.com/Minhvn98/ecommerce-fashion/models"
 )
 
+func GetProductsByTextSearch(text string, limit int, offset int) []models.Product {
+	results, err := db.DbConn.Query("SELECT id, name, description, price, sale_percent, category_id, quantity FROM products WHERE MATCH(name) against ((?) IN natural language mode) LIMIT ? OFFSET ?", text, limit, offset)
+	if err != nil {
+		fmt.Println(err)
+	}
+	var products []models.Product
+	var product models.Product
+	var categoryId int
+	defer results.Close()
+	for results.Next() {
+		err = results.Scan(&product.ID, &product.Name, &product.Description, &product.Price, &product.SalePercent, &categoryId, &product.Quantity)
+		if err != nil {
+			fmt.Println(err)
+		}
+		product.Category = GetCategoryById(categoryId)
+		product.ProductImages = GetImagesProduct(product.ID)
+		product.ProductProperties = GetPropertiesProduct(product.ID)
+
+		products = append(products, product)
+	}
+
+	return products
+}
+
 func GetProductsByCategory(categoryId int, limit int, offset int) []models.Product {
 	results, err := db.DbConn.Query("SELECT id, name, description, price, sale_percent, category_id, quantity FROM products WHERE category_id = ? LIMIT ? OFFSET ?", categoryId, limit, offset)
 	if err != nil {

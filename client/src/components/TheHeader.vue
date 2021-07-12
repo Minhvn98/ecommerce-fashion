@@ -2,7 +2,7 @@
   <header class="menu-top">
     <div class="navbar">
       <div class="logo">
-        <router-link :to="{ name: 'home-router' }">
+        <router-link :to="{ name: 'home-page' }">
           <img src="../assets/logo.jpg" alt="logo" />
         </router-link>
       </div>
@@ -21,7 +21,7 @@
       </div>
       <div class="cart-user">
         <div class="navbar-cart">
-          <router-link :to="{ name: 'shopping-cart-router' }"
+          <router-link :to="{ name: 'shopping-cart-page' }"
             ><i class="fas fa-cart-plus"></i
           ></router-link>
         </div>
