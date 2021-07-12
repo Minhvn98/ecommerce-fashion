@@ -35,6 +35,8 @@
 
 
 <script>
+import {loginHandler} from '../services/users.service'
+
 export default {
   name: "LoginPage",
 
@@ -47,7 +49,7 @@ export default {
 
   methods: {
     onSubmitLogin() {
-      console.log(this.inputUserName, this.inputPassword);
+      loginHandler(this.inputUserName, this.inputPassword)
     },
   },
 

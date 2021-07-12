@@ -25,7 +25,7 @@
               :src="`${BASE_URL_IMAGE}${image.uri}`"
               alt=""
               class="product-image"
-              @click="onChangeImage"
+              @mouseover="onChangeImage"
             />
           </div>
         </div>
@@ -226,6 +226,7 @@ export default {
 
 .product-description {
   margin: 25px 0;
+  font-size: 17px;
 }
 
 .sale-detail {
@@ -238,7 +239,7 @@ export default {
 }
 .price {
   padding: 20px 10px;
-  margin: 15px 0;
+  margin: 20px 0;
   font-size: 20px;
   color: #ee4d2d;
   background: #f5f5f5;
@@ -259,7 +260,7 @@ export default {
 }
 
 .btn-add-to-cart {
-  margin-top: 10px;
+  margin-top: 15px;
   padding: 10px 30px;
   font-size: 17px;
   background: #ee4d2d;
@@ -311,7 +312,7 @@ export default {
 }
 
 .product-info {
-  width: 65%;
+  width: 60%;
   padding-left: 15px;
 }
 
@@ -320,7 +321,7 @@ export default {
 }
 
 .product-image-wrapper {
-  width: calc(35% - 15px);
+  width: calc(40% - 15px);
   margin-right: 15px;
 }
 

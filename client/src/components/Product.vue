@@ -119,13 +119,13 @@ export default {
 
 .card-image {
   width: 100%;
-  border-radius: 5px 5px 0 0;
+  border-radius: 3px 3px 0 0;
 }
 
 .card {
   background: #fff;
   width: calc(25% - 15px);
-  border-radius: 5px;
+  border-radius: 3px;
   margin: 7.5px;
   border: 1px solid #eee;
   transition: 0.3s;

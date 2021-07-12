@@ -1,8 +1,8 @@
 import axios from "axios";
 const BASE_URL = process.env.VUE_APP_BASE_URL;
 
-const fetchProducts = () => {
-  const endPoint = BASE_URL + "/products?limit=23&offset=3";
+const fetchProducts = (limit, offset) => {
+  const endPoint = `${BASE_URL}/products?offset=${offset}&limit=${limit}`;
 
   return axios.get(endPoint);
 };

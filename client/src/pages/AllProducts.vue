@@ -52,6 +52,9 @@
         :key="product.id"
       ></product>
     </div>
+    <button class="btn-view-more" @click="onClickViewMore">
+      {{ viewMoreText }}
+    </button>
   </div>
 </template>
 
@@ -76,6 +79,8 @@ export default {
       idCategory: 0,
       categories: [],
       products: [],
+      offSet: 12,
+      viewMoreText: "Xem Thêm",
     };
   },
 
@@ -94,14 +99,34 @@ export default {
 
       if (sortType === "desc") this.products.sort((a, b) => b.price - a.price);
     },
+
+    async onClickViewMore() {
+      const productsResponse = await fetchProducts(8, this.offSet);
+
+      if (!productsResponse.data) {
+        return (this.viewMoreText = "Đã Hết Sản Phẩm");
+      }
+
+      this.products = this.products.concat(productsResponse.data);
+      this.offSet += 8;
+    },
   },
 
   async created() {
-    const productsResponse = await fetchProducts();
-    const categoriesResponse = await fetchCategories();
+    // const productsResponse = await fetchProducts(this.offSet, 0);
+    // const categoriesResponse = await fetchCategories();
+
+    // this.categories = categoriesResponse.data;
+    // this.products = productsResponse.data;
+    const promiseProducts = fetchProducts(this.offSet, 0);
+    const promiseCategories = fetchCategories();
+
+
+    const categoriesResponse  = await promiseCategories;
+    const productsResponse = await promiseProducts;
 
     this.categories = categoriesResponse.data;
-    this.products = productsResponse.data;
+    this.products = productsResponse.data
   },
 };
 </script>
@@ -110,6 +135,24 @@ export default {
 <style scoped>
 :root {
   --primary-color: #ee4d2d;
+}
+
+.btn-view-more {
+  display: block;
+  margin: auto;
+  padding: 12px 50px;
+  font-size: 17px;
+  border: transparent;
+  background: #ee4d2d;
+  border-radius: 3px;
+  color: #fff;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.btn-view-more:hover {
+  background: #f05d40;
 }
 
 /*

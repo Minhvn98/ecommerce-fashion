@@ -87,7 +87,7 @@ export default {
     document.title =
       "Shopee Việt Nam | Mua và Bán Trên Ứng Dụng Di Động Hoặc Website";
 
-    const productsResponse = await fetchProducts();
+    const productsResponse = await fetchProducts(4, 4);
     const categoriesResponse = await fetchCategories();
 
     this.products = productsResponse.data.slice(0, 4);
