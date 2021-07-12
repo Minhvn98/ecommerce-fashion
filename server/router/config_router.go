@@ -14,7 +14,7 @@ func ConfigRouter() http.Handler {
 
 	fs := http.FileServer(http.Dir("./public"))
 	router.PathPrefix("/public").Handler(http.StripPrefix("/public", fs))
-	router.Use(middle.CommonMiddleware)
+	// router.Use(middle.CommonMiddleware)
 
 	routerNoAuth := router.PathPrefix("/api/v1").Subrouter()
 	routerAuth := router.PathPrefix("/api/v1").Subrouter()
