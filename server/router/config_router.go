@@ -50,6 +50,7 @@ func RouterNoAuth(router *mux.Router) {
 
 func RouterAuth(router *mux.Router) {
 	// user
+	router.HandleFunc("/user/token", ctrl.GetUserByToken).Methods(http.MethodGet)
 	router.HandleFunc("/logout", ctrl.Logout).Methods(http.MethodGet)
 
 	// cart

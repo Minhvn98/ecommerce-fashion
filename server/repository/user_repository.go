@@ -8,33 +8,35 @@ import (
 	"github.com/Minhvn98/ecommerce-fashion/models"
 )
 
-func GetUser() {
-	results, err := db.DbConn.Query("SELECT id, username, email ,role FROM users")
+func GetUserById(id int) models.User {
+	results, err := db.DbConn.Query("SELECT id, username, email, role FROM users WHERE id = ?", id)
 	if err != nil {
-		panic(err.Error())
+		fmt.Println(err)
 	}
 	defer results.Close()
+
+	var user models.User
 	for results.Next() {
-		var user models.User
 		err = results.Scan(&user.ID, &user.Name, &user.Email, &user.Role)
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err)
 		}
 		fmt.Println(user.ToString())
 	}
+	return user
 }
 
 func FindUserByUsername(username string) models.User {
 	results, err := db.DbConn.Query("SELECT id, username, email, password, role FROM users WHERE username = ?", username)
 	if err != nil {
-		panic(err.Error())
+		fmt.Println(err)
 	}
 	var user models.User
 	defer results.Close()
 	for results.Next() {
 		err = results.Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.Role)
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err)
 		}
 	}
 	return user

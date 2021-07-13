@@ -92,6 +92,29 @@
 						"description": "Api logout để xóa cookie"
 					},
 					"response": []
+				},
+				{
+					"name": "Get user by token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/user/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"token"
+							]
+						},
+						"description": "Api này dùng để khi vào lại web, nếu cookie còn tồn tại nó sẽ lấy về thông tin user trong cookie, (lưu vào store vuex chẳng hạn)"
+					},
+					"response": []
 				}
 			],
 			"description": "Api for user"
@@ -266,7 +289,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"product_id\": 4,\r\n    \"quantity\": 0\r\n}",
+							"raw": "{\r\n    \"product_id\": 1,\r\n    \"quantity\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -316,7 +339,38 @@
 		},
 		{
 			"name": "Order",
-			"item": []
+			"item": [
+				{
+					"name": "Create new order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Lê\",\r\n    \"last_name\": \"Khánh\",\r\n    \"email\": \"levankhanh.dev@gmail.com\",\r\n    \"phone\": \"0336849233\",\r\n    \"location\": \"Đống Đa - Hà Nội\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/checkout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

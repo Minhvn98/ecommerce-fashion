@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	repo "github.com/Minhvn98/ecommerce-fashion/repository"
 	"github.com/Minhvn98/ecommerce-fashion/utils"
+	"github.com/gorilla/context"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
@@ -94,6 +96,13 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(map[string]interface{}{"message": "Register sucessfully, please login to shoping"})
+}
+
+func GetUserByToken(w http.ResponseWriter, r *http.Request) {
+	userId, _ := strconv.ParseInt(context.Get(r, "id").(string), 10, 64)
+	user := repo.GetUserById(int(userId))
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(user)
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
