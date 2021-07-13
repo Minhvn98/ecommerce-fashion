@@ -26,7 +26,9 @@ func CreateNewOrder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	repo.CreateOrder(userId, orderInfo)
+	products := repo.GetProductsInCart(userId)
+
+	repo.CreateOrder(userId, orderInfo, products)
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(orderInfo)
 

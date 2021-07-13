@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	db "github.com/Minhvn98/ecommerce-fashion/database"
+	"github.com/Minhvn98/ecommerce-fashion/models"
 )
 
 func AddNewCartForUser(userId int) int {
@@ -36,7 +37,7 @@ func GetCartIdByUserId(userId int) int {
 	return cartId
 }
 
-func GetProductsInCart(userId int) []map[string]interface{} {
+func GetProductsInCart(userId int) []models.ProductInCart {
 	cartId := GetCartIdByUserId(userId)
 
 	results2, err := db.DbConn.Query("SELECT product_id, quantity FROM cart_items WHERE cart_id = ?", cartId)
@@ -45,16 +46,16 @@ func GetProductsInCart(userId int) []map[string]interface{} {
 	}
 	defer results2.Close()
 
-	products := make([]map[string]interface{}, 0)
+	products := make([]models.ProductInCart, 0)
 	var productId, quantity int
 	for results2.Next() {
 		err = results2.Scan(&productId, &quantity)
 		if err != nil {
 			fmt.Println(err)
 		}
-		product := make(map[string]interface{})
-		product["product_info"] = GetProductById(productId)
-		product["quantity_in_cart"] = quantity
+		var product models.ProductInCart
+		product.Product = GetProductById(productId)
+		product.Quantity = quantity
 		products = append(products, product)
 	}
 

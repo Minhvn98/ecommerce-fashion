@@ -10,4 +10,7 @@ type Order struct {
 	Phone      string `json:"phone"`
 	Location   string `json:"location"`
 	TotalPrice int    `json:"total_price"`
+	Payment    string `json:"payment"`
+	CreatedAt  string `json:"created_at"`
+	UpdatedAt  string `json:"updated_at"`
 }
