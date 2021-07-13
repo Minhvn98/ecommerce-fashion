@@ -29,6 +29,7 @@ func SetCookieHandler(w http.ResponseWriter, r *http.Request, name string, value
 	cookie := &http.Cookie{
 		Name:     name,
 		Value:    value,
+		Path:     "/",
 		Expires:  time.Now().Add(time.Hour * 24),
 		HttpOnly: true,
 	}

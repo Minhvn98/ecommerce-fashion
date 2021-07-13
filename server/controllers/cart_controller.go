@@ -8,28 +8,34 @@ import (
 	repo "github.com/Minhvn98/ecommerce-fashion/repository"
 )
 
-func AddProductToCart(w http.ResponseWriter, r *http.Request) {
+func UpdateCart(w http.ResponseWriter, r *http.Request) {
 	userId := middlewares.GetUserIdFromToken(w, r, "customer")
 	if userId == 0 {
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode(map[string]interface{}{"message": "Access is not allowed"})
 		return
 	}
-	var product = make(map[string]int)
+	var product = make(map[string]uint)
 	err := json.NewDecoder(r.Body).Decode(&product)
 	if nil != err {
 		w.WriteHeader(http.StatusUnauthorized)
-		json.NewEncoder(w).Encode(map[string]interface{}{"message": "Must use int type to send"})
+		json.NewEncoder(w).Encode(map[string]interface{}{"message": "Must use uint type to send"})
 		return
 	}
 
-	repo.AddProductToCart(product, userId)
+	e := repo.UpdateCart(product, userId)
+	if e != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(map[string]interface{}{"message": "Error when update, please try again"})
+		return
+	}
 
+	products := repo.GetProductsInCart(userId)
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(product)
+	json.NewEncoder(w).Encode(products)
 }
 
-func GetProductsInCart(w http.ResponseWriter, r *http.Request) {
+func GetCart(w http.ResponseWriter, r *http.Request) {
 	userId := middlewares.GetUserIdFromToken(w, r, "customer")
 	if userId == 0 {
 		w.WriteHeader(http.StatusUnauthorized)
@@ -38,6 +44,7 @@ func GetProductsInCart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	products := repo.GetProductsInCart(userId)
+
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(products)
 }

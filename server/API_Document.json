@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"raw": "{\r\n    \"username\": \"khanhdev\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -47,7 +47,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"lekhanh\",\r\n    \"password\": \"123\",\r\n    \"comfirm_password\": \"123\",\r\n    \"email\": \"\"\r\n}",
+							"raw": "{\r\n    \"username\": \"khanhdev\",\r\n    \"password\": \"123456\",\r\n    \"comfirm_password\": \"123456\",\r\n    \"email\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -255,6 +255,68 @@
 				}
 			],
 			"description": "Api for category"
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Add product to cart",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"product_id\": 4,\r\n    \"quantity\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"cart"
+							]
+						},
+						"description": "Thêm mới sản phẩm vào trong giỏ hàng, khi update số lượng sản phẩm thì sẽ được cập nhập lại giỏ hàng, nếu số lượng sản phẩm bằng 0 thì xóa sản phẩm ra khỏi giỏ hàng"
+					},
+					"response": []
+				},
+				{
+					"name": "Get product in cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"cart"
+							]
+						},
+						"description": "Lấy tất cả các sản phẩm trong giỏ hàng"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": []
 		}
 	]
 }

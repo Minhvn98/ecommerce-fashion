@@ -31,15 +31,8 @@ func main() {
 	defer database.DbConn.Close()
 
 	// Config service
-	// Addr := config.Config.Server.Host + ":" + config.Config.Server.Post
-	// srv := &http.Server{
-	// 	Handler:      router.ConfigRouter(),
-	// 	Addr:         Addr,
-	// 	WriteTimeout: 15 * time.Second,
-	// 	ReadTimeout:  15 * time.Second,
-	// }
-
-	// log.Println("Server will start at http://" + Addr + "/")
+	Addr := config.Config.Server.Host + ":" + config.Config.Server.Post
+	log.Println("Server will start at http://" + Addr + "/")
 
 	log.Fatal(http.ListenAndServe(":3000", router.ConfigRouter()))
 
