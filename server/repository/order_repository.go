@@ -9,7 +9,7 @@ import (
 	"github.com/Minhvn98/ecommerce-fashion/models"
 )
 
-func CreateOrder(userId int, orderInfo map[string]string, products []models.ProductInCart) {
+func CreateOrder(userId int, orderInfo map[string]string, products []models.ProductInCart) int64 {
 	tx, err := db.DbConn.Begin()
 	if err != nil {
 		fmt.Println(err)
@@ -26,7 +26,7 @@ func CreateOrder(userId int, orderInfo map[string]string, products []models.Prod
 		if err != nil {
 			tx.Rollback()
 			fmt.Println(err)
-			return
+			return 0
 		}
 		defer stmt.Close()
 
@@ -34,13 +34,13 @@ func CreateOrder(userId int, orderInfo map[string]string, products []models.Prod
 		if err != nil {
 			tx.Rollback()
 			fmt.Println("insert orders table", err)
-			return
+			return 0
 		} else {
 			orderId, err = insert.LastInsertId()
 			if err != nil {
 				tx.Rollback()
 				fmt.Println(err)
-				return
+				return 0
 			}
 		}
 	}
@@ -52,7 +52,7 @@ func CreateOrder(userId int, orderInfo map[string]string, products []models.Prod
 		if err != nil {
 			tx.Rollback()
 			fmt.Println(err)
-			return
+			return 0
 		}
 		defer stmt.Close()
 
@@ -66,7 +66,7 @@ func CreateOrder(userId int, orderInfo map[string]string, products []models.Prod
 			if err != nil {
 				tx.Rollback()
 				fmt.Println("insert for order_items table", err)
-				return
+				return 0
 			}
 		}
 	}
@@ -76,7 +76,7 @@ func CreateOrder(userId int, orderInfo map[string]string, products []models.Prod
 		if err != nil {
 			tx.Rollback()
 			fmt.Println("update total price", err)
-			return
+			return 0
 		}
 	}
 
@@ -87,10 +87,58 @@ func CreateOrder(userId int, orderInfo map[string]string, products []models.Prod
 			if err != nil {
 				tx.Rollback()
 				fmt.Println("Delete product in cart", err)
-				return
+				return 0
 			}
 		}
 	}
 
 	tx.Commit()
+	return orderId
+}
+
+func GetOrderById(id int) models.Order {
+	var order models.Order
+	{
+		results, err := db.DbConn.Query("SELECT id, user_id, status, payment, first_name, last_name, email, phone, location, total_price, created_at FROM orders WHERE id = ? ", id)
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer results.Close()
+		for results.Next() {
+			err = results.Scan(&order.Id, &order.UserId, &order.Status, &order.Payment, &order.FirstName, &order.LastName, &order.Email, &order.Phone, &order.Location, &order.TotalPrice, &order.CreatedAt)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+	}
+
+	{
+		results, err := db.DbConn.Query("SELECT product_id, quantity FROM order_items WHERE order_id = ? ", id)
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer results.Close()
+		products := make([]models.ProductInCart, 0)
+		var productId, quantity int
+		for results.Next() {
+			err = results.Scan(&productId, &quantity)
+			if err != nil {
+				fmt.Println(err)
+			}
+			var product models.ProductInCart
+			product.Product = GetProductById(productId)
+			product.Quantity = quantity
+			products = append(products, product)
+		}
+		order.Products = products
+	}
+
+	return order
+}
+
+func UpdateStatusOrder(status string, orderId int) {
+	_, err := db.DbConn.Exec("UPDATE orders SET status = ? WHERE id = ?", status, orderId)
+	if err != nil {
+		fmt.Println("update status", err)
+	}
 }

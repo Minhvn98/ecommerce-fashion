@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"khanhdev\",\r\n    \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -368,6 +368,61 @@
 							]
 						},
 						"description": "Api tạo một đơn hàng, body là phần thông tin của khách hàng đặt hàng"
+					},
+					"response": []
+				},
+				{
+					"name": "Get order detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/order-detail/18",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"order-detail",
+								"18"
+							]
+						},
+						"description": "Lấy thông tin chi tiết một order bằng orderId"
+					},
+					"response": []
+				},
+				{
+					"name": "Update status order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"Đã thanh toánx\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/order/18",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"18"
+							]
+						},
+						"description": "Cập nhập trạng thái đơn hàng dành cho quản trị viên"
 					},
 					"response": []
 				}

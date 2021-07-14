@@ -48,11 +48,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	utils.SetCookieHandler(w, r, "token", token)
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]interface{}{
-		"id":       user.ID,
-		"username": user.Name,
-		"email":    user.Email,
-		"role":     user.Role})
+	json.NewEncoder(w).Encode(user)
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {

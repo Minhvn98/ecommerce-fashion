@@ -57,6 +57,8 @@ func RouterAuth(router *mux.Router) {
 	router.HandleFunc("/cart", ctrl.GetCart).Methods(http.MethodGet)
 	router.HandleFunc("/cart", ctrl.UpdateCart).Methods(http.MethodPut)
 
-	// Checkout
+	// Order
+	router.HandleFunc("/order-detail/{id:[0-9]+}", ctrl.GetOrderById).Methods(http.MethodGet)
+	router.HandleFunc("/order/{id:[0-9]+}", ctrl.UpdateStatusOrder).Methods(http.MethodPut)
 	router.HandleFunc("/checkout", ctrl.CreateNewOrder).Methods(http.MethodPost)
 }
