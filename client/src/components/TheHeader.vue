@@ -13,9 +13,9 @@
           id="search"
           placeholder="Nhập sản phẩm bạn cần tìm"
           v-model.trim="textSearch"
-          @input="onEmitTextSearch"
+          @change="onSearchHandler"
         />
-        <button class="btn-search" @click="onEmitTextSearch">
+        <button class="btn-search" @click="onSearchHandler">
           <i class="fas fa-search"></i>
         </button>
       </div>
@@ -46,9 +46,15 @@ export default {
   },
 
   methods: {
-    onEmitTextSearch() {
+    onSearchHandler() {
+      document.title = this.textSearch + " | Tìm kiếm";
       console.log(this.textSearch);
-      this.$emit("on-search", this.textSearch);
+      this.$router.push({
+        name: "search",
+        query: { text: this.textSearch, limit: 100, offset: 0 },
+      });
+
+      this.$store.dispatch("searchProducts", { textSearch: this.textSearch });
     },
   },
 };
@@ -92,6 +98,7 @@ export default {
   border-radius: 4px;
   padding: 6px 18px;
   margin-left: -63px;
+  cursor: pointer;
 }
 
 .box-search {

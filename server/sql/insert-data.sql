@@ -28,7 +28,7 @@ INSERT INTO
 VALUES(
     1,
     'SET ĐỒ NGỦ ULZZANG BỒ CÔNG ANH VẢI MÁT',
-    'Chất liệu: lụa Pháp cao cấp, mềm mại, thoáng mát, mỏng mịn, êm dịu với làn da, các mẹ bỉm sữa có thể ôm con thoải mái khi mặc sản phẩm này mà không lo sẽ làm làn da bé bị kích ứng.',
+    'Ui khách lưu ý hiện có nhiều shop bán hàng đểu mà lấy hình mẫu giống bên mình, nhưng chất lượng rất tồi. Hãy tỉnh táo nhé. Hãy đọc feedback của khách bên họ để xem vải đểu thế nào nha, hoặc qua bên Feed của shop mình để đọc bài so sánh nhé. Hãy là người mua hàng thông minh nha khách iu!!!',
     169000,
     0,
     4,

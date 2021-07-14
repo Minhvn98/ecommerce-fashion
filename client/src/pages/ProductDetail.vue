@@ -4,14 +4,13 @@
       <router-link :to="{ name: 'home-page' }">Shopee</router-link>
       > <a href="#">{{ product.category.name }}</a>
     </div>
+
     <div class="product-wrapper">
       <div class="product-image-wrapper">
         <div class="primary-image">
           <img
-            :src="`${BASE_URL_IMAGE}${
-              primaryImage || product.product_images[0].uri
-            }`"
-            alt=""
+            :src="`${srcImage}${primaryImage || product.product_images[0].uri}`"
+            :alt="product.name"
             class="product-image"
           />
         </div>
@@ -22,14 +21,15 @@
             :key="image.id"
           >
             <img
-              :src="`${BASE_URL_IMAGE}${image.uri}`"
-              alt=""
+              :src="`${srcImage}${image.uri}`"
+              :alt="product.name"
               class="product-image"
               @mouseover="onChangeImage"
             />
           </div>
         </div>
       </div>
+
       <div class="product-info">
         <div class="info-small">
           <h3 class="product-name">{{ product.name }}</h3>
@@ -50,6 +50,7 @@
               <span class="price-sale">{{ priceOrigin }} </span>
             </div>
           </div>
+
           <div class="quantity">
             <button class="btn btn-down" @click="decreaseProduct">-</button>
             <input
@@ -73,8 +74,9 @@
             >
           </button>
         </div>
+
         <div class="product-description">
-          Mô tả sản phẩm: <br />
+          <strong>Mô tả sản phẩm: </strong> <br />
           {{ product.description }}
         </div>
       </div>
@@ -98,11 +100,12 @@
 
 <script>
 const BASE_URL_IMAGE = process.env.VUE_APP_BASE_URL_IMAGE;
+
 import Product from "../components/Product.vue";
 
 import {
-  fetchProductById,
-  fetchProductByCategory,
+  getProductsByCategory,
+  getProductById,
 } from "../services/products.service";
 
 import { getCategoryIdAndProductId } from "../utils/slug.util";
@@ -121,7 +124,7 @@ export default {
       },
       products: [],
       quantityPurchased: 1,
-      BASE_URL_IMAGE,
+      srcImage: BASE_URL_IMAGE,
       errText: "",
       primaryImage: "",
     };
@@ -148,13 +151,11 @@ export default {
         this.$route.params.slug
       );
 
-      const productsResponse = await fetchProductById(idProduct);
+      const { data: product } = await getProductById(idProduct);
+      const { data: products } = await getProductsByCategory(idCategory, 4, 4);
 
-      this.product = productsResponse.data;
-
-      const resProductCategory = await fetchProductByCategory(idCategory);
-
-      this.products = await resProductCategory.data;
+      this.product = product;
+      this.products = products;
 
       this.quantityPurchased = 1;
       this.primaryImage = "";
@@ -226,7 +227,7 @@ export default {
 
 .product-description {
   margin: 25px 0;
-  font-size: 17px;
+  font-size: 18px;
 }
 
 .sale-detail {
@@ -261,7 +262,7 @@ export default {
 
 .btn-add-to-cart {
   margin-top: 15px;
-  padding: 10px 30px;
+  padding: 13px 30px;
   font-size: 17px;
   background: #ee4d2d;
   cursor: pointer;
