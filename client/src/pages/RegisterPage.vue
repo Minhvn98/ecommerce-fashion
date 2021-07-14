@@ -5,10 +5,16 @@
         <h1 class="login-title">Đăng Ký</h1>
         <form @submit.prevent="onSubmitRegister" class="login-form">
           <input
-            type="text"
+            type="email"
             class="form-input"
             placeholder="Vui lòng nhập email"
             v-model="inputEmail"
+          />
+          <input
+            type="text"
+            class="form-input"
+            placeholder="Vui lòng nhập username"
+            v-model="inputUserName"
           />
           <input
             type="password"
@@ -23,7 +29,7 @@
             v-model="inputConfirmPassword"
           />
           <div class="message-error">
-            {{ messageError }}
+            {{ errMessage }}
           </div>
           <button class="btn-submit" type="submit">ĐĂNG KÝ</button>
 
@@ -43,29 +49,52 @@
 </template>
 
 <script>
+import { registerHandler, loginHandler } from "../services/users.service";
+
 export default {
   name: "RegisterPage",
 
   data() {
     return {
       inputEmail: "",
+      inputUserName: "",
       inputPassword: "",
       inputConfirmPassword: "",
-      messageError: "",
+
+      errMessage: "",
     };
   },
 
   methods: {
-    onSubmitRegister() {
+    async onSubmitRegister() {
       if (this.inputPassword !== this.inputConfirmPassword) {
-        return (this.messageError = "Xác nhận mật khẩu không chính xác!");
+        return (this.errMessage = "Xác nhận mật khẩu không chính xác!");
       }
-      this.messageError = "";
-      console.log(
-        this.inputEmail,
-        this.inputPassword,
-        this.inputConfirmPassword
-      );
+      this.errMessage = "";
+
+      try {
+        const { status } = await registerHandler(
+          this.inputEmail,
+          this.inputUserName,
+          this.inputPassword,
+          this.inputConfirmPassword
+        );
+
+        if (status === 200) {
+          const { data: user } = await loginHandler(
+            this.inputUserName,
+            this.inputPassword
+          );
+
+          this.$store.dispatch("setUser", user);
+          this.$router.push({ name: "home-page" });
+        }
+      } catch (error) {
+        const { status } = error.response;
+
+        if (status >= 400)
+          return (this.errMessage = "Đăng ký thất bại, vui lòng thử lại!");
+      }
     },
   },
 
@@ -87,6 +116,7 @@ export default {
 .text-register {
   color: #444;
   font-size: 15px;
+  line-height: 25px;
 }
 
 .text-register a {
@@ -125,7 +155,7 @@ export default {
 
 .form-wrapper {
   background: #fefefe;
-  height: 450px;
+  height: 495px;
   width: 400px;
   border-radius: 3px;
   padding: 15px;

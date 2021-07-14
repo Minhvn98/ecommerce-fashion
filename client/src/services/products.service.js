@@ -1,23 +1,32 @@
-import axios from "axios";
-const BASE_URL = process.env.VUE_APP_BASE_URL;
+import apiHandler from './base.service';
 
-const fetchProducts = (limit, offset) => {
-  const endPoint = `${BASE_URL}/products?offset=${offset}&limit=${limit}`;
+const getProducts = async (offset = 0, limit = 4) => {
+  const endpoint = `/products?offset=${offset}&limit=${limit}`;
 
-  return axios.get(endPoint);
+  return await apiHandler.get(endpoint);
 };
 
-const fetchProductById = idProduct => {
-  const endPoint = BASE_URL + "/products/" + idProduct;
+const getProductById = idProduct => {
+  const endpoint = `/products/${idProduct}`;
 
-  return axios.get(endPoint);
+  return apiHandler.get(endpoint);
 };
 
-const fetchProductByCategory = idCategory => {
-  const endPoint =
-    BASE_URL + "/categories/" + idCategory + "/products?limit=4&offset=0";
+const getProductsByCategory = async (idCategory, offset = 0, limit = 8) => {
+  const endpoint = `/categories/${idCategory}/products?offset=${offset}&limit=${limit}`;
 
-  return axios.get(endPoint);
+  return await apiHandler.get(endpoint);
 };
 
-export { fetchProducts, fetchProductById, fetchProductByCategory };
+const searchProducts = async (keyword, offset = 0, limit = 8) => {
+  const endpoint = `products/search?text=${keyword}&offset=${offset}&limit=${limit}`;
+  
+  return await apiHandler.get(endpoint);
+};
+
+export {
+  getProducts,
+  getProductsByCategory,
+  getProductById,
+  searchProducts
+};
