@@ -1,10 +1,7 @@
-import axios from "axios";
-const BASE_URL = process.env.VUE_APP_BASE_URL;
+import apiHandler from './base.service';
 
-const fetchCategories = () => {
-  const endPoint = BASE_URL + "/categories";
-
-  return axios.get(endPoint);
+const getCategories = async () => {
+  return await apiHandler.get('/categories');
 };
 
-export { fetchCategories };
+export {  getCategories };

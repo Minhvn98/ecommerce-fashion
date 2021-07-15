@@ -17,14 +17,20 @@
     <div class="category pc">
       <h3>Danh mục sản phẩm</h3>
       <div class="category-link-wrap">
-        <router-link :to="{ name: 'products-page' }" class="category-link">
+        <router-link
+          :to="{
+            name: 'products-category',
+            params: { slug: `tat-ca-san-pham-cat.0` },
+          }"
+          class="category-link"
+        >
           Tất cả sản phẩm
         </router-link>
         <router-link
           v-for="category in categories"
           :to="{
             name: 'products-category',
-            params: { category: category.name },
+            params: { slug: `${category.name}-cat.${category.id}` },
           }"
           class="category-link"
           :key="category.id"
@@ -61,15 +67,11 @@
 <script>
 import Product from "../components/Product.vue";
 
-import {
-  fetchProducts,
-  fetchProductByCategory,
-} from "../services/products.service";
-
-import { fetchCategories } from "../services/categories.service";
+import { getProductsByCategory } from "../services/products.service";
+import { getCategories } from "../services/categories.service";
 
 export default {
-  name: "AllProducts",
+  name: "ProductsCategory",
   components: {
     Product,
   },
@@ -79,15 +81,15 @@ export default {
       idCategory: 0,
       categories: [],
       products: [],
-      offSet: 12,
+      offSet: 0,
       viewMoreText: "Xem Thêm",
     };
   },
 
   methods: {
     async onFilterByCategory() {
-      const responseProduct = await fetchProductByCategory(this.idCategory);
-      this.products = responseProduct.data;
+      const { data: products } = await getProductsByCategory(this.idCategory);
+      this.products = products;
     },
 
     onSortHandler(event) {
@@ -101,36 +103,52 @@ export default {
     },
 
     async onClickViewMore() {
-      const productsResponse = await fetchProducts(8, this.offSet);
+      this.offSet += 8;
 
-      if (!productsResponse.data) {
+      const { data: products } = await getProductsByCategory(
+        this.idCategory,
+        this.offSet
+      );
+      console.log(products);
+
+      if (!products) {
         return (this.viewMoreText = "Đã Hết Sản Phẩm");
       }
 
-      this.products = this.products.concat(productsResponse.data);
-      this.offSet += 8;
+      this.products = this.products.concat(products);
+    },
+
+    async fetchData() {
+      this.offSet = 0;
+      this.viewMoreText = "Xem Thêm";
+
+      if (!this.$route.params.slug) return; // tranh error khi thoat khoi trang product detail
+
+      this.idCategory = this.$route.params.slug.split("-cat.").slice(-1)[0];
+      console.log(this.idCategory);
+
+      // document.title = this.product.name;
+
+      const { data: products } = await getProductsByCategory(this.idCategory);
+      const { data: categories } = await getCategories();
+      this.categories = categories;
+      this.products = products;
     },
   },
 
   async created() {
-    // const productsResponse = await fetchProducts(this.offSet, 0);
-    // const categoriesResponse = await fetchCategories();
-
-    // this.categories = categoriesResponse.data;
-    // this.products = productsResponse.data;
-    const promiseProducts = fetchProducts(this.offSet, 0);
-    const promiseCategories = fetchCategories();
-
-
-    const categoriesResponse  = await promiseCategories;
-    const productsResponse = await promiseProducts;
-
-    this.categories = categoriesResponse.data;
-    this.products = productsResponse.data
+    this.$watch(
+      () => this.$route.params,
+      () => {
+        this.fetchData();
+      },
+      // fetch the data when the view is created and the data is
+      // already being observed
+      { immediate: true }
+    );
   },
 };
 </script>
-
 
 <style scoped>
 :root {
@@ -173,7 +191,6 @@ body {
 .row {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
 }
 
 .card-body {

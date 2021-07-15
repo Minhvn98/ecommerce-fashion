@@ -3,7 +3,6 @@
     <div class="banner">
       <div class="banner-left">
         <div class="banner-img-left"></div>
-        <!-- <img class="banner-img-left" src="./banner.png" alt="" /> -->
       </div>
       <div class="banner-right">
         <div class="banner-right-top">

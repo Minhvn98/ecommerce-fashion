@@ -16,6 +16,7 @@
             placeholder="Vui lòng nhập password"
             v-model="inputPassword"
           />
+          <div v-if="errMessage" class="error-message">{{ errMessage }}</div>
           <button class="btn-submit" type="submit">ĐĂNG NHẬP</button>
           <div class="text-forgot">
             <a href="#">Quên mật khẩu</a>
@@ -35,7 +36,7 @@
 
 
 <script>
-import {loginHandler} from '../services/users.service'
+import { loginHandler } from "../services/users.service";
 
 export default {
   name: "LoginPage",
@@ -44,12 +45,31 @@ export default {
     return {
       inputUserName: "",
       inputPassword: "",
+      errMessage: "",
     };
   },
 
   methods: {
-    onSubmitLogin() {
-      loginHandler(this.inputUserName, this.inputPassword)
+    async onSubmitLogin() {
+      this.errMessage = "";
+      if (!this.inputUserName || !this.inputPassword) {
+        return (this.errMessage = "Vui lòng nhập đầy đủ thông tin!");
+      }
+
+      try {
+        const { data: user } = await loginHandler(
+          this.inputUserName,
+          this.inputPassword
+        );
+
+        this.$store.dispatch("setUser", user);
+        this.$router.push({ name: "home-page" });
+      } catch (error) {
+        const { status } = error.response;
+
+        if (status === 400)
+          return (this.errMessage = "Tài khoản, mật khẩu không chính xác!");
+      }
     },
   },
 
@@ -64,6 +84,10 @@ export default {
   background: #ee4d2d;
 }
 
+.error-message {
+  color: #dc3413;
+}
+
 .text-forgot {
   display: flex;
   justify-content: space-between;
@@ -72,6 +96,7 @@ export default {
 .text-register {
   color: #444;
   font-size: 15px;
+  line-height: 25px;
 }
 
 .text-register a {
@@ -145,6 +170,11 @@ export default {
 }
 
 @media screen and (max-width: 768px) {
+  .background-login {
+    padding: 35px 0;
+    background-image: none !important;
+    justify-content: center;
+  }
 }
 
 @media screen and (max-width: 576px) {

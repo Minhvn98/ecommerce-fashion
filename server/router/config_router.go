@@ -26,6 +26,7 @@ func ConfigRouter() http.Handler {
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:8080"},
 		AllowCredentials: true,
+		AllowedMethods:   []string{"GET", "POST", "PUT", "PATH", "DELETE"},
 	})
 
 	handler := c.Handler(router)
@@ -50,9 +51,15 @@ func RouterNoAuth(router *mux.Router) {
 
 func RouterAuth(router *mux.Router) {
 	// user
+	router.HandleFunc("/user/token", ctrl.GetUserByToken).Methods(http.MethodGet)
 	router.HandleFunc("/logout", ctrl.Logout).Methods(http.MethodGet)
 
 	// cart
 	router.HandleFunc("/cart", ctrl.GetCart).Methods(http.MethodGet)
 	router.HandleFunc("/cart", ctrl.UpdateCart).Methods(http.MethodPut)
+
+	// Order
+	router.HandleFunc("/order-detail/{id:[0-9]+}", ctrl.GetOrderById).Methods(http.MethodGet)
+	router.HandleFunc("/order/{id:[0-9]+}", ctrl.UpdateStatusOrder).Methods(http.MethodPut)
+	router.HandleFunc("/checkout", ctrl.CreateNewOrder).Methods(http.MethodPost)
 }
