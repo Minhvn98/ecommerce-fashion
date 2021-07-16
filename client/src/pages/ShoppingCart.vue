@@ -2,24 +2,25 @@
   <div class="container">
     <div class="shopping-cart">
       <h1>Giỏ hàng</h1>
-      <div class="not-products" v-if="products.length <= 0">
+      <div class="not-products" v-if="cartProducts.length === 0">
         <div>Không có sản phẩm trong giỏ hàng</div>
-        <button class="back-to-shop" @click="onBackToShop">
-          Quay lại mua hàng
-        </button>
+        <router-link :to="{ name: 'home-page' }">
+          <button class="back-to-shop">Quay lại mua hàng</button>
+        </router-link>
       </div>
       <div class="products">
         <product-cart
-          v-for="product in products"
+          v-for="product in cartProducts"
           :key="product.id"
-          :product="product"
+          :product="product.product_info"
+          :quantity="product.quantity_in_cart"
           @change-quantity="onChangeQuantityHandler"
           @delete-product="onDeleteHandler"
         ></product-cart>
       </div>
       <!-- end products -->
 
-      <div class="shopping-cart-footer" v-if="products.length > 0">
+      <div class="shopping-cart-footer" v-if="cartProducts.length > 0">
         <div class="discount">
           <div>
             <label for="discount">Mã giảm giá</label>
@@ -66,8 +67,6 @@
     </div>
   </div>
 
-  <the-footer></the-footer>
-
   <transition name="fade">
     <div v-if="isShowModalDelete" class="background-black"></div>
   </transition>
@@ -76,7 +75,7 @@
     <modal-delete
       v-if="isShowModalDelete"
       :nameProduct="productDelete.name"
-      @confirm="onConfirmProduct"
+      @confirm="onConfirmDeleteProduct"
     ></modal-delete>
   </transition>
 </template>
@@ -84,6 +83,8 @@
 <script>
 import ProductCart from "../components/ProductCart";
 import ModalDelete from "../components/ModalDelete.vue";
+
+import { formatMoney } from "../utils/money.util";
 
 export default {
   name: "ShoppingCart",
@@ -93,37 +94,6 @@ export default {
   },
   data() {
     return {
-      // products: [],
-      products: [
-        {
-          id: 1,
-          image:
-            "https://cf.shopee.vn/file/bab72e15497c082dba30b6764f46ccd0_tn",
-          name: "Đầm Ngủ Mặc Nhà Lụa Satin Hisexy Không Mút Ngực M06",
-          description: "Description for product item number 1",
-          price: 210000,
-          quantity: 2,
-        },
-        {
-          id: 2,
-          image:
-            "https://cf.shopee.vn/file/f935953ec0595d44b2cc2ece5c74d49a_tn",
-          name: "Váy ngủ lụa hai dây chất liệu lụa hàn cao cấp chất mát,mềm mịn",
-          description: "Description for product item number 1",
-          price: 500000,
-          quantity: 1,
-        },
-        {
-          id: 3,
-          image:
-            "https://cf.shopee.vn/file/c8d9f913bc978fff2117b22a911d887b_tn",
-          name: "Mùa hè địu nữ váy ngủ mùa hè mỏng dệt bông dễ thương ngọt ngào nơ phong cách cổ tích váy ngủ không tay",
-          description: "Description for product item number 1",
-          price: 300000,
-          quantity: 3,
-        },
-      ],
-      productsFake: [],
       discountCodes: [
         {
           code: "300475",
@@ -149,15 +119,17 @@ export default {
 
   computed: {
     totalAmountCart() {
-      return this.products.reduce(
-        (total, product) => (total += product.price * product.quantity),
+      return this.cartProducts.reduce(
+        (total, { product_info, quantity_in_cart }) => {
+          return (total += product_info.price * quantity_in_cart);
+        },
         0
       );
     },
 
     totalNumberProducts() {
-      return this.products.reduce(
-        (total, product) => (total += product.quantity),
+      return this.cartProducts.reduce(
+        (total, product) => (total += product.quantity_in_cart),
         0
       );
     },
@@ -173,25 +145,20 @@ export default {
     totalPayment() {
       return this.totalAmountCart + this.totalVat - this.totalDiscount;
     },
+
+    cartProducts() {
+      return this.$store.state.cart;
+    },
   },
 
   methods: {
-    formatMoney(price) {
-      return price.toLocaleString("it-IT", {
-        style: "currency",
-        currency: "VND",
-      });
-    },
+    formatMoney,
 
     onChangeQuantityHandler(idProduct, quantity) {
       quantity = parseInt(quantity);
       console.log("Changeeee", idProduct, quantity);
 
-      return this.products.forEach((product) => {
-        if (product.id === idProduct) {
-          product.quantity = quantity;
-        }
-      });
+      this.$store.dispatch("changeCartQuantity", { idProduct, quantity });
     },
 
     onDeleteHandler(idProduct, nameProduct) {
@@ -199,11 +166,6 @@ export default {
       this.productDelete.id = idProduct;
       this.isShowModalDelete = true;
       console.log(this.productDelete);
-      // if (!this.isConfirm) return;
-
-      // return (this.products = this.products.filter(
-      //   (product) => product.id !== idProduct
-      // ));
     },
 
     onEnterDiscount() {
@@ -220,24 +182,27 @@ export default {
       console.log(this.totalPayment);
     },
 
-    onConfirmProduct(isConfirm) {
+    async onConfirmDeleteProduct(isConfirm) {
       this.isConfirm = isConfirm;
       console.log(isConfirm);
 
       if (!this.isConfirm) return (this.isShowModalDelete = false);
 
       this.isShowModalDelete = false;
-      return (this.products = this.products.filter(
-        (product) => product.id !== this.productDelete.id
-      ));
-    },
-    onBackToShop() {
-      this.products = [...this.productsFake];
+      const idProduct = this.productDelete.id;
+
+      this.$store.dispatch("deleteProductCart", { idProduct });
     },
 
     onCheckOutHandle() {
       alert("Vội thế ! Vội thế! Đợi thời gian nữa nhé <3");
     },
+  },
+
+  async created() {
+    console.log("he");
+    this.$store.dispatch("getCartProduct");
+    document.title = "Giỏ hàng";
   },
 };
 </script>

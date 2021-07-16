@@ -63,6 +63,7 @@ export default {
         );
 
         this.$store.dispatch("setUser", user);
+        this.$store.dispatch("getCartProduct");
         this.$router.push({ name: "home-page" });
       } catch (error) {
         const { status } = error.response;

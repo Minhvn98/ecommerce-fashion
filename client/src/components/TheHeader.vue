@@ -22,6 +22,7 @@
       <div class="cart-user">
         <div class="navbar-cart">
           <router-link :to="{ name: 'shopping-cart-page' }"
+            ><span v-if="cartNumber" class="cart-number">{{ cartNumber }}</span
             ><i class="fas fa-cart-plus"></i
           ></router-link>
         </div>
@@ -38,17 +39,21 @@
 <script>
 export default {
   name: "TheHeader",
-
   data() {
     return {
       textSearch: "",
     };
   },
 
+  computed: {
+    cartNumber() {
+      return this.$store.getters.cartNumber;
+    },
+  },
   methods: {
     onSearchHandler() {
       document.title = this.textSearch + " | Tìm kiếm";
-      console.log(this.textSearch);
+
       this.$router.push({
         name: "search",
         query: { text: this.textSearch, limit: 100, offset: 0 },
@@ -56,6 +61,10 @@ export default {
 
       this.$store.dispatch("searchProducts", { textSearch: this.textSearch });
     },
+  },
+
+  async created() {
+    // this.$store.dispatch("getCartProduct");
   },
 };
 </script>
@@ -66,11 +75,9 @@ export default {
 .logo {
   width: 150px;
 }
-
 .logo img {
   width: 150px;
 }
-
 .menu-top {
   background: linear-gradient(-180deg, #ec4c3e, #fa6735);
   width: 100%;
@@ -80,16 +87,14 @@ export default {
   left: 0;
   z-index: 9;
 }
-
 .navbar {
-  width: calc(80% - 30px);
+  width: calc(80% - 10px);
   margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100px;
 }
-
 .btn-search {
   color: #fff;
   font-size: 23px;
@@ -100,14 +105,12 @@ export default {
   margin-left: -63px;
   cursor: pointer;
 }
-
 .box-search {
   width: 70%;
   display: flex;
   height: 65px;
   align-items: center;
 }
-
 #search {
   padding-left: 15px;
   width: 100%;
@@ -117,36 +120,44 @@ export default {
   border: none;
   height: 45px;
 }
-
 .cart-user i {
   font-size: 25px;
   cursor: pointer;
   color: #fff;
 }
-
 .navbar-cart {
   width: 40px;
 }
-
 .cart-user {
   margin-left: 15px;
   width: 80px;
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
+
+.cart-number[data-v-9a9f6144] {
+  background: #fff;
+  padding: 0px 10px;
+  border-radius: 12px;
+  color: #ff5722;
+  position: absolute;
+  top: -15px;
+  left: 15px;
+  border: 2px solid #f53e04;
+}
+
 @media screen and (max-width: 768px) {
   .navbar {
     width: calc(100% - 30px);
   }
 }
-
 @media screen and (max-width: 576px) {
   .logo {
     width: 50px;
     overflow: hidden;
     margin-right: 15px;
   }
-
   #search {
     font-size: 14px;
     padding: 10px;

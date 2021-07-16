@@ -1,7 +1,7 @@
 import apiHandler from './base.service';
 
-const getCategories = async () => {
-  return await apiHandler.get('/categories');
+const getCategories = () => {
+  return apiHandler.get('/categories');
 };
 
-export {  getCategories };
+export { getCategories };

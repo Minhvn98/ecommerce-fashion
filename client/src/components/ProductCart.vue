@@ -1,69 +1,147 @@
 <template>
   <div class="card">
     <div class="thumbnail">
-      <img :src="product.image" :alt="product.name" />
+      <img
+        :src="`${BASE_URL_IMAGE}${product.product_images[0].uri}`"
+        :alt="product.name"
+      />
     </div>
     <div class="detail">
-      <div class="name">
-        {{ product.name }}
+      <div class="detail-left">
+        <div class="name">
+          {{ product.name }}
+        </div>
+        <div class="price">{{ formatMoney(product.price) }}</div>
       </div>
-      <div class="price">{{ formatMoney(product.price) }}</div>
-    </div>
-    <div class="right">
-      <div class="quantity">
-        <input
-          type="number"
-          :value="product.quantity"
-          min="1"
-          @change="onChangeQuantity($event, product.id)"
-        />
-      </div>
-      <div
-        class="delete"
-        @click="onDeleteHandler($event, product.id, product.name)"
-      >
-        Xóa
+      <div class="detail-right">
+        <div class="quantity">
+          <button
+            @click="
+              decreaseProduct();
+              onChangeQuantity(product.id);
+            "
+            class="btn-quantity"
+          >
+            -
+          </button>
+          <input
+            type="number"
+            min="1"
+            disabled
+            @change="onChangeQuantity(product.id)"
+            v-model="quantitySelected"
+          />
+          <button
+            @click="
+              increaseProduct();
+              onChangeQuantity(product.id);
+            "
+            class="btn-quantity"
+          >
+            +
+          </button>
+        </div>
+        <div v-if="errMessage" class="errMessage">{{ errMessage }}</div>
+
+        <div class="delete" @click="onDeleteHandler(product.id, product.name)">
+          Xóa
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { formatMoney } from "../utils/money.util";
+
+const BASE_URL_IMAGE = process.env.VUE_APP_BASE_URL_IMAGE;
+
 export default {
   name: "ProductCart",
   props: {
     product: Object,
+    quantity: Number,
   },
   data() {
-    return {};
+    return {
+      BASE_URL_IMAGE,
+      quantitySelected: this.quantity,
+      errMessage: "",
+    };
   },
-  methods: {
-    formatMoney(price) {
-      return price.toLocaleString("it-IT", {
-        style: "currency",
-        currency: "VND",
-      });
-    },
 
-    onDeleteHandler($event, idProduct, nameProduct) {
+  methods: {
+    formatMoney,
+
+    onDeleteHandler(idProduct, nameProduct) {
       this.$emit("delete-product", idProduct, nameProduct);
       // console.log("Delete", idProduct);
     },
 
-    onChangeQuantity($event, idProduct) {
-      let quantity = $event.target.value;
+    onChangeQuantity(idProduct) {
+      let quantity = this.quantitySelected;
       if (!quantity) {
+        this.quantitySelected = 1;
         alert("Nhập tử tế vào bạn ơi.");
-        quantity = 0;
       }
       this.$emit("change-quantity", idProduct, quantity);
-      console.log("Change", quantity, idProduct);
+      console.log("Change", idProduct, quantity);
+    },
+
+    decreaseProduct() {
+      if (this.quantitySelected <= 1) {
+        this.quantitySelected = 1;
+        return this.onDeleteHandler(this.product.id, this.product.name);
+      }
+      this.errMessage = "";
+      this.quantitySelected -= 1;
+    },
+
+    increaseProduct() {
+      if (this.quantitySelected >= this.product.quantity) {
+        this.errMessage = "Bạn đã chọn hết số lượng hàng trong kho";
+        console.log(this.product.quantity);
+
+        return (this.quantitySelected = this.product.quantity);
+      }
+      this.quantitySelected += 1;
     },
   },
+
+  created() {},
 };
 </script>
 
 <style scoped>
+.errMessage {
+  color: #e43917;
+}
+.detail-right {
+  display: flex;
+  align-items: center;
+}
+
+.quantity {
+  display: flex;
+  width: 205px;
+  margin-right: 50px;
+}
+
+.btn-quantity {
+  width: 65px;
+  height: 35px;
+  font-size: 32px;
+  color: #555;
+  background: #fff;
+  border: 0.5px solid #ccc;
+  cursor: pointer;
+  line-height: 16px;
+}
+
+.delete:hover {
+  text-decoration: underline;
+}
+
 .thumbnail img {
   width: 100%;
   border-radius: 4px;
@@ -96,26 +174,29 @@ export default {
 .delete {
   color: #ee4d2d;
   cursor: pointer;
+  background: #eee;
+  padding: 6px 15px;
+  border-radius: 3px;
 }
 
 .price {
   padding-top: 15px;
   color: #ee4d2d;
 }
+
 .detail {
-  width: 55%;
-  padding: 0 30px;
+  width: 80%;
+  padding-left: 30px;
+  display: flex;
+  justify-content: space-between;
 }
 
 input[type="number"] {
-  padding: 10px;
-  width: 100%;
+  padding-left: 10px;
+  width: 55px;
   font-size: 1.1rem;
   border: 1px solid #ddd;
-}
-
-.quantity {
-  width: 60px;
+  height: 35px;
 }
 
 .right {
