@@ -90,7 +90,7 @@ export default {
 }
 
 .modal-footer {
-  padding-top: 20px;
+  padding: 20px 0;
   border-top: 1px solid rgb(238, 237, 237);
 }
 

@@ -68,21 +68,30 @@
   </div>
 
   <transition name="fade">
-    <div v-if="isShowModalDelete" class="background-black"></div>
+    <div
+      @click="onClickBackGroundBlack"
+      v-if="isShowModalDelete || isShowPayment"
+      class="background-black"
+    ></div>
   </transition>
 
-  <transition name="fade">
+  <teleport to="body">
     <modal-delete
       v-if="isShowModalDelete"
       :nameProduct="productDelete.name"
       @confirm="onConfirmDeleteProduct"
     ></modal-delete>
-  </transition>
+  </teleport>
+
+  <teleport to="body">
+    <the-payment v-if="isShowPayment"></the-payment>
+  </teleport>
 </template>
 
 <script>
 import ProductCart from "../components/ProductCart";
 import ModalDelete from "../components/ModalDelete.vue";
+import ThePayment from "../components/ThePayment.vue";
 
 import { formatMoney } from "../utils/money.util";
 
@@ -91,6 +100,7 @@ export default {
   components: {
     ProductCart,
     ModalDelete,
+    ThePayment,
   },
   data() {
     return {
@@ -114,6 +124,7 @@ export default {
       productDelete: {},
       isConfirm: false,
       isShowModalDelete: false,
+      isShowPayment: false,
     };
   },
 
@@ -195,12 +206,16 @@ export default {
     },
 
     onCheckOutHandle() {
-      alert("Vội thế ! Vội thế! Đợi thời gian nữa nhé <3");
+      this.isShowPayment = true;
+    },
+
+    onClickBackGroundBlack() {
+      this.isShowModalDelete = false;
+      this.isShowPayment = false;
     },
   },
 
   async created() {
-    console.log("he");
     this.$store.dispatch("getCartProduct");
     document.title = "Giỏ hàng";
   },

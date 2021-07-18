@@ -40,6 +40,11 @@ const routes = [
     path: '/products/search',
     name: 'search',
     component: () => import('../pages/SearchPage')
+  },
+  {
+    path: '/bill',
+    name: 'bill',
+    component: () => import('../pages/BillPage')
   }
 ];
 
