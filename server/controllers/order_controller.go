@@ -29,10 +29,17 @@ func CreateNewOrder(w http.ResponseWriter, r *http.Request) {
 	}
 
 	products := repo.GetProductsInCart(userId)
+	if len(products) > 0 {
+		orderId := repo.CreateOrder(userId, orderInfo, products)
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(map[string]interface{}{"orderId": orderId})
 
-	orderId := repo.CreateOrder(userId, orderInfo, products)
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]interface{}{"orderId": orderId})
+		PaymentWithMomo(userId, int(orderId))
+	} else {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]interface{}{"message": "Not have product in cart"})
+	}
+
 }
 
 func GetOrderById(w http.ResponseWriter, r *http.Request) {
@@ -52,8 +59,14 @@ func GetOrderById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	order := repo.GetOrderById(orderId)
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(order)
+	if order.Id == 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]interface{}{"message": "Order not exists"})
+	} else {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(order)
+	}
+
 }
 
 func UpdateStatusOrder(w http.ResponseWriter, r *http.Request) {

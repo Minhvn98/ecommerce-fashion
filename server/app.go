@@ -30,10 +30,9 @@ func main() {
 	// Disconnect database
 	defer database.DbConn.Close()
 
-	// Config service
+	// Run service
 	Addr := config.Config.Server.Host + ":" + config.Config.Server.Post
 	log.Println("Server will start at http://" + Addr + "/")
 
 	log.Fatal(http.ListenAndServe(":3000", router.ConfigRouter()))
-
 }

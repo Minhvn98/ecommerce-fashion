@@ -47,6 +47,10 @@ func RouterNoAuth(router *mux.Router) {
 	// category
 	router.HandleFunc("/categories", ctrl.GetCategories).Methods(http.MethodGet)
 	router.HandleFunc("/categories/{id}/products", ctrl.GetProductsByCategory).Queries("limit", "{limit:[0-9]+}", "offset", "{offset:[0-9]+}").Methods(http.MethodGet)
+
+	// Payment
+	router.HandleFunc("/payment", ctrl.GetPayment).Methods(http.MethodGet)
+	router.HandleFunc("/payment", ctrl.PostPayment).Methods(http.MethodPost)
 }
 
 func RouterAuth(router *mux.Router) {

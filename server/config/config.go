@@ -10,6 +10,7 @@ type Configuration struct {
 	Db           DBConf
 	Server       ServerConf
 	AccessSecret string
+	Payment      Payment
 }
 
 type DBConf struct {
@@ -23,6 +24,22 @@ type DBConf struct {
 type ServerConf struct {
 	Host string
 	Post string
+}
+
+type Payment struct {
+	Momo   MomoPayment
+	Stripe StripePayment
+}
+
+type MomoPayment struct {
+	PartnerCode string
+	AccsessKey  string
+	SecretKey   string
+	ApiEndpoint string
+}
+
+type StripePayment struct {
+	SecretKey string
 }
 
 func LoadConfig() (err error) {
