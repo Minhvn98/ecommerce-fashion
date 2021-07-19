@@ -1,27 +1,16 @@
 import apiHandler from './base.service';
-// import axios from 'axios';
-// const BASE_URL = process.env.VUE_APP_BASE_URL;
 
-const loginHandler = async (username, password) => {
+const loginHandler = (username, password) => {
   console.log(username, password);
-  axios
-    .post(
-      BASE_URL + '/login',
-      {
-        username,
-        password
-      },
-      { withCredentials: true }
-    )
-    .then(function(response) {
-      console.log(response['Set-Cookie']);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+  const endpoint = '/login';
+  const body = {
+    username,
+    password
+  };
+  return apiHandler.post(endpoint, body);
 };
 
-const registerHandler = async (email, username, password, comfirm_password) => {
+const registerHandler = (email, username, password, comfirm_password) => {
   const endpoint = '/register';
   const body = {
     email,

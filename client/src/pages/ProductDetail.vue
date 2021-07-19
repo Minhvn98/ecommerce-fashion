@@ -9,7 +9,9 @@
       <div class="product-image-wrapper">
         <div class="primary-image">
           <img
-            :src="`${srcImage}${primaryImage || product.product_images[0].uri}`"
+            :src="`${SRC_IMAGE}${
+              primaryImage || product.product_images[0].uri
+            }`"
             :alt="product.name"
             class="product-image"
           />
@@ -21,7 +23,7 @@
             :key="image.id"
           >
             <img
-              :src="`${srcImage}${image.uri}`"
+              :src="`${SRC_IMAGE}${image.uri}`"
               :alt="product.name"
               class="product-image"
               @mouseover="onChangeImage"
@@ -57,7 +59,7 @@
               type="number"
               name="num-product"
               id="num-product"
-              v-model="quantityPurchased"
+              v-model="quantitySelected"
               disabled
             />
             <button class="btn btn-up" @click="increaseProduct">+</button>
@@ -66,12 +68,8 @@
             >
           </div>
           <div v-if="errText" class="err-text">{{ errText }}</div>
-          <button class="btn-add-to-cart">
-            <router-link
-              :to="{ name: 'shopping-cart-page' }"
-              class="router-link"
-              ><i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng</router-link
-            >
+          <button class="btn-add-to-cart" @click="addToCart">
+            <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
           </button>
         </div>
 
@@ -96,10 +94,17 @@
       ></product>
     </div>
   </section>
+
+  <teleport to="body">
+    <div v-if="isMessage" class="message">
+      <div class="meesage-check"><i class="fas fa-check"></i></div>
+      <div>Sản phẩm đã được thêm vào Giỏ hàng</div>
+    </div>
+  </teleport>
 </template>
 
 <script>
-const BASE_URL_IMAGE = process.env.VUE_APP_BASE_URL_IMAGE;
+const SRC_IMAGE = process.env.VUE_APP_BASE_URL_IMAGE;
 
 import Product from "../components/Product.vue";
 
@@ -107,6 +112,8 @@ import {
   getProductsByCategory,
   getProductById,
 } from "../services/products.service";
+
+import { addToCart as apiAddToCart } from "../services/cart.service";
 
 import { getCategoryIdAndProductId } from "../utils/slug.util";
 import { formatMoney } from "../utils/money.util";
@@ -123,10 +130,11 @@ export default {
         price: 0,
       },
       products: [],
-      quantityPurchased: 1,
-      srcImage: BASE_URL_IMAGE,
+      quantitySelected: 1,
+      SRC_IMAGE,
       errText: "",
       primaryImage: "",
+      isMessage: false,
     };
   },
 
@@ -144,6 +152,19 @@ export default {
   },
 
   methods: {
+    async addToCart() {
+      await apiAddToCart(this.product.id, this.quantitySelected);
+      const idProduct = this.product.id;
+      const quantity = this.quantitySelected;
+
+      this.$store.dispatch("addProductToCart", { idProduct, quantity });
+
+      this.isMessage = true;
+      setTimeout(() => {
+        this.isMessage = false;
+      }, 1000);
+    },
+
     async fetchData() {
       if (!this.$route.params.slug) return; // tranh error khi thoat khoi trang product detail
 
@@ -157,25 +178,25 @@ export default {
       this.product = product;
       this.products = products;
 
-      this.quantityPurchased = 1;
+      this.quantitySelected = 1;
       this.primaryImage = "";
       document.title = this.product.name;
     },
 
     decreaseProduct() {
-      if (this.quantityPurchased <= 1) {
-        return (this.quantityPurchased = 1);
+      if (this.quantitySelected <= 1) {
+        return (this.quantitySelected = 1);
       }
       this.errText = "";
-      this.quantityPurchased -= 1;
+      this.quantitySelected -= 1;
     },
 
     increaseProduct() {
-      if (this.quantityPurchased >= this.product.quantity) {
+      if (this.quantitySelected >= this.product.quantity) {
         this.errText = "Bạn đã chọn hết số lượng hàng trong kho";
-        return (this.quantityPurchased = this.product.quantity);
+        return (this.quantitySelected = this.product.quantity);
       }
-      this.quantityPurchased += 1;
+      this.quantitySelected += 1;
     },
 
     onChangeImage(e) {
@@ -200,6 +221,33 @@ export default {
 </script>
 
 <style scoped>
+.message {
+  width: 400px;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.65);
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  color: #fff;
+  font-size: 20px;
+  padding: 20px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transform: translateX(-50%);
+}
+.meesage-check {
+  margin-bottom: 30px;
+  width: 60px;
+  height: 60px;
+  background: #26aa99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
 .product-image {
   max-width: 100%;
   border-radius: 3px;

@@ -1,7 +1,7 @@
-const formatMoney = price => {
-  return price.toLocaleString("it-IT", {
-    style: "currency",
-    currency: "VND"
+const formatMoney = (price = 0) => {
+  return price.toLocaleString('it-IT', {
+    style: 'currency',
+    currency: 'VND'
   });
 };
 
