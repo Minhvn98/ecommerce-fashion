@@ -24,7 +24,7 @@ func ConfigRouter() http.Handler {
 	RouterAuth(routerAuth)
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:8080"},
+		AllowedOrigins:   []string{"http://localhost:8080", "http://192.168.8.235:8080"},
 		AllowCredentials: true,
 		AllowedMethods:   []string{"GET", "POST", "PUT", "PATH", "DELETE"},
 	})

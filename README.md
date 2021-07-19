@@ -5,10 +5,10 @@ Hoặc là bị đuổi.
 
 # Repository's info
 
-| Fullname                           | Class    |
-| ---------------------------------- | -------- |
-| Vũ Ngọc Minh (:broken_heart:M.Hòa) | TFS - 01 |
-| Lê Văn Khánh                       | TFS - 01 |
+| Fullname     | Class    |
+| ------------ | -------- |
+| Lê Văn Khánh | TFS - 01 |
+| Vũ Ngọc Minh | TFS - 01 |
 
 # Directory's tree
 

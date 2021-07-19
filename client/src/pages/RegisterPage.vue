@@ -182,6 +182,11 @@ export default {
 }
 
 @media screen and (max-width: 768px) {
+  .background-login {
+    padding: 35px 0;
+    background-image: none !important;
+    justify-content: center;
+  }
 }
 
 @media screen and (max-width: 576px) {
