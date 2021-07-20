@@ -38,9 +38,9 @@ CREATE TABLE `orders` (
     `user_id` int NOT NULL,
     `status` ENUM (
       'Chờ thanh toán',
-      'Đang vận chuyển',
       'Đã thanh toán',
       'Giao hàng thành công',
+      'Thanh toán thất bại',
       'Đã hủy đơn hàng'
     ) NOT NULL,
     `payment` VARCHAR(50),

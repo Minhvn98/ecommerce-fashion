@@ -14,7 +14,6 @@ func ConfigRouter() http.Handler {
 
 	fs := http.FileServer(http.Dir("./public"))
 	router.PathPrefix("/public").Handler(http.StripPrefix("/public", fs))
-	// router.Use(middle.CommonMiddleware)
 
 	routerNoAuth := router.PathPrefix("/api/v1").Subrouter()
 	routerAuth := router.PathPrefix("/api/v1").Subrouter()
@@ -24,7 +23,7 @@ func ConfigRouter() http.Handler {
 	RouterAuth(routerAuth)
 
 	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:8080", "http://192.168.8.235:8080"},
+		AllowedOrigins:   []string{"http://localhost:*", "http://192.168.8.235:*", "http://118.69.210.244:*"},
 		AllowCredentials: true,
 		AllowedMethods:   []string{"GET", "POST", "PUT", "PATH", "DELETE"},
 	})
@@ -36,34 +35,35 @@ func ConfigRouter() http.Handler {
 
 func RouterNoAuth(router *mux.Router) {
 	// user
-	router.HandleFunc("/login", ctrl.Login).Methods(http.MethodPost)
-	router.HandleFunc("/register", ctrl.Register).Methods(http.MethodPost)
+	router.Path("/login").Methods(http.MethodPost).HandlerFunc(ctrl.Login)
+	router.Path("/register").Methods(http.MethodPost).HandlerFunc(ctrl.Register)
 
 	// product
-	router.HandleFunc("/products", ctrl.GetProducts).Queries("limit", "{limit:[0-9]+}", "offset", "{offset:[0-9]+}").Methods(http.MethodGet)
-	router.HandleFunc("/products/{id:[0-9]+}", ctrl.GetProductById).Methods(http.MethodGet)
-	router.HandleFunc("/products/search", ctrl.GetProductsByTextSearch).Queries("text", "{text:.*}", "limit", "{limit:[0-9]+}", "offset", "{offset:[0-9]+}").Methods(http.MethodGet)
+	router.Path("/products").Queries("limit", "{limit:[0-9]+}", "offset", "{offset:[0-9]+}").Methods(http.MethodGet).HandlerFunc(ctrl.GetProducts)
+	router.Path("/products/{id:[0-9]+}").Methods(http.MethodGet).HandlerFunc(ctrl.GetProductById)
+	router.Path("/products/search").Queries("text", "{text:.*}", "limit", "{limit:[0-9]+}", "offset", "{offset:[0-9]+}").Methods(http.MethodGet).HandlerFunc(ctrl.GetProductsByTextSearch)
 
 	// category
-	router.HandleFunc("/categories", ctrl.GetCategories).Methods(http.MethodGet)
-	router.HandleFunc("/categories/{id}/products", ctrl.GetProductsByCategory).Queries("limit", "{limit:[0-9]+}", "offset", "{offset:[0-9]+}").Methods(http.MethodGet)
+	router.Path("/categories").Methods(http.MethodGet).HandlerFunc(ctrl.GetCategories)
+	router.Path("/categories/{id}/products").Queries("limit", "{limit:[0-9]+}", "offset", "{offset:[0-9]+}").Methods(http.MethodGet).HandlerFunc(ctrl.GetProductsByCategory)
 
 	// Payment
-	router.HandleFunc("/payment", ctrl.GetPayment).Methods(http.MethodGet)
-	router.HandleFunc("/payment", ctrl.PostPayment).Methods(http.MethodPost)
+	router.Path("/payment").Methods(http.MethodGet).HandlerFunc(ctrl.GetPayment)
+	router.Path("/payment").Methods(http.MethodPost).HandlerFunc(ctrl.PostPayment)
 }
 
 func RouterAuth(router *mux.Router) {
 	// user
-	router.HandleFunc("/user/token", ctrl.GetUserByToken).Methods(http.MethodGet)
-	router.HandleFunc("/logout", ctrl.Logout).Methods(http.MethodGet)
+	router.Path("/user/token").Methods(http.MethodGet).HandlerFunc(ctrl.GetUserByToken)
+	router.Path("/logout").Methods(http.MethodGet).HandlerFunc(ctrl.Logout)
 
 	// cart
-	router.HandleFunc("/cart", ctrl.GetCart).Methods(http.MethodGet)
-	router.HandleFunc("/cart", ctrl.UpdateCart).Methods(http.MethodPut)
+	router.Path("/cart").Methods(http.MethodGet).HandlerFunc(middle.Authorization(ctrl.GetCart, "customer"))
+	router.Path("/cart").Methods(http.MethodPut).HandlerFunc(middle.Authorization(ctrl.UpdateCart, "customer"))
 
 	// Order
-	router.HandleFunc("/order-detail/{id:[0-9]+}", ctrl.GetOrderById).Methods(http.MethodGet)
-	router.HandleFunc("/order/{id:[0-9]+}", ctrl.UpdateStatusOrder).Methods(http.MethodPut)
-	router.HandleFunc("/checkout", ctrl.CreateNewOrder).Methods(http.MethodPost)
+	router.Path("/order-detail/{id:[0-9]+}").Methods(http.MethodGet).HandlerFunc(middle.Authorization(ctrl.GetOrderById, "customer", "admin"))
+	router.Path("/order/{id:[0-9]+}").Methods(http.MethodPut).HandlerFunc(middle.Authorization(ctrl.UpdateStatusOrder, "admin"))
+	router.Path("/checkout").Methods(http.MethodPost).HandlerFunc(middle.Authorization(ctrl.CreateNewOrder, "customer"))
+	router.Path("/order").Queries("status", "{status:.*}").Methods(http.MethodGet).HandlerFunc(middle.Authorization(ctrl.GetOrdersByStatus, "customer"))
 }

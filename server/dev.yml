@@ -18,5 +18,7 @@ payment:
         accsesskey: vVjsPNBAl9syUmRs
         secretkey: LHnCXDTrAGAv3HraPLqSejGHOjnF3tiF
         apiendpoint: https://test-payment.momo.vn/gw_payment/transactionProcessor
+        returnurl: http://localhost:8080/bill
+        notifyurl: http://0c56f8a346be.ngrok.io
     stripe:
         secretkey: LHnCXDTrAGAv3HraPLqSejGHOjnF3tiF

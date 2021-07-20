@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"database/sql"
 	"fmt"
 	"strings"
 	"time"
@@ -141,4 +142,57 @@ func UpdateStatusOrder(status string, orderId int) {
 	if err != nil {
 		fmt.Println("update status", err)
 	}
+}
+
+func GetOrdersByStatus(status string, userId int) []map[string]interface{} {
+	ordersId := make([]int, 0)
+	orders := make([]map[string]interface{}, 0)
+	{
+		var results *sql.Rows
+		var err error
+		if status == "all" {
+			results, err = db.DbConn.Query("SELECT id FROM orders WHERE user_id = ? ORDER BY id DESC ", userId)
+		} else {
+			results, err = db.DbConn.Query("SELECT id FROM orders WHERE user_id = ? AND status = ? ORDER BY id DESC", userId, status)
+		}
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		defer results.Close()
+		id := 0
+		for results.Next() {
+			err = results.Scan(&id)
+			ordersId = append(ordersId, id)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+	}
+
+	{
+		for _, id := range ordersId {
+			results, err := db.DbConn.Query("SELECT product_id FROM order_items WHERE order_id = ?", id)
+			if err != nil {
+				fmt.Println(err)
+			}
+			defer results.Close()
+
+			orderItem := make(map[string]interface{})
+			var products []models.Product
+			orderItem["orderId"] = id
+			productId := 0
+			for results.Next() {
+				err = results.Scan(&productId)
+				if err != nil {
+					fmt.Println(err)
+				}
+				product := GetProductById(productId)
+				products = append(products, product)
+			}
+			orderItem["products"] = products
+			orders = append(orders, orderItem)
+		}
+	}
+	return orders
 }

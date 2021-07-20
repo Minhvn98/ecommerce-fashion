@@ -12,10 +12,10 @@ import (
 
 func CommonMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "*")
+		// w.Header().Set("Content-Type", "*")
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, PATCH, DELETE")
-		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, Access-Control-Request-Headers, Access-Control-Request-Method, Connection, Host, Origin, User-Agent, Referer, Cache-Control, X-header")
+		// w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, PATCH, DELETE")
+		// w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, Access-Control-Request-Headers, Access-Control-Request-Method, Connection, Host, Origin, User-Agent, Referer, Cache-Control, X-header")
 		next.ServeHTTP(w, r)
 	})
 }
@@ -35,7 +35,7 @@ func Authentication(next http.Handler) http.Handler {
 				next.ServeHTTP(w, r)
 			} else {
 				w.WriteHeader(http.StatusUnauthorized)
-				json.NewEncoder(w).Encode(map[string]interface{}{"message": "Invalid token haha", "claims": claims})
+				json.NewEncoder(w).Encode(map[string]interface{}{"message": "Invalid token", "claims": claims})
 			}
 		}
 	})
@@ -52,4 +52,22 @@ func GetUserIdFromToken(w http.ResponseWriter, r *http.Request, roles ...string)
 	}
 
 	return 0
+}
+
+func Authorization(next http.HandlerFunc, roles ...string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		role := context.Get(r, "role")
+		check := false
+		for _, value := range roles {
+			if value == role {
+				check = true
+			}
+		}
+		if check {
+			next.ServeHTTP(w, r)
+		} else {
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode(map[string]interface{}{"message": "Access is not allowed"})
+		}
+	}
 }

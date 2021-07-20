@@ -36,6 +36,8 @@ type MomoPayment struct {
 	AccsessKey  string
 	SecretKey   string
 	ApiEndpoint string
+	ReturnUrl   string
+	NotifyUrl   string
 }
 
 type StripePayment struct {
