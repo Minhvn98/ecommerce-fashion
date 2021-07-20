@@ -9,13 +9,20 @@
 <script>
 import TheHeader from "./components/TheHeader.vue";
 import TheFooter from "./components/TheFooter.vue";
+import { getUserByCookie } from "./services/users.service.js";
 
 export default {
   name: "App",
   components: {
     TheHeader,
-    TheFooter,
+    TheFooter
   },
+  created() {
+    getUserByCookie().then(res => {
+      this.$store.dispatch("setUser", res.data);
+      this.$store.dispatch("getCartProduct");
+    });
+  }
 };
 </script>
 

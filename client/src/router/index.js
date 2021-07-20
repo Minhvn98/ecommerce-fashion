@@ -45,6 +45,11 @@ const routes = [
     path: '/bill',
     name: 'bill',
     component: () => import('../pages/BillPage')
+  },
+  {
+    path: '/bill-detail/:id',
+    name: 'bill-detail',
+    component: () => import('../pages/BillDetailPage')
   }
 ];
 

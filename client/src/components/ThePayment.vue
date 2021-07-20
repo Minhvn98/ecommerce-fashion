@@ -1,32 +1,110 @@
 <template>
   <div class="payment-wrapper">
     <h1 class="title">Thông tin thanh toán</h1>
-    <form action="#" class="form-payment">
-      <input class="info" type="text" placeholder="Vui lòng nhập họ tên" />
+    <form class="form-payment">
       <input
         class="info"
         type="text"
+        v-model="firstName"
+        placeholder="Vui lòng nhập họ và đệm"
+      />
+      <input
+        class="info"
+        type="text"
+        v-model="lastName"
+        placeholder="Vui lòng nhập tên"
+      />
+      <input
+        class="info"
+        v-model="phone"
+        type="text"
         placeholder="Vui lòng nhập số điện thoại"
       />
-      <input class="info" type="email" placeholder="Vui lòng nhập email" />
-      <input class="info" type="text" placeholder="Vui lòng nhập địa chỉ" />
+      <input
+        class="info"
+        type="email"
+        v-model="email"
+        placeholder="Vui lòng nhập email"
+      />
+      <input
+        class="info"
+        type="text"
+        v-model="location"
+        placeholder="Vui lòng nhập địa chỉ"
+      />
 
       <div class="payment-method">
         <div class="method">Phương thức thanh toán</div>
         <div class="method-group">
-          <div class="method-item">Thanh toán khi nhận hàng</div>
-          <div class="method-item">Thanh toán paypal</div>
+          <div
+            @click="selectPaymentMethod('Thanh toán khi nhận hàng')"
+            class="method-item"
+            :class="{
+              'payment-method-active': payment === 'Thanh toán khi nhận hàng'
+            }"
+          >
+            Thanh toán khi nhận hàng
+          </div>
+          <div
+            @click="selectPaymentMethod('Thanh toán momo')"
+            class="method-item"
+            :class="{ 'payment-method-active': payment === 'Thanh toán momo' }"
+          >
+            Thanh toán momo
+          </div>
         </div>
       </div>
 
-      <button type="submit" class="btn-payment">Thanh Toán</button>
+      <button type="button" @click="checkout" class="btn-payment">
+        Thanh Toán
+      </button>
     </form>
   </div>
 </template>
 
 <script>
+import { checkoutHandler } from "../services/checkout.service.js";
 export default {
   name: "ThePayment",
+  data() {
+    return {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      location: "",
+      payment: ""
+    };
+  },
+  methods: {
+    selectPaymentMethod(payment) {
+      this.payment = payment;
+    },
+    checkout() {
+      checkoutHandler(
+        this.firstName,
+        this.lastName,
+        this.email,
+        this.phone,
+        this.location,
+        this.payment
+      )
+        .then(res => {
+          if (res.data.paymentType === 0) {
+            this.$router.push({
+              name: "bill-detail",
+              params: { id: res.data.orderId }
+            });
+          }
+          if (res.data.paymentType === 1) {
+            window.location.href = res.data.url;
+          }
+        })
+        .catch(err => {
+          console.log(err.body);
+        });
+    }
+  }
 };
 </script>
 
@@ -34,7 +112,10 @@ export default {
 .method {
   margin-top: 10px;
 }
-
+.payment-method-active {
+  color: tomato;
+  border-color: tomato !important;
+}
 .btn-payment {
   width: 100%;
   padding: 13px;
@@ -54,6 +135,7 @@ export default {
 .method-item:hover {
   border-color: #ee4d2d;
   color: #ee4d2d;
+  cursor: pointer;
 }
 
 .method-item {
@@ -93,7 +175,7 @@ export default {
   padding: 20px;
   border-radius: 3px;
   position: fixed;
-  top: 130px;
+  top: 100px;
   left: calc(50% - 225px);
   z-index: 99;
 }

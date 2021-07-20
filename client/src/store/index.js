@@ -11,7 +11,7 @@ import {
 const store = createStore({
   state() {
     return {
-      user: {},
+      user: null,
       count: 0,
       textSearch: '',
       productsSearch: [],

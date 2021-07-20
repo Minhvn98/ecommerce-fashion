@@ -26,9 +26,23 @@
             ><i class="fas fa-cart-plus"></i
           ></router-link>
         </div>
-        <div class="cart-login">
+        <div v-if="isLogin" class="cart-login">
+          <i class="far fa-user"></i>
+          <div class="wrap-user">
+            <p>Xin chào, {{ $store.state.user.username }}</p>
+            <p>
+              <router-link
+                :to="{ name: 'bill', query: { status: 'all', tabSelected: 0 } }"
+              >
+                Đơn mua
+              </router-link>
+            </p>
+            <p @click="handleLogout">Đăng xuất</p>
+          </div>
+        </div>
+        <div v-if="!isLogin" class="cart-login">
           <router-link :to="{ name: 'login' }">
-            <i class="far fa-user"></i>
+            <span class="login-text">Đăng nhập</span>
           </router-link>
         </div>
       </div>
@@ -37,18 +51,21 @@
 </template>
 
 <script>
+import { logout } from "../services/users.service.js";
 export default {
   name: "TheHeader",
   data() {
     return {
-      textSearch: "",
+      textSearch: ""
     };
   },
-
   computed: {
     cartNumber() {
       return this.$store.getters.cartNumber;
     },
+    isLogin() {
+      return Boolean(this.$store.state.user);
+    }
   },
   methods: {
     onSearchHandler() {
@@ -56,27 +73,82 @@ export default {
 
       this.$router.push({
         name: "search",
-        query: { text: this.textSearch, limit: 100, offset: 0 },
+        query: { text: this.textSearch, limit: 100, offset: 0 }
       });
 
       this.$store.dispatch("searchProducts", { textSearch: this.textSearch });
     },
+    handleLogout() {
+      logout().then(() => {
+        this.$store.dispatch("setUser", null);
+        this.$store.commit("setCart", []);
+      });
+    }
   },
 
   async created() {
     // this.$store.dispatch("getCartProduct");
-  },
+  }
 };
 </script>
 
-
-<style  scoped>
+<style scoped>
 /* menu-top  */
 .logo {
   width: 150px;
 }
 .logo img {
   width: 150px;
+}
+.navbar-cart {
+  margin-right: 10px;
+}
+.cart-login {
+  position: relative;
+}
+.cart-login:hover .wrap-user {
+  opacity: 1;
+  visibility: visible;
+}
+.wrap-user {
+  position: absolute;
+  width: 200px;
+  background: white;
+  left: -90px;
+  top: 45px;
+  transition: all 0.3s ease-in;
+  opacity: 0;
+  visibility: hidden;
+}
+.wrap-user::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: white;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateZ(45deg);
+}
+.wrap-user > p {
+  padding: 10px;
+  cursor: pointer;
+}
+.wrap-user > p:hover {
+  color: tomato;
+}
+.wrap-user a {
+  color: black;
+}
+.wrap-user a:hover {
+  color: tomato;
+}
+a {
+  text-decoration: none;
+}
+.login-text {
+  color: white;
+  position: relative;
+  top: 3px;
 }
 .menu-top {
   background: linear-gradient(-180deg, #ec4c3e, #fa6735);
@@ -106,7 +178,7 @@ export default {
   cursor: pointer;
 }
 .box-search {
-  width: 70%;
+  width: 60%;
   display: flex;
   height: 65px;
   align-items: center;
@@ -130,7 +202,7 @@ export default {
 }
 .cart-user {
   margin-left: 15px;
-  width: 80px;
+  width: auto;
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -143,7 +215,7 @@ export default {
   color: #ff5722;
   position: absolute;
   top: -15px;
-  left: 15px;
+  left: 12px;
   border: 2px solid #f53e04;
 }
 
