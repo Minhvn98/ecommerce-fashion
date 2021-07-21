@@ -107,14 +107,18 @@ export default {
   color: #111;
 }
 .card-body {
-  padding: 0px 15px 25px 15px;
+  padding: 20px 15px 25px 15px;
   color: #ee4d2d;
   font-size: 1.1rem;
 }
 
 .card-title {
-  padding: 15px;
+  padding: 15px 15px 0 15px;
   font-size: 1.1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .card-image {
