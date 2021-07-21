@@ -54,7 +54,6 @@ export default {
       if (!this.inputUserName || !this.inputPassword) {
         return (this.errMessage = "Vui lòng nhập đầy đủ thông tin!");
       }
-
       try {
         const { data: user } = await loginHandler(
           this.inputUserName,
@@ -62,12 +61,12 @@ export default {
         );
         if (user.role === "customer") {
           this.$store.dispatch("getCartProduct");
-          this.$store.commit("updateLayout", "shop");
+          this.$store.commit("updateLayout", "LayoutShop");
           this.$router.push({ name: "home-page" });
         }
         if (user.role === "admin") {
           this.$router.push({ name: "dashboard" });
-          this.$store.commit("updateLayout", "admin");
+          this.$store.commit("updateLayout", "LayoutAdmin");
         }
         this.$store.dispatch("setUser", user);
       } catch (error) {

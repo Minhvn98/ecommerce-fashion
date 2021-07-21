@@ -8,25 +8,25 @@ const routes = [
     path: '/:pathMatch(.*)*',
     name: '404-page',
     component: () => import('../pages/404Page'),
-    meta: { roles: ['customer', 'admin', 'guest'] }
+    meta: { roles: ['customer', 'admin'] }
   },
   {
     path: '/',
     name: 'home-page',
     component: () => import('../pages/HomePage'),
-    meta: { roles: ['customer', 'guest'] }
+    meta: { roles: ['customer'] }
   },
   {
     path: '/products',
     name: 'products-page',
     component: () => import('../pages/ProductsCategory'),
-    meta: { roles: ['customer', 'guest'] }
+    meta: { roles: ['customer'] }
   },
   {
     path: '/products/:slug',
     name: 'products-detail-page',
     component: () => import('../pages/ProductDetail'),
-    meta: { roles: ['customer', 'guest'] }
+    meta: { roles: ['customer'] }
   },
   {
     path: '/shopping-cart',
@@ -38,25 +38,25 @@ const routes = [
     path: '/categories/:slug',
     name: 'products-category',
     component: () => import('../pages/ProductsCategory'),
-    meta: { roles: ['customer', 'guest'] }
+    meta: { roles: ['customer'] }
   },
   {
     path: '/login',
     name: 'login',
     component: () => import('../pages/LoginPage'),
-    meta: { roles: ['customer', 'guest'] }
+    meta: { roles: ['customer', 'admin'] }
   },
   {
     path: '/register',
     name: 'register',
     component: () => import('../pages/RegisterPage'),
-    meta: { roles: ['customer', 'guest'] }
+    meta: { roles: ['customer'] }
   },
   {
     path: '/products/search',
     name: 'search',
     component: () => import('../pages/SearchPage'),
-    meta: { roles: ['customer', 'guest'] }
+    meta: { roles: ['customer'] }
   },
   {
     path: '/bill',
@@ -94,34 +94,44 @@ router.beforeEach(async (to, from, next) => {
       store.dispatch('setUser', res.data);
       if (res.data.role === 'customer') {
         store.dispatch('getCartProduct');
-        store.commit('updateLayout', 'shop');
+        store.commit('updateLayout', 'LayoutShop');
       }
       if (res.data.role === 'admin') {
-        store.commit('updateLayout', 'admin');
+        store.commit('updateLayout', 'LayoutAdmin');
       }
     }
   } catch (error) {
-    next();
-  }
-  let role = store.state.user ? store.state.user.role : 'guest';
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (role === 'guest') {
+    if (to.meta.requiresAuth) {
       next('/login');
-    }
-    if (store.getters.isAuthenticated) {
-      if (to.meta.roles.includes(role)) {
-        next();
-      } else {
-        next('/404');
-      }
+      return;
     } else {
-      next('/login');
+      next();
+      return;
     }
-  } else {
+  }
+
+  if (to.meta.requiresAuth) {
+    let role = store.state.user.role;
     if (to.meta.roles.includes(role)) {
       next();
+      return;
     } else {
-      next('/404');
+      next('/login');
+      return;
+    }
+  } else {
+    let role = store.state.user ? store.state.user.role : false;
+    if (!role) {
+      next();
+      return;
+    } else {
+      if (to.meta.roles.includes(role)) {
+        next();
+        return;
+      } else {
+        next('/login');
+        return;
+      }
     }
   }
 });

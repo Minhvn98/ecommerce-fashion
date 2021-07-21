@@ -177,7 +177,7 @@ button:hover {
   border-bottom: 1px solid rgb(182, 182, 182);
   transition: all 0.2s ease-in;
 }
-.row:hover {
+.row-wrap:hover {
   background-color: rgb(241, 241, 241);
 }
 .row-wrap > a {

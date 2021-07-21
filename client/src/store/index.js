@@ -16,7 +16,7 @@ const store = createStore({
       textSearch: '',
       productsSearch: [],
       cart: [],
-      layout: 'shop'
+      layout: 'LayoutShop'
     };
   },
 

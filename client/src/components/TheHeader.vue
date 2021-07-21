@@ -82,7 +82,7 @@ export default {
       logout().then(() => {
         this.$store.dispatch("setUser", null);
         this.$store.commit("setCart", []);
-        // this.$router.push(window.location.pathname);
+        this.$router.go();
       });
     }
   }
@@ -172,7 +172,7 @@ a {
   border: none;
   border-radius: 4px;
   padding: 6px 18px;
-  margin-left: -60px;
+  margin-left: -59px;
   cursor: pointer;
 }
 .box-search {

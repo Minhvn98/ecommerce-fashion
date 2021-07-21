@@ -1,44 +1,33 @@
 <template>
-  <div v-if="$store.state.layout === 'shop'">
-    <the-header
-      v-if="['register', 'login'].indexOf($route.name) === -1"
-    ></the-header>
-    <router-view></router-view>
-    <the-footer></the-footer>
-  </div>
-  <div v-if="$store.state.layout === 'admin'">
-    <div id="wrapper">
-      <Navbar />
-      <div id="content-wrapper" class="d-flex flex-column">
-        <div id="content">
-          <HeaderAdmin />
-          <router-view></router-view>
-        </div>
-      </div>
-    </div>
-  </div>
+  <component :is="componentSelected"></component>
 </template>
 
 <script>
-import TheHeader from "./components/TheHeader.vue";
-import TheFooter from "./components/TheFooter.vue";
-import Navbar from "./admin/components/Navbar.vue";
-import HeaderAdmin from "./admin/components/HeaderAdmin.vue";
+import LayoutShop from "./layout/LayoutShop.vue";
+import LayoutAdmin from "./layout/LayoutAdmin.vue";
 // import { getUserByCookie } from "./services/users.service.js";
 
 export default {
   name: "App",
   components: {
-    TheHeader,
-    HeaderAdmin,
-    TheFooter,
-    Navbar
+    LayoutShop,
+    LayoutAdmin
+  },
+  computed: {
+    componentSelected() {
+      return this.$store.state.layout;
+    }
   }
-  // created() {
-  //   getUserByCookie().then(res => {
-  //     this.$store.dispatch("setUser", res.data);
+  // async created() {
+  //   let res = await getUserByCookie();
+  //   this.$store.dispatch("setUser", res.data);
+  //   if (res.data.role === "customer") {
   //     this.$store.dispatch("getCartProduct");
-  //   });
+  //     this.$store.commit("updateLayout", "shop");
+  //   }
+  //   if (res.data.role === "admin") {
+  //     this.$store.commit("updateLayout", "admin");
+  //   }
   // }
 };
 </script>
@@ -60,5 +49,8 @@ export default {
 
 body {
   background-color: #eee;
+}
+a {
+  text-decoration: none;
 }
 </style>

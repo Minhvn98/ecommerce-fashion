@@ -19,10 +19,10 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-      <a class="nav-link" href="index.html">
+      <router-link :to="{ name: 'dashboard' }" class="nav-link">
         <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span></a
-      >
+        <span>Dashboard</span>
+      </router-link>
     </li>
 
     <!-- Divider -->

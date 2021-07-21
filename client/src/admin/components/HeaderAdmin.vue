@@ -137,7 +137,7 @@ export default {
       logout().then(() => {
         this.$store.dispatch("setUser", null);
         this.$store.commit("setCart", []);
-        this.$store.commit("updateLayout", "shop");
+        this.$store.commit("updateLayout", "LayoutShop");
         this.$router.push("/login");
       });
     }
