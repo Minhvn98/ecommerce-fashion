@@ -76,6 +76,18 @@ const routes = [
     name: 'dashboard',
     component: () => import('../admin/pages/Dashboard'),
     meta: { requiresAuth: true, roles: ['admin'] }
+  },
+  {
+    path: '/admin/product',
+    name: 'admin-product',
+    component: () => import('../admin/pages/PageProduct'),
+    meta: { requiresAuth: true, roles: ['admin'] }
+  },
+  {
+    path: '/admin/order',
+    name: 'admin-order',
+    component: () => import('../admin/pages/PageOrder'),
+    meta: { requiresAuth: true, roles: ['admin'] }
   }
 ];
 

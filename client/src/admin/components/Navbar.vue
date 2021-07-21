@@ -30,9 +30,9 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-      <a
+      <router-link
+        :to="{ name: 'admin-product' }"
         class="nav-link collapsed"
-        href="#"
         data-toggle="collapse"
         data-target="#collapseTwo"
         aria-expanded="true"
@@ -40,22 +40,22 @@
       >
         <i class="fab fa-product-hunt"></i>
         <span>Sản phẩm</span>
-      </a>
+      </router-link>
     </li>
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
-      <a
+      <router-link
+        :to="{ name: 'admin-order' }"
         class="nav-link collapsed"
-        href="#"
         data-toggle="collapse"
         data-target="#collapseUtilities"
         aria-expanded="true"
         aria-controls="collapseUtilities"
       >
         <i class="fas fa-book"></i>
-        <span>Hóa đơn</span>
-      </a>
+        <span>Đơn hàng</span>
+      </router-link>
     </li>
 
     <!-- Sidebar Toggler (Sidebar) -->

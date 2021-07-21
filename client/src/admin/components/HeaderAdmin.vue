@@ -148,6 +148,7 @@ export default {
 <style>
 .username {
   position: relative;
+  z-index: 999;
 }
 .logout {
   position: absolute;
