@@ -89,6 +89,7 @@ export default {
     }
   },
   created() {
+    document.title = "Chi tiết hóa đơn";
     getOrderById(this.$route.params.id).then(res => {
       this.order = res.data;
       this.products = res.data.product;

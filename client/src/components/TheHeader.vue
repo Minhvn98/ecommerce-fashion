@@ -82,12 +82,9 @@ export default {
       logout().then(() => {
         this.$store.dispatch("setUser", null);
         this.$store.commit("setCart", []);
+        // this.$router.push(window.location.pathname);
       });
     }
-  },
-
-  async created() {
-    // this.$store.dispatch("getCartProduct");
   }
 };
 </script>
@@ -130,8 +127,9 @@ export default {
   transform: translate(-50%, -50%) rotateZ(45deg);
 }
 .wrap-user > p {
-  padding: 10px;
+  padding: 10px 0 0 10px;
   cursor: pointer;
+  color: black;
 }
 .wrap-user > p:hover {
   color: tomato;
@@ -174,7 +172,7 @@ a {
   border: none;
   border-radius: 4px;
   padding: 6px 18px;
-  margin-left: -63px;
+  margin-left: -60px;
   cursor: pointer;
 }
 .box-search {

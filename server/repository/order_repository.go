@@ -145,42 +145,47 @@ func UpdateStatusOrder(status string, orderId int) {
 }
 
 func GetOrdersByStatus(status string, userId int) []map[string]interface{} {
-	ordersId := make([]int, 0)
 	orders := make([]map[string]interface{}, 0)
 	{
 		var results *sql.Rows
 		var err error
 		if status == "all" {
-			results, err = db.DbConn.Query("SELECT id FROM orders WHERE user_id = ? ORDER BY id DESC ", userId)
+			results, err = db.DbConn.Query("SELECT id, status, created_at FROM orders WHERE user_id = ? ORDER BY id DESC ", userId)
 		} else {
-			results, err = db.DbConn.Query("SELECT id FROM orders WHERE user_id = ? AND status = ? ORDER BY id DESC", userId, status)
+			results, err = db.DbConn.Query("SELECT id, status, created_at FROM orders WHERE user_id = ? AND status = ? ORDER BY id DESC", userId, status)
 		}
 		if err != nil {
 			fmt.Println(err)
 		}
 
 		defer results.Close()
+
 		id := 0
+		status := ""
+		createdAt := ""
 		for results.Next() {
-			err = results.Scan(&id)
-			ordersId = append(ordersId, id)
+			err = results.Scan(&id, &status, &createdAt)
 			if err != nil {
 				fmt.Println(err)
 			}
+			orderItem := make(map[string]interface{})
+			orderItem["orderId"] = id
+			orderItem["status"] = status
+			orderItem["created_at"] = createdAt
+			orders = append(orders, orderItem)
 		}
 	}
 
 	{
-		for _, id := range ordersId {
-			results, err := db.DbConn.Query("SELECT product_id FROM order_items WHERE order_id = ?", id)
+		for _, order := range orders {
+			// id, _ := strconv.ParseInt(order["orderId"].(string), 10, 64)
+			results, err := db.DbConn.Query("SELECT product_id FROM order_items WHERE order_id = ?", order["orderId"])
 			if err != nil {
 				fmt.Println(err)
 			}
 			defer results.Close()
 
-			orderItem := make(map[string]interface{})
 			var products []models.Product
-			orderItem["orderId"] = id
 			productId := 0
 			for results.Next() {
 				err = results.Scan(&productId)
@@ -190,8 +195,7 @@ func GetOrdersByStatus(status string, userId int) []map[string]interface{} {
 				product := GetProductById(productId)
 				products = append(products, product)
 			}
-			orderItem["products"] = products
-			orders = append(orders, orderItem)
+			order["products"] = products
 		}
 	}
 	return orders

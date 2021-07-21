@@ -60,13 +60,13 @@ export default {
   name: "ProductCart",
   props: {
     product: Object,
-    quantity: Number,
+    quantity: Number
   },
   data() {
     return {
       BASE_URL_IMAGE,
       quantitySelected: this.quantity,
-      errMessage: "",
+      errMessage: ""
     };
   },
 
@@ -105,10 +105,10 @@ export default {
         return (this.quantitySelected = this.product.quantity);
       }
       this.quantitySelected += 1;
-    },
+    }
   },
 
-  created() {},
+  created() {}
 };
 </script>
 
@@ -161,6 +161,7 @@ export default {
   border-radius: 5px;
   cursor: pointer;
   transition: 0.2s;
+  flex-direction: row;
 }
 
 .card:hover {

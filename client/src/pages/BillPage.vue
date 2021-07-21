@@ -54,7 +54,7 @@
             </button>
           </router-link>
         </div>
-        <div class="row" v-for="order in orders" :key="order.orderId">
+        <div class="row-wrap" v-for="order in orders" :key="order.orderId">
           <router-link
             :to="{
               name: 'bill-detail',
@@ -77,8 +77,8 @@
               </div>
             </div>
             <div class="info">
-              <p>01/01/2021</p>
-              <p>Đã hủy</p>
+              <p>{{ order.created_at }}</p>
+              <p class="text-blue">{{ order.status }}</p>
             </div>
           </router-link>
         </div>
@@ -111,6 +111,7 @@ export default {
     });
   },
   created() {
+    document.title = "Danh sách hóa đơn";
     this.tabSelected = this.$route.query.tabSelected;
     getOrdersByStatus(this.$route.query.status).then(res => {
       this.orders = res.data;
@@ -171,7 +172,7 @@ button:hover {
   color: tomato;
   border-bottom: 1px solid tomato;
 }
-.row {
+.row-wrap {
   padding: 20px 10px;
   border-bottom: 1px solid rgb(182, 182, 182);
   transition: all 0.2s ease-in;
@@ -179,7 +180,7 @@ button:hover {
 .row:hover {
   background-color: rgb(241, 241, 241);
 }
-.row > a {
+.row-wrap > a {
   display: flex;
 }
 .image {
@@ -187,8 +188,8 @@ button:hover {
   height: 100px;
 }
 .image > img {
-  width: 100%;
-  height: auto;
+  width: 100px;
+  height: 100px;
 }
 .row-item {
   display: flex;
@@ -197,6 +198,9 @@ button:hover {
 }
 .item {
   display: flex;
+}
+.item:not(.item:last-child) {
+  padding-bottom: 10px;
 }
 .info {
   flex: 30%;
@@ -210,5 +214,8 @@ button:hover {
 }
 .product-name {
   padding-left: 20px;
+}
+.text-blue {
+  color: blue;
 }
 </style>
