@@ -198,6 +198,7 @@ input[type="number"] {
   font-size: 1.1rem;
   border: 1px solid #ddd;
   height: 35px;
+  text-align: center;
 }
 
 .right {
