@@ -10,4 +10,13 @@ const getOrdersByStatus = status => {
   return apiHandler.get(endpoint);
 };
 
-export { getOrderById, getOrdersByStatus };
+const getAllOrder = () => {
+  const endpoint = `/orders`;
+  return apiHandler.get(endpoint);
+};
+
+const updateStatusOrder = (id, status) => {
+  const endpoint = `/order/${id}`;
+  return apiHandler.put(endpoint, { status: status });
+};
+export { getOrderById, getOrdersByStatus, getAllOrder, updateStatusOrder };

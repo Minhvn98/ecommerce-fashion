@@ -17,6 +17,9 @@ func CreateOrder(userId int, orderInfo map[string]string, products []models.Prod
 	}
 
 	date := strings.Split(time.Now().String(), " ")[0]
+	time := strings.Split(strings.Split(time.Now().String(), " ")[1], ".")[0]
+	date += " " + time
+	fmt.Println(date)
 	var orderId int64
 	status := "Chờ thanh toán"
 	totalPrice := 0
@@ -197,6 +200,25 @@ func GetOrdersByStatus(status string, userId int) []map[string]interface{} {
 			}
 			order["products"] = products
 		}
+	}
+	return orders
+}
+
+func GetAllOrder() []models.Order {
+	results, err := db.DbConn.Query("SELECT id, first_name, last_name, location, phone, email, payment, status, created_at FROM orders ORDER BY id DESC")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer results.Close()
+
+	var orders []models.Order
+	for results.Next() {
+		var order models.Order
+		err = results.Scan(&order.Id, &order.FirstName, &order.LastName, &order.Location, &order.Phone, &order.Email, &order.Payment, &order.Status, &order.CreatedAt)
+		if err != nil {
+			fmt.Println(err)
+		}
+		orders = append(orders, order)
 	}
 	return orders
 }

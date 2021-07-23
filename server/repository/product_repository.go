@@ -79,6 +79,25 @@ func GetProducts(limit int, offset int) []models.Product {
 	return products
 }
 
+func AddNewProduct(product models.Product, categoryId int) {
+	stmt, err := db.DbConn.Prepare(`INSERT INTO products (name, description, price, sale_percent, category_id, quantity)
+                     VALUES(?, ?, ?, ?, ?, ?);`)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer stmt.Close()
+
+	insert, err := stmt.Exec(product.Name, product.Description, product.Price, product.SalePercent, categoryId, product.Quantity)
+	if err != nil {
+		fmt.Println("insert product table", err)
+	} else {
+		fmt.Println(insert)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+}
+
 func GetProductById(id int) models.Product {
 
 	results, err := db.DbConn.Query("SELECT id, name, description, price, sale_percent, category_id, quantity FROM products WHERE id = ?", id)

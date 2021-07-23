@@ -92,3 +92,9 @@ func GetOrdersByStatus(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(orders)
 }
+
+func GetAllOrder(w http.ResponseWriter, r *http.Request) {
+	orders := repo.GetAllOrder()
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(orders)
+}

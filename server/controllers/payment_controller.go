@@ -30,22 +30,26 @@ type Payload struct {
 }
 
 func PaymentWithMomo(userId int, orderId int) interface{} {
+	// flake := sonyflake.NewSonyflake(sonyflake.Settings{})
+	// reqId, _ := flake.NextID()
 	order := repo.GetOrderById(orderId)
-	productName := ""
-	for _, product := range order.Products {
-		productName += product.Product.Name + ". "
-	}
+	// productName := ""
+	// for _, product := range order.Products {
+	// 	productName += product.Product.Name + ". "
+	// }
 
 	var requestId = strconv.Itoa(userId)
+	// var requestId = strconv.FormatUint(reqId, 16)
 	var endpoint = config.Config.Payment.Momo.ApiEndpoint
 	var partnerCode = config.Config.Payment.Momo.PartnerCode
 	var accessKey = config.Config.Payment.Momo.AccsessKey
 	var serectkey = config.Config.Payment.Momo.SecretKey
-	var orderInfo = "Đơn hàng của " + order.FirstName + order.LastName + ". " + productName
+	// var orderInfo = "Đơn hàng của " + order.FirstName + order.LastName + ". " + productName
+	var orderInfo = order.LastName
 	// var returnUrl = config.Config.Payment.Momo.ReturnUrl
 	// var notifyurl = config.Config.Payment.Momo.NotifyUrl + "/api/v1/payment"
 	var returnUrl = "http://localhost:8080/bill-detail/" + strconv.Itoa(orderId)
-	var notifyurl = "https://7fa52d2187ca.ngrok.io/api/v1/payment"
+	var notifyurl = "https://344f448bace1.ngrok.io/api/v1/payment"
 
 	var amount = strconv.Itoa(order.TotalPrice)
 	var requestType = "captureMoMoWallet"
@@ -77,7 +81,7 @@ func PaymentWithMomo(userId int, orderId int) interface{} {
 
 	// Write Data to it
 	hmac.Write(rawSignature.Bytes())
-	fmt.Println("Raw signature: " + rawSignature.String())
+	// fmt.Println("Raw signature: " + rawSignature.String())
 
 	// Get result and encode as hexadecimal string
 	signature := hex.EncodeToString(hmac.Sum(nil))
@@ -104,20 +108,22 @@ func PaymentWithMomo(userId int, orderId int) interface{} {
 	//send HTTP to momo endpoint
 	resp, err := http.Post(endpoint, "application/json", bytes.NewBuffer(jsonPayload))
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 
 	//result
 	var result map[string]interface{}
 	json.NewDecoder(resp.Body).Decode(&result)
 
+	fmt.Println(result["payUrl"])
+
 	return result["payUrl"]
 }
 
 func GetPayment(w http.ResponseWriter, r *http.Request) {
-	payload := r.Form
+	// payload := r.Form
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]interface{}{"message": payload})
+	json.NewEncoder(w).Encode(map[string]interface{}{"message": "ok"})
 }
 
 func PostPayment(w http.ResponseWriter, r *http.Request) {
@@ -171,8 +177,6 @@ func PostPayment(w http.ResponseWriter, r *http.Request) {
 	// Create a new HMAC by defining the hash type and the key (as byte array)
 	serectkey := config.Config.Payment.Momo.SecretKey
 	hmac := hmac.New(sha256.New, []byte(serectkey))
-
-	// Write Data to it
 
 	hmac.Write(rawSignature.Bytes())
 	// fmt.Println("Raw signature: " + rawSignature.String())

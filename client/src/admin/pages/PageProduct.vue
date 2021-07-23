@@ -16,7 +16,12 @@
           <i class="fas fa-upload fa-sm text-white-50"></i>Tải lên sản phẩm
           (.csv)</label
         >
-        <input type="file" name="upload" id="upload" />
+        <input
+          type="file"
+          name="upload"
+          id="upload"
+          @change="handleFileUpload($event)"
+        />
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -81,6 +86,7 @@
 
 <script>
 import { getProducts } from "../../services/products.service.js";
+import { uploadFile } from "../../services/upload.service.js";
 export default {
   name: "PageProduct",
   data() {
@@ -109,6 +115,20 @@ export default {
       this.products = res.data;
       if (this.products) {
         this.disabled = false;
+      }
+    },
+    async handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file.type === "application/vnd.ms-excel") {
+        let formData = new FormData();
+        formData.append("file", file);
+        const res = await uploadFile(formData);
+        let res2 = await getProducts(this.offset, this.limit);
+        this.products = res2.data;
+        console.log(res);
+        alert("Tải lên sản phẩm thành công");
+      } else {
+        alert("Phải chọn file có định dạng là .csv");
       }
     }
   },

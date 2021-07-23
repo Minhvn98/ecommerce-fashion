@@ -91,6 +91,7 @@ export default {
       )
         .then(res => {
           if (res.data.paymentType === 0) {
+            this.$store.commit("setCart", []);
             this.$router.push({
               name: "bill-detail",
               params: { id: res.data.orderId }
@@ -175,7 +176,7 @@ export default {
   padding: 20px;
   border-radius: 3px;
   position: fixed;
-  top: 100px;
+  top: 28px;
   left: calc(50% - 225px);
   z-index: 99;
 }

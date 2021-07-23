@@ -7,6 +7,7 @@ import (
 	"github.com/Minhvn98/ecommerce-fashion/config"
 	"github.com/Minhvn98/ecommerce-fashion/database"
 	"github.com/Minhvn98/ecommerce-fashion/router"
+	"github.com/Minhvn98/ecommerce-fashion/services/rabbitmq"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -16,6 +17,11 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	// Run RabbitMQ
+	go func() {
+		rabbitmq.RunRabbitMQ()
+	}()
 
 	// Connect database
 	dbName := config.Config.Db.Database
@@ -35,4 +41,5 @@ func main() {
 	log.Println("Server will start at http://" + Addr + "/")
 
 	log.Fatal(http.ListenAndServe(":3000", router.ConfigRouter()))
+
 }
