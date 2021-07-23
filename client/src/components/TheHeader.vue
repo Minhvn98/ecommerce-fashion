@@ -1,6 +1,6 @@
 <template>
   <header class="menu-top">
-    <div class="navbar">
+    <div class="navbar1">
       <div class="logo">
         <router-link :to="{ name: 'home-page' }">
           <img src="../assets/logo.jpg" alt="logo" />
@@ -20,15 +20,29 @@
         </button>
       </div>
       <div class="cart-user">
-        <div class="navbar-cart">
+        <div class="navbar1-cart">
           <router-link :to="{ name: 'shopping-cart-page' }"
             ><span v-if="cartNumber" class="cart-number">{{ cartNumber }}</span
             ><i class="fas fa-cart-plus"></i
           ></router-link>
         </div>
-        <div class="cart-login">
+        <div v-if="isLogin" class="cart-login">
+          <i class="far fa-user"></i>
+          <div class="wrap-user">
+            <p>Xin chào, {{ $store.state.user.username }}</p>
+            <p>
+              <router-link
+                :to="{ name: 'bill', query: { status: 'all', tabSelected: 0 } }"
+              >
+                Đơn mua
+              </router-link>
+            </p>
+            <p @click="handleLogout">Đăng xuất</p>
+          </div>
+        </div>
+        <div v-if="!isLogin" class="cart-login">
           <router-link :to="{ name: 'login' }">
-            <i class="far fa-user"></i>
+            <span class="login-text">Đăng nhập</span>
           </router-link>
         </div>
       </div>
@@ -37,6 +51,7 @@
 </template>
 
 <script>
+import { logout } from "../services/users.service.js";
 export default {
   name: "TheHeader",
   data() {
@@ -44,10 +59,12 @@ export default {
       textSearch: "",
     };
   },
-
   computed: {
     cartNumber() {
       return this.$store.getters.cartNumber;
+    },
+    isLogin() {
+      return Boolean(this.$store.state.user);
     },
   },
   methods: {
@@ -61,22 +78,75 @@ export default {
 
       this.$store.dispatch("searchProducts", { textSearch: this.textSearch });
     },
-  },
-
-  async created() {
-    // this.$store.dispatch("getCartProduct");
+    handleLogout() {
+      logout().then(() => {
+        this.$store.dispatch("setUser", null);
+        this.$store.commit("setCart", []);
+        this.$router.go();
+      });
+    },
   },
 };
 </script>
 
-
-<style  scoped>
+<style scoped>
 /* menu-top  */
 .logo {
   width: 150px;
 }
 .logo img {
   width: 150px;
+}
+.navbar1-cart {
+  margin-right: 10px;
+}
+.cart-login {
+  position: relative;
+}
+.cart-login:hover .wrap-user {
+  opacity: 1;
+  visibility: visible;
+}
+.wrap-user {
+  position: absolute;
+  width: 200px;
+  background: white;
+  left: -90px;
+  top: 45px;
+  transition: all 0.3s ease-in;
+  opacity: 0;
+  visibility: hidden;
+}
+.wrap-user::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: white;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateZ(45deg);
+}
+.wrap-user > p {
+  padding: 10px 0 0 10px;
+  cursor: pointer;
+  color: black;
+}
+.wrap-user > p:hover {
+  color: tomato;
+}
+.wrap-user a {
+  color: black;
+}
+.wrap-user a:hover {
+  color: tomato;
+}
+a {
+  text-decoration: none;
+}
+.login-text {
+  color: white;
+  position: relative;
+  top: 3px;
 }
 .menu-top {
   background: linear-gradient(-180deg, #ec4c3e, #fa6735);
@@ -87,26 +157,28 @@ export default {
   left: 0;
   z-index: 9;
 }
-.navbar {
-  width: calc(80% - 10px);
+.navbar1 {
+  width: 80%;
   margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100px;
 }
+
 .btn-search {
   color: #fff;
-  font-size: 23px;
+  font-size: 20px;
   background: #ee4d2d;
   border: none;
   border-radius: 4px;
-  padding: 6px 18px;
-  margin-left: -63px;
+  padding: 5px 18px;
+  margin-left: -59px;
   cursor: pointer;
 }
+
 .box-search {
-  width: 70%;
+  width: 65%;
   display: flex;
   height: 65px;
   align-items: center;
@@ -125,30 +197,35 @@ export default {
   cursor: pointer;
   color: #fff;
 }
-.navbar-cart {
+.navbar1-cart {
   width: 40px;
 }
 .cart-user {
   margin-left: 15px;
-  width: 80px;
+  width: auto;
   display: flex;
   justify-content: space-between;
   position: relative;
 }
 
-.cart-number[data-v-9a9f6144] {
+.cart-number {
   background: #fff;
-  padding: 0px 10px;
-  border-radius: 12px;
+  padding: 0px 7px;
+  border-radius: 10px;
   color: #ff5722;
   position: absolute;
   top: -15px;
-  left: 15px;
-  border: 2px solid #f53e04;
+  left: 12px;
+  border: 2.5px solid #f53e04;
+  font-size: 15px;
+  height: 21px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media screen and (max-width: 768px) {
-  .navbar {
+  .navbar1 {
     width: calc(100% - 30px);
   }
 }

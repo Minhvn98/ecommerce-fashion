@@ -38,9 +38,9 @@ CREATE TABLE `orders` (
     `user_id` int NOT NULL,
     `status` ENUM (
       'Chờ thanh toán',
-      'Đang vận chuyển',
       'Đã thanh toán',
       'Giao hàng thành công',
+      'Thanh toán thất bại',
       'Đã hủy đơn hàng'
     ) NOT NULL,
     `payment` VARCHAR(50),
@@ -50,8 +50,8 @@ CREATE TABLE `orders` (
     `phone` varchar(11) NOT NULL,
     `location` varchar(255) NOT NULL,
     `total_price` int,
-    `created_at` DATE,
-    `updated_at` DATE
+    `created_at` DATETIME,
+    `updated_at` DATETIME
   );
 CREATE TABLE `order_items` (
     `id` int PRIMARY KEY AUTO_INCREMENT,

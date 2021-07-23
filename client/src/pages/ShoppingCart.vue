@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container1">
     <div class="shopping-cart">
       <h1>Giỏ hàng</h1>
       <div class="not-products" v-if="cartProducts.length === 0">
@@ -234,6 +234,9 @@ export default {
 .summary li {
   list-style: none;
   padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  color: #333;
 }
 strong {
   color: #ee4d2d;
@@ -271,6 +274,7 @@ input#discount {
 .shopping-cart h1 {
   color: #ee4d2d;
   padding: 20px 0;
+  font-size: 27px;
 }
 
 .shopping-cart {
@@ -278,7 +282,7 @@ input#discount {
   width: 100%;
 }
 
-.container {
+.container1 {
   width: 80%;
   margin: auto;
 }
@@ -302,6 +306,7 @@ input#discount {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  width: 29%;
 }
 
 .background-black {
@@ -338,7 +343,7 @@ input#discount {
   border-radius: 4px;
 }
 @media screen and (max-width: 768px) {
-  .container {
+  .container1 {
     width: calc(100% - 30px);
     margin: 0 15px;
   }

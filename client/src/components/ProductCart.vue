@@ -11,7 +11,12 @@
         <div class="name">
           {{ product.name }}
         </div>
-        <div class="price">{{ formatMoney(product.price) }}</div>
+        <div class="price">
+          <div v-if="product.sale_percent > 0" class="price-origin">
+            <del>{{ formatMoney(product.price) }}</del>
+          </div>
+          <div class="price-sale">{{ priceSale }}</div>
+        </div>
       </div>
       <div class="detail-right">
         <div class="quantity">
@@ -68,6 +73,15 @@ export default {
       quantitySelected: this.quantity,
       errMessage: "",
     };
+  },
+
+  computed: {
+    priceSale() {
+      const price =
+        this.product.price -
+        this.product.price * (this.product.sale_percent / 100);
+      return formatMoney(price);
+    },
   },
 
   methods: {
@@ -161,6 +175,7 @@ export default {
   border-radius: 5px;
   cursor: pointer;
   transition: 0.2s;
+  flex-direction: row;
 }
 
 .card:hover {
@@ -169,6 +184,7 @@ export default {
 
 .name {
   font-size: 1.2rem;
+  color: #333;
 }
 
 .delete {
@@ -181,6 +197,9 @@ export default {
 
 .price {
   padding-top: 15px;
+}
+
+.price-sale {
   color: #ee4d2d;
 }
 
@@ -197,6 +216,7 @@ input[type="number"] {
   font-size: 1.1rem;
   border: 1px solid #ddd;
   height: 35px;
+  text-align: center;
 }
 
 .right {

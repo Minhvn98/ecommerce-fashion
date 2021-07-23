@@ -1,21 +1,34 @@
 <template>
-  <the-header
-    v-if="['register', 'login'].indexOf($route.name) === -1"
-  ></the-header>
-  <router-view></router-view>
-  <the-footer></the-footer>
+  <component :is="componentSelected"></component>
 </template>
 
 <script>
-import TheHeader from "./components/TheHeader.vue";
-import TheFooter from "./components/TheFooter.vue";
+import LayoutShop from "./layout/LayoutShop.vue";
+import LayoutAdmin from "./layout/LayoutAdmin.vue";
+// import { getUserByCookie } from "./services/users.service.js";
 
 export default {
   name: "App",
   components: {
-    TheHeader,
-    TheFooter,
+    LayoutShop,
+    LayoutAdmin
   },
+  computed: {
+    componentSelected() {
+      return this.$store.state.layout;
+    }
+  }
+  // async created() {
+  //   let res = await getUserByCookie();
+  //   this.$store.dispatch("setUser", res.data);
+  //   if (res.data.role === "customer") {
+  //     this.$store.dispatch("getCartProduct");
+  //     this.$store.commit("updateLayout", "shop");
+  //   }
+  //   if (res.data.role === "admin") {
+  //     this.$store.commit("updateLayout", "admin");
+  //   }
+  // }
 };
 </script>
 
@@ -36,5 +49,8 @@ export default {
 
 body {
   background-color: #eee;
+}
+a {
+  text-decoration: none;
 }
 </style>

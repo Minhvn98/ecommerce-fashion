@@ -11,11 +11,12 @@ import {
 const store = createStore({
   state() {
     return {
-      user: {},
+      user: null,
       count: 0,
       textSearch: '',
       productsSearch: [],
-      cart: []
+      cart: [],
+      layout: 'LayoutShop'
     };
   },
 
@@ -25,7 +26,8 @@ const store = createStore({
       return state.cart.reduce((total, product) => {
         return (total += product.quantity_in_cart);
       }, 0);
-    }
+    },
+    isAuthenticated: state => !!state.user
   },
 
   mutations: {
@@ -47,6 +49,10 @@ const store = createStore({
 
     setCartNumber(state, cartNumber) {
       state.cartNumber = cartNumber;
+    },
+
+    updateLayout(state, layout) {
+      state.layout = layout;
     }
   },
 

@@ -34,7 +34,6 @@
   </div>
 </template>
 
-
 <script>
 import { loginHandler } from "../services/users.service";
 
@@ -45,7 +44,7 @@ export default {
     return {
       inputUserName: "",
       inputPassword: "",
-      errMessage: "",
+      errMessage: ""
     };
   },
 
@@ -55,28 +54,33 @@ export default {
       if (!this.inputUserName || !this.inputPassword) {
         return (this.errMessage = "Vui lòng nhập đầy đủ thông tin!");
       }
-
       try {
         const { data: user } = await loginHandler(
           this.inputUserName,
           this.inputPassword
         );
-
+        if (user.role === "customer") {
+          this.$store.dispatch("getCartProduct");
+          this.$store.commit("updateLayout", "LayoutShop");
+          this.$router.push({ name: "home-page" });
+        }
+        if (user.role === "admin") {
+          this.$router.push({ name: "dashboard" });
+          this.$store.commit("updateLayout", "LayoutAdmin");
+        }
         this.$store.dispatch("setUser", user);
-        this.$store.dispatch("getCartProduct");
-        this.$router.push({ name: "home-page" });
       } catch (error) {
         const { status } = error.response;
 
         if (status === 400)
           return (this.errMessage = "Tài khoản, mật khẩu không chính xác!");
       }
-    },
+    }
   },
 
   created() {
     document.title = "Đăng nhập";
-  },
+  }
 };
 </script>
 

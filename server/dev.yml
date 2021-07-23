@@ -1,10 +1,24 @@
+# config for database
 db:
     host: localhost
     port: 3306
     user: root
-    pass: abc123
+    pass: 123456
     database: ecommerce_fashion
+# config for server
 server:
     host: localhost
     post: 3000
+# secret key for code token
 accessSecret: KeepLearningNeverStop
+# payment
+payment:
+    momo:
+        partnercode: MOMO5QUX20210716
+        accsesskey: vVjsPNBAl9syUmRs
+        secretkey: LHnCXDTrAGAv3HraPLqSejGHOjnF3tiF
+        apiendpoint: https://test-payment.momo.vn/gw_payment/transactionProcessor
+        returnurl: http://localhost:8080/bill
+        notifyurl: http://0c56f8a346be.ngrok.io
+    stripe:
+        secretkey: LHnCXDTrAGAv3HraPLqSejGHOjnF3tiF

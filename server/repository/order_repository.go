@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"database/sql"
 	"fmt"
 	"strings"
 	"time"
@@ -16,6 +17,9 @@ func CreateOrder(userId int, orderInfo map[string]string, products []models.Prod
 	}
 
 	date := strings.Split(time.Now().String(), " ")[0]
+	time := strings.Split(strings.Split(time.Now().String(), " ")[1], ".")[0]
+	date += " " + time
+	fmt.Println(date)
 	var orderId int64
 	status := "Chờ thanh toán"
 	totalPrice := 0
@@ -141,4 +145,80 @@ func UpdateStatusOrder(status string, orderId int) {
 	if err != nil {
 		fmt.Println("update status", err)
 	}
+}
+
+func GetOrdersByStatus(status string, userId int) []map[string]interface{} {
+	orders := make([]map[string]interface{}, 0)
+	{
+		var results *sql.Rows
+		var err error
+		if status == "all" {
+			results, err = db.DbConn.Query("SELECT id, status, created_at FROM orders WHERE user_id = ? ORDER BY id DESC ", userId)
+		} else {
+			results, err = db.DbConn.Query("SELECT id, status, created_at FROM orders WHERE user_id = ? AND status = ? ORDER BY id DESC", userId, status)
+		}
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		defer results.Close()
+
+		id := 0
+		status := ""
+		createdAt := ""
+		for results.Next() {
+			err = results.Scan(&id, &status, &createdAt)
+			if err != nil {
+				fmt.Println(err)
+			}
+			orderItem := make(map[string]interface{})
+			orderItem["orderId"] = id
+			orderItem["status"] = status
+			orderItem["created_at"] = createdAt
+			orders = append(orders, orderItem)
+		}
+	}
+
+	{
+		for _, order := range orders {
+			// id, _ := strconv.ParseInt(order["orderId"].(string), 10, 64)
+			results, err := db.DbConn.Query("SELECT product_id FROM order_items WHERE order_id = ?", order["orderId"])
+			if err != nil {
+				fmt.Println(err)
+			}
+			defer results.Close()
+
+			var products []models.Product
+			productId := 0
+			for results.Next() {
+				err = results.Scan(&productId)
+				if err != nil {
+					fmt.Println(err)
+				}
+				product := GetProductById(productId)
+				products = append(products, product)
+			}
+			order["products"] = products
+		}
+	}
+	return orders
+}
+
+func GetAllOrder() []models.Order {
+	results, err := db.DbConn.Query("SELECT id, first_name, last_name, location, phone, email, payment, status, created_at FROM orders ORDER BY id DESC")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer results.Close()
+
+	var orders []models.Order
+	for results.Next() {
+		var order models.Order
+		err = results.Scan(&order.Id, &order.FirstName, &order.LastName, &order.Location, &order.Phone, &order.Email, &order.Payment, &order.Status, &order.CreatedAt)
+		if err != nil {
+			fmt.Println(err)
+		}
+		orders = append(orders, order)
+	}
+	return orders
 }

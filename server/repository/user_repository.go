@@ -21,7 +21,7 @@ func GetUserById(id int) models.User {
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Println(user.ToString())
+		// fmt.Println(user.ToString())
 	}
 	return user
 }

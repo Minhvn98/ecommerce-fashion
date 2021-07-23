@@ -21,4 +21,15 @@ const registerHandler = (email, username, password, comfirm_password) => {
 
   return apiHandler.post(endpoint, body);
 };
-export { loginHandler, registerHandler };
+
+const getUserByCookie = () => {
+  const endpoint = '/user/token';
+  return apiHandler.get(endpoint);
+};
+
+const logout = () => {
+  const endpoint = '/logout';
+  return apiHandler.get(endpoint);
+};
+
+export { loginHandler, registerHandler, getUserByCookie, logout };
