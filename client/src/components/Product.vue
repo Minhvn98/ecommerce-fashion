@@ -107,7 +107,7 @@ export default {
   color: #111;
 }
 .card-body {
-  padding: 20px 15px 25px 15px;
+  padding: 15px 15px 25px 15px;
   color: #ee4d2d;
   font-size: 1.1rem;
 }

@@ -11,7 +11,12 @@
         <div class="name">
           {{ product.name }}
         </div>
-        <div class="price">{{ formatMoney(product.price) }}</div>
+        <div class="price">
+          <div v-if="product.sale_percent > 0" class="price-origin">
+            <del>{{ formatMoney(product.price) }}</del>
+          </div>
+          <div class="price-sale">{{ priceSale }}</div>
+        </div>
       </div>
       <div class="detail-right">
         <div class="quantity">
@@ -60,14 +65,23 @@ export default {
   name: "ProductCart",
   props: {
     product: Object,
-    quantity: Number
+    quantity: Number,
   },
   data() {
     return {
       BASE_URL_IMAGE,
       quantitySelected: this.quantity,
-      errMessage: ""
+      errMessage: "",
     };
+  },
+
+  computed: {
+    priceSale() {
+      const price =
+        this.product.price -
+        this.product.price * (this.product.sale_percent / 100);
+      return formatMoney(price);
+    },
   },
 
   methods: {
@@ -105,10 +119,10 @@ export default {
         return (this.quantitySelected = this.product.quantity);
       }
       this.quantitySelected += 1;
-    }
+    },
   },
 
-  created() {}
+  created() {},
 };
 </script>
 
@@ -170,6 +184,7 @@ export default {
 
 .name {
   font-size: 1.2rem;
+  color: #333;
 }
 
 .delete {
@@ -182,6 +197,9 @@ export default {
 
 .price {
   padding-top: 15px;
+}
+
+.price-sale {
   color: #ee4d2d;
 }
 

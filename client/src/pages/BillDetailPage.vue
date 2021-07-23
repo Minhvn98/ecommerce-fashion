@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container1">
     <div class="bill-wrapper">
       <h1 class="title">Chi Tiết Hóa Đơn</h1>
       <div class="content">
@@ -77,7 +77,7 @@ export default {
   data() {
     return {
       order: null,
-      products: null
+      products: null,
     };
   },
   methods: {
@@ -86,16 +86,16 @@ export default {
     },
     getLinkImage(image) {
       return `${BASE_URL_IMAGE}/${image}`;
-    }
+    },
   },
   created() {
     document.title = "Chi tiết hóa đơn";
-    getOrderById(this.$route.params.id).then(res => {
+    getOrderById(this.$route.params.id).then((res) => {
       this.order = res.data;
       this.products = res.data.product;
       console.log(res.data);
     });
-  }
+  },
 };
 </script>
 
@@ -185,7 +185,7 @@ body {
   color: #ee4d2d;
 }
 
-.container {
+.container1 {
   width: 80%;
   margin: auto;
 }

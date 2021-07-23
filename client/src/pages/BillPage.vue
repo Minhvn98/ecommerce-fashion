@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container1">
     <div class="bill-wrapper">
       <h1 class="title">Các đơn mua</h1>
       <div class="table">
@@ -17,7 +17,7 @@
           <router-link
             :to="{
               name: 'bill',
-              query: { status: 'Chờ thanh toán', tabSelected: 1 }
+              query: { status: 'Chờ thanh toán', tabSelected: 1 },
             }"
           >
             <button
@@ -30,7 +30,7 @@
           <router-link
             :to="{
               name: 'bill',
-              query: { status: 'Đã thanh toán', tabSelected: 2 }
+              query: { status: 'Đã thanh toán', tabSelected: 2 },
             }"
           >
             <button
@@ -43,7 +43,7 @@
           <router-link
             :to="{
               name: 'bill',
-              query: { status: 'Thanh toán thất bại', tabSelected: 3 }
+              query: { status: 'Thanh toán thất bại', tabSelected: 3 },
             }"
           >
             <button
@@ -58,7 +58,7 @@
           <router-link
             :to="{
               name: 'bill-detail',
-              params: { id: order.orderId }
+              params: { id: order.orderId },
             }"
           >
             <div class="row-item">
@@ -89,23 +89,25 @@
 
 <script>
 import { getOrdersByStatus } from "../services/order.service.js";
+
 const BASE_URL_IMAGE = process.env.VUE_APP_BASE_URL_IMAGE;
+
 export default {
   name: "BillPage",
   data() {
     return {
       BASE_URL_IMAGE,
       tabSelected: 0,
-      orders: null
+      orders: null,
     };
   },
   methods: {
     handleSelectTab(index) {
       this.tabSelected = index;
-    }
+    },
   },
   beforeRouteUpdate(to) {
-    getOrdersByStatus(to.query.status).then(res => {
+    getOrdersByStatus(to.query.status).then((res) => {
       this.orders = res.data;
       this.tabSelected = to.query.tabSelected;
     });
@@ -113,10 +115,10 @@ export default {
   created() {
     document.title = "Danh sách hóa đơn";
     this.tabSelected = this.$route.query.tabSelected;
-    getOrdersByStatus(this.$route.query.status).then(res => {
+    getOrdersByStatus(this.$route.query.status).then((res) => {
       this.orders = res.data;
     });
-  }
+  },
 };
 </script>
 
@@ -134,7 +136,7 @@ a {
   text-decoration: none;
   color: black;
 }
-.container {
+.container1 {
   width: 80%;
   margin: auto;
 }

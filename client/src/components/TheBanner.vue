@@ -1,5 +1,5 @@
 <template>
-  <section class="container banner-wrap">
+  <section class="container1 banner-wrap">
     <div class="banner">
       <div class="banner-left">
         <div class="banner-img-left"></div>
@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.container1 {
   width: 80%;
   margin: auto;
   margin-top: 15px;
@@ -94,7 +94,7 @@ export default {
 }
 
 @media screen and (max-width: 576px) {
-  .container {
+  .container1 {
     width: 100%;
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="product.id" class="container">
+  <div v-if="product.id" class="container1">
     <div class="breadcrumb">
       <router-link :to="{ name: 'home-page' }">Shopee</router-link>
       > <a href="#">{{ product.category.name }}</a>
@@ -54,7 +54,7 @@
           </div>
 
           <div class="quantity">
-            <button class="btn btn-down" @click="decreaseProduct">-</button>
+            <button class="btn1 btn-down" @click="decreaseProduct">-</button>
             <input
               type="number"
               name="num-product"
@@ -62,7 +62,7 @@
               v-model="quantitySelected"
               disabled
             />
-            <button class="btn btn-up" @click="increaseProduct">+</button>
+            <button class="btn1 btn-up" @click="increaseProduct">+</button>
             <span class="quantity-text"
               >{{ product.quantity }} sản phẩm có sẵn</span
             >
@@ -83,9 +83,9 @@
 
   <section
     v-if="products.length > 0"
-    class="container products-recommend-wrapper"
+    class="container1 products-recommend-wrapper"
   >
-    <h3>Có thể bạn thích</h3>
+    <h3 class="title1">Có thể bạn thích</h3>
     <div class="product-recommnend">
       <product
         v-for="product in products"
@@ -274,8 +274,9 @@ export default {
 }
 
 .product-description {
-  margin: 25px 0;
+  margin-top: 30px;
   font-size: 18px;
+  color: #333;
 }
 
 .sale-detail {
@@ -309,8 +310,8 @@ export default {
 }
 
 .btn-add-to-cart {
-  margin-top: 15px;
-  padding: 13px 30px;
+  margin-top: 25px;
+  padding: 12px 30px;
   font-size: 17px;
   background: #ee4d2d;
   cursor: pointer;
@@ -328,14 +329,19 @@ export default {
   width: 50px;
   border: 1px solid #eee;
   height: 36px;
+  text-align: center;
 }
 
-.btn {
+.btn1 {
   width: 70px;
   font-size: 30px;
-  border: 1px solid #eee;
+  border: 1px solid #e6e6e6;
   background: #fff;
   cursor: pointer;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .quantity {
@@ -351,6 +357,7 @@ export default {
 .product-name {
   font-size: 25px;
   font-weight: 300;
+  color: #333;
 }
 
 .product-wrapper {
@@ -377,14 +384,17 @@ export default {
 .breadcrumb {
   margin-top: 115px;
   padding: 20px 10px;
+  background: #eae7e7;
+  border-radius: 3px;
 }
 
 .breadcrumb a {
   text-decoration: none;
-  color: #111;
+  color: rgb(4 67 214);
+  margin: 0 10px;
 }
 
-.container {
+.container1 {
   width: 80%;
   margin: auto;
 }
@@ -394,10 +404,10 @@ export default {
   margin-bottom: 10px;
 }
 
-.products-recommend-wrapper h3 {
-  font-size: 20px;
+.title1 {
+  font-size: 22px;
   font-weight: 400;
-  margin: 15px 0 15px 10px;
+  margin: 25px 0 15px 10px;
 }
 
 :root {
@@ -439,7 +449,7 @@ export default {
     width: 100%;
   }
 
-  .container {
+  .container1 {
     width: calc(100% - 20px);
   }
 

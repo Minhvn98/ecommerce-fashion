@@ -1,7 +1,7 @@
 <template>
   <the-banner></the-banner>
 
-  <section class="container category-wrap">
+  <section class="container1 category-wrap">
     <div class="category mobile">
       <h3>Danh mục sản phẩm</h3>
       <select
@@ -30,7 +30,7 @@
           }"
           class="category-link"
           :key="category.id"
-          >
+        >
           <option>
             {{ category.name }}
           </option>
@@ -39,7 +39,7 @@
     </div>
 
     <div class="category pc">
-      <h3>Danh mục sản phẩm</h3>
+      <h3 class="title1">Danh mục sản phẩm</h3>
       <div class="category-link-wrap">
         <router-link
           :to="{
@@ -74,9 +74,9 @@
     </div>
   </section>
 
-  <section class="container">
-    <h3 class="title">Sản phẩm mới</h3>
-    <div class="row">
+  <section class="container1">
+    <h3 class="sub-title">Sản phẩm mới</h3>
+    <div class="row1">
       <product
         v-for="product in products"
         :product="product"
@@ -123,6 +123,11 @@ export default {
 </script>
 
 <style scoped>
+.title1 {
+  font-size: 22px;
+  color: #111;
+}
+
 #sort-product {
   width: 150px;
   height: 39px;
@@ -155,7 +160,7 @@ export default {
 
 */
 
-.container {
+.container1 {
   width: 80%;
   margin: auto;
   margin-top: 15px;
@@ -168,7 +173,7 @@ export default {
   align-items: flex-end;
 }
 
-.row {
+.row1 {
   display: flex;
   flex-wrap: wrap;
   /* justify-content: center; */
@@ -222,10 +227,11 @@ export default {
   color: #ee513c;
 }
 
-.title {
+.sub-title {
   font-weight: 400;
   padding: 10px;
   font-size: 20px;
+  color: #444;
 }
 
 .mobile {
@@ -250,7 +256,7 @@ export default {
 }
 
 @media screen and (max-width: 576px) {
-  .container {
+  .container1 {
     width: 100%;
   }
 

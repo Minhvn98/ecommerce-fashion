@@ -1,6 +1,6 @@
 <template>
   <header class="menu-top">
-    <div class="navbar">
+    <div class="navbar1">
       <div class="logo">
         <router-link :to="{ name: 'home-page' }">
           <img src="../assets/logo.jpg" alt="logo" />
@@ -20,7 +20,7 @@
         </button>
       </div>
       <div class="cart-user">
-        <div class="navbar-cart">
+        <div class="navbar1-cart">
           <router-link :to="{ name: 'shopping-cart-page' }"
             ><span v-if="cartNumber" class="cart-number">{{ cartNumber }}</span
             ><i class="fas fa-cart-plus"></i
@@ -56,7 +56,7 @@ export default {
   name: "TheHeader",
   data() {
     return {
-      textSearch: ""
+      textSearch: "",
     };
   },
   computed: {
@@ -65,7 +65,7 @@ export default {
     },
     isLogin() {
       return Boolean(this.$store.state.user);
-    }
+    },
   },
   methods: {
     onSearchHandler() {
@@ -73,7 +73,7 @@ export default {
 
       this.$router.push({
         name: "search",
-        query: { text: this.textSearch, limit: 100, offset: 0 }
+        query: { text: this.textSearch, limit: 100, offset: 0 },
       });
 
       this.$store.dispatch("searchProducts", { textSearch: this.textSearch });
@@ -84,8 +84,8 @@ export default {
         this.$store.commit("setCart", []);
         this.$router.go();
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -97,7 +97,7 @@ export default {
 .logo img {
   width: 150px;
 }
-.navbar-cart {
+.navbar1-cart {
   margin-right: 10px;
 }
 .cart-login {
@@ -157,26 +157,28 @@ a {
   left: 0;
   z-index: 9;
 }
-.navbar {
-  width: calc(80% - 10px);
+.navbar1 {
+  width: 80%;
   margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100px;
 }
+
 .btn-search {
   color: #fff;
-  font-size: 23px;
+  font-size: 20px;
   background: #ee4d2d;
   border: none;
   border-radius: 4px;
-  padding: 6px 18px;
+  padding: 5px 18px;
   margin-left: -59px;
   cursor: pointer;
 }
+
 .box-search {
-  width: 60%;
+  width: 65%;
   display: flex;
   height: 65px;
   align-items: center;
@@ -195,7 +197,7 @@ a {
   cursor: pointer;
   color: #fff;
 }
-.navbar-cart {
+.navbar1-cart {
   width: 40px;
 }
 .cart-user {
@@ -206,19 +208,24 @@ a {
   position: relative;
 }
 
-.cart-number[data-v-9a9f6144] {
+.cart-number {
   background: #fff;
-  padding: 0px 10px;
-  border-radius: 12px;
+  padding: 0px 7px;
+  border-radius: 10px;
   color: #ff5722;
   position: absolute;
   top: -15px;
   left: 12px;
-  border: 2px solid #f53e04;
+  border: 2.5px solid #f53e04;
+  font-size: 15px;
+  height: 21px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media screen and (max-width: 768px) {
-  .navbar {
+  .navbar1 {
     width: calc(100% - 30px);
   }
 }
