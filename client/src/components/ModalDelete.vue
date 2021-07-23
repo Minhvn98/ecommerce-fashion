@@ -1,17 +1,17 @@
 <template>
-  <div class="modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
+  <div class="modal1">
+    <div class="modal-dialog1">
+      <div class="modal-content1">
         <div class="modal-header">
           <h5 class="modal-title">Bạn có chắc chắc muốn xóa sản phẩm này ?</h5>
           <button type="button" class="btn-close" @click="confirmNo">X</button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body1">
           <p>
             {{ nameProduct }}
           </p>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer1">
           <button type="button" class="btn btn-ok" @click="confirmYes">
             Có
           </button>
@@ -45,13 +45,13 @@ export default {
 </script>
 
 <style scoped>
-.modal {
+.modal1 {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.modal-dialog {
+.modal-dialog1 {
   max-width: 540px;
   position: fixed;
   top: 100px;
@@ -89,17 +89,18 @@ export default {
   color: #000;
 }
 
-.modal-footer {
+.modal-footer1 {
   padding: 20px 0;
   border-top: 1px solid rgb(238, 237, 237);
 }
 
-.modal-body {
+.modal-body1 {
   padding-top: 25px;
 }
-.modal-body p {
+.modal-body1 p {
   padding-bottom: 25px;
   font-size: 17px;
+  color: #333;
 }
 
 .btn {
