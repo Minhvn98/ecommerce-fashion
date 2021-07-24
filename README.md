@@ -77,8 +77,16 @@
 >2. cd elasticsearch
 >3. go run main.go (hoặc dùng air)
 
+## 4. Usecase diagram: <br />
 
-## 4. Một số hình ảnh trong project:
+![image](https://user-images.githubusercontent.com/37922407/126858787-b9dea94a-373a-41d8-8a02-bef603f447a0.png)<br/>
+
+## 5. Database diagram: <br />
+
+![image](https://user-images.githubusercontent.com/37922407/126858719-1a73e4d8-749e-4c49-ac87-b30643544e54.png)
+
+
+## 6. Một số hình ảnh trong project:
 ![image](https://user-images.githubusercontent.com/37922407/126858597-723e04ea-7850-4a13-ab19-690338f9bc93.png)
 <br/>
 ![image](https://user-images.githubusercontent.com/37922407/126858602-12853fec-9377-414b-9f9a-9392725674a8.png)
@@ -95,14 +103,7 @@
 <br/>
 ...
 
-## 5. Database diagram:<br/>
-![image](https://user-images.githubusercontent.com/37922407/126858719-1a73e4d8-749e-4c49-ac87-b30643544e54.png)
-
-Usecase diagram:<br/>
-![image](https://user-images.githubusercontent.com/37922407/126858787-b9dea94a-373a-41d8-8a02-bef603f447a0.png)<br/>
-
-
-## 6. Resource:
+## 7. Resource:
 - Slide: https://docs.google.com/presentation/d/12EEs0fhV96Zvl4gqpXbSKsUZxAfmsWXrefvq-sqhoeM
 
 - Usecase: https://drive.google.com/file/d/1PmDolVZHcW0IPBj3S8h9FAABKNm1kTq-/view?usp=sharing
