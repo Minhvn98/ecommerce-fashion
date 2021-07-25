@@ -61,7 +61,7 @@
 ### Run frontend:
 >1. cd client
 >2. yarn install
-3>. yarn serve
+>3. yarn serve
 <br />
 
 ### Run backend:
