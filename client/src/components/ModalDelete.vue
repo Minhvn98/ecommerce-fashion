@@ -68,6 +68,7 @@ export default {
   border-bottom: 1px solid #ececec;
   padding-bottom: 15px;
   align-items: center;
+  padding: 0;
 }
 .modal-title {
   font-weight: 500;

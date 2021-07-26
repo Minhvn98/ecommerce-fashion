@@ -17,9 +17,7 @@
             <button type="button" class="btn btn-primary" @click="updateStatus">
               Cập nhập
             </button>
-            <button type="button" class="btn " @click="hideModal">
-              Hủy bỏ
-            </button>
+            <button type="button" class="btn" @click="hideModal">Hủy bỏ</button>
           </div>
         </div>
       </div>
@@ -34,11 +32,11 @@ export default {
   props: {
     isShow: Boolean,
     id: Number,
-    statusOrder: String
+    statusOrder: String,
   },
   data() {
     return {
-      status: "Đã thanh toán"
+      status: "Đã thanh toán",
     };
   },
   methods: {
@@ -59,8 +57,8 @@ export default {
     },
     hideModal() {
       this.$emit("close");
-    }
-  }
+    },
+  },
 };
 </script>
 

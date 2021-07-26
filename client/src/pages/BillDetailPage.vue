@@ -72,6 +72,7 @@
 import { getOrderById } from "../services/order.service.js";
 import { formatMoney } from "../utils/money.util.js";
 const BASE_URL_IMAGE = process.env.VUE_APP_BASE_URL_IMAGE;
+
 export default {
   name: "BillDetailPage",
   data() {
@@ -80,21 +81,24 @@ export default {
       products: null,
     };
   },
+
   methods: {
     formatPrice(price) {
       return formatMoney(price);
     },
+
     getLinkImage(image) {
       return `${BASE_URL_IMAGE}/${image}`;
     },
   },
-  created() {
+
+  async created() {
     document.title = "Chi tiết hóa đơn";
-    getOrderById(this.$route.params.id).then((res) => {
-      this.order = res.data;
-      this.products = res.data.product;
-      console.log(res.data);
-    });
+
+    const { data: order } = await getOrderById(this.$route.params.id);
+
+    this.order = { ...order };
+    this.products = { ...order.product };
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <section class="container category-wrap">
+  <section class="container1 category-wrap">
     <div class="category mobile">
       <h3>Danh mục sản phẩm</h3>
       <select
@@ -32,7 +32,7 @@
     </div>
   </section>
 
-  <div class="container">
+  <div class="container1">
     <div class="row">
       <div class="message" v-if="!productsSearch">
         <div>Không tìm thấy kết quả nào</div>
@@ -76,7 +76,7 @@ export default {
   computed: {
     productsSearch() {
       console.log(this.$store.state.productsSearch);
-      return this.$store.state.productsSearch;
+      return this.$store.state.product.productsSearch;
     },
 
     textSearch() {
@@ -154,7 +154,7 @@ body {
   background-color: #eee;
 }
 
-.container {
+.container1 {
   width: 80%;
   margin: auto;
   margin-top: 15px;
@@ -268,7 +268,7 @@ body {
 }
 
 @media screen and (max-width: 576px) {
-  .container {
+  .container1 {
     width: 100%;
   }
 

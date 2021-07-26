@@ -15,11 +15,7 @@
           </div>
           <img src="../assets/sale-bg.png" class="sale-bg" alt="" />
         </div>
-        <img
-          class="card-image"
-          :src="`${BASE_URL_IMAGE}${product.product_images[0].uri}`"
-          :alt="product.name"
-        />
+        <img class="card-image" :src="urlImage" :alt="product.name" />
       </div>
 
       <div class="card-title">
@@ -47,10 +43,9 @@ export default {
 
   data() {
     return {
-      BASE_URL_IMAGE,
+      urlImage: `${BASE_URL_IMAGE}${this.product.product_images[0].uri}`,
     };
   },
-  methods: {},
 
   computed: {
     generateSlugFromName() {

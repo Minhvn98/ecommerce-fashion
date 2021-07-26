@@ -104,10 +104,12 @@ router.beforeEach(async (to, from, next) => {
     if (!store.getters.isAuthenticated) {
       const res = await getUserByCookie();
       store.dispatch('setUser', res.data);
+
       if (res.data.role === 'customer') {
         store.dispatch('getCartProduct');
         store.commit('updateLayout', 'LayoutShop');
       }
+      
       if (res.data.role === 'admin') {
         store.commit('updateLayout', 'LayoutAdmin');
       }

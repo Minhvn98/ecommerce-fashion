@@ -1,25 +1,25 @@
 import apiHandler from './base.service';
 
 const loginHandler = (username, password) => {
-  console.log(username, password);
   const endpoint = '/login';
-  const body = {
+  const payload = {
     username,
     password
   };
-  return apiHandler.post(endpoint, body);
+  return apiHandler.post(endpoint, payload);
 };
 
 const registerHandler = (email, username, password, comfirm_password) => {
   const endpoint = '/register';
-  const body = {
+
+  const payload = {
     email,
     username,
     password,
     comfirm_password
   };
 
-  return apiHandler.post(endpoint, body);
+  return apiHandler.post(endpoint, payload);
 };
 
 const getUserByCookie = () => {

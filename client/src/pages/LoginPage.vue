@@ -44,7 +44,7 @@ export default {
     return {
       inputUserName: "",
       inputPassword: "",
-      errMessage: ""
+      errMessage: "",
     };
   },
 
@@ -59,15 +59,18 @@ export default {
           this.inputUserName,
           this.inputPassword
         );
+
         if (user.role === "customer") {
           this.$store.dispatch("getCartProduct");
           this.$store.commit("updateLayout", "LayoutShop");
           this.$router.push({ name: "home-page" });
         }
+
         if (user.role === "admin") {
           this.$router.push({ name: "dashboard" });
           this.$store.commit("updateLayout", "LayoutAdmin");
         }
+        
         this.$store.dispatch("setUser", user);
       } catch (error) {
         const { status } = error.response;
@@ -75,12 +78,12 @@ export default {
         if (status === 400)
           return (this.errMessage = "Tài khoản, mật khẩu không chính xác!");
       }
-    }
+    },
   },
 
   created() {
     document.title = "Đăng nhập";
-  }
+  },
 };
 </script>
 

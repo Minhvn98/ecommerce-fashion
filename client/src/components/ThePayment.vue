@@ -40,7 +40,7 @@
             @click="selectPaymentMethod('Thanh toán khi nhận hàng')"
             class="method-item"
             :class="{
-              'payment-method-active': payment === 'Thanh toán khi nhận hàng'
+              'payment-method-active': payment === 'Thanh toán khi nhận hàng',
             }"
           >
             Thanh toán khi nhận hàng
@@ -73,9 +73,10 @@ export default {
       email: "",
       phone: "",
       location: "",
-      payment: ""
+      payment: "",
     };
   },
+
   methods: {
     selectPaymentMethod(payment) {
       this.payment = payment;
@@ -89,23 +90,24 @@ export default {
         this.location,
         this.payment
       )
-        .then(res => {
+        .then((res) => {
           if (res.data.paymentType === 0) {
             this.$store.commit("setCart", []);
             this.$router.push({
               name: "bill-detail",
-              params: { id: res.data.orderId }
+              params: { id: res.data.orderId },
             });
           }
+          
           if (res.data.paymentType === 1) {
             window.location.href = res.data.url;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err.body);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
