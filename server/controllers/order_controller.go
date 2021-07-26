@@ -98,3 +98,19 @@ func GetAllOrder(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(orders)
 }
+
+func GetNumberOrderToday() map[string]int {
+	statusOrder := repo.GetOrderToday()
+	countStatusType := make(map[string]int)
+	for _, status := range statusOrder {
+		switch status {
+		case "Thanh toán thất bại":
+			countStatusType["Thanh toán thất bại"]++
+		case "Đã thanh toán":
+			countStatusType["Đã thanh toán"]++
+		default:
+			countStatusType["Chờ thanh toán"]++
+		}
+	}
+	return countStatusType
+}

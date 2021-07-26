@@ -7,6 +7,7 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/gorilla/context v1.1.1
 	github.com/gorilla/mux v1.8.0
+	github.com/robfig/cron/v3 v3.0.0 // indirect
 	github.com/rs/cors v1.8.0
 	github.com/sony/sonyflake v1.0.0 // indirect
 	github.com/spf13/viper v1.8.1

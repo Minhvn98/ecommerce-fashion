@@ -49,7 +49,7 @@ func PaymentWithMomo(userId int, orderId int) interface{} {
 	// var returnUrl = config.Config.Payment.Momo.ReturnUrl
 	// var notifyurl = config.Config.Payment.Momo.NotifyUrl + "/api/v1/payment"
 	var returnUrl = "http://localhost:8080/bill-detail/" + strconv.Itoa(orderId)
-	var notifyurl = "https://344f448bace1.ngrok.io/api/v1/payment"
+	var notifyurl = "https://c962268b7d63.ngrok.io/api/v1/payment"
 
 	var amount = strconv.Itoa(order.TotalPrice)
 	var requestType = "captureMoMoWallet"
