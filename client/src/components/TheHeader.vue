@@ -52,6 +52,7 @@
 
 <script>
 import { logout } from "../services/users.service.js";
+
 export default {
   name: "TheHeader",
   data() {
@@ -63,6 +64,7 @@ export default {
     cartNumber() {
       return this.$store.getters.cartNumber;
     },
+
     isLogin() {
       return Boolean(this.$store.state.user);
     },
@@ -78,6 +80,7 @@ export default {
 
       this.$store.dispatch("searchProducts", { textSearch: this.textSearch });
     },
+    
     handleLogout() {
       logout().then(() => {
         this.$store.dispatch("setUser", null);

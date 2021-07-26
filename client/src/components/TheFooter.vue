@@ -81,6 +81,7 @@ export default {
 .footer-title {
   padding: 20px 0;
   font-size: 16px;
+  color: #333;
 }
 
 .footer-item i {

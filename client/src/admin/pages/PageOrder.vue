@@ -61,20 +61,22 @@
 <script>
 import {
   getAllOrder,
-  updateStatusOrder
+  updateStatusOrder,
 } from "../../services/order.service.js";
+
 import ModalSmaill from "../components/ModalSmall.vue";
+
 export default {
   name: "PageOrder",
   components: {
-    ModalSmaill
+    ModalSmaill,
   },
   data() {
     return {
       orders: null,
       idOrder: 0,
       statusOrder: "",
-      isOpenModal: false
+      isOpenModal: false,
     };
   },
   methods: {
@@ -100,13 +102,12 @@ export default {
     },
     closeModal() {
       this.isOpenModal = false;
-    }
+    },
   },
   async created() {
     let res = await getAllOrder();
     this.orders = res.data;
-  }
+  },
 };
 </script>
 
-<style></style>

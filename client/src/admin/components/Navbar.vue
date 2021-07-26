@@ -68,8 +68,7 @@
 <script>
 import "../../assets/styles/sb-admin-2.min.css";
 export default {
-  name: "Navbar"
+  name: "Navbar",
 };
 </script>
 
-<style></style>

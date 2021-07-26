@@ -1,7 +1,9 @@
 <template>
-  <TheHeader v-if="['register', 'login'].indexOf($route.name) === -1" />
+  <the-header
+    v-if="['register', 'login'].indexOf($route.name) === -1"
+  ></the-header>
   <router-view></router-view>
-  <TheFooter />
+  <the-footer></the-footer>
 </template>
 
 <script>
@@ -11,7 +13,7 @@ export default {
   name: "LayoutShop",
   components: {
     TheHeader,
-    TheFooter
-  }
+    TheFooter,
+  },
 };
 </script>

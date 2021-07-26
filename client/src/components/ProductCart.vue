@@ -1,10 +1,7 @@
 <template>
   <div class="card">
     <div class="thumbnail">
-      <img
-        :src="`${BASE_URL_IMAGE}${product.product_images[0].uri}`"
-        :alt="product.name"
-      />
+      <img :src="urlImage" :alt="product.name" />
     </div>
     <div class="detail">
       <div class="detail-left">
@@ -69,7 +66,7 @@ export default {
   },
   data() {
     return {
-      BASE_URL_IMAGE,
+      urlImage: `${BASE_URL_IMAGE}${this.product.product_images[0].uri}`,
       quantitySelected: this.quantity,
       errMessage: "",
     };
@@ -89,11 +86,11 @@ export default {
 
     onDeleteHandler(idProduct, nameProduct) {
       this.$emit("delete-product", idProduct, nameProduct);
-      // console.log("Delete", idProduct);
     },
 
     onChangeQuantity(idProduct) {
       let quantity = this.quantitySelected;
+
       if (!quantity) {
         this.quantitySelected = 1;
         alert("Nhập tử tế vào bạn ơi.");
@@ -121,8 +118,6 @@ export default {
       this.quantitySelected += 1;
     },
   },
-
-  created() {},
 };
 </script>
 

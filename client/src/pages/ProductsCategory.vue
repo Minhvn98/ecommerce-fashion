@@ -1,5 +1,5 @@
 <template>
-  <section class="container category-wrap">
+  <section class="container1 category-wrap">
     <div class="category mobile">
       <h3>Danh mục sản phẩm</h3>
       <select
@@ -50,7 +50,7 @@
     </div>
   </section>
 
-  <div class="container">
+  <div class="container1">
     <div class="row">
       <product
         v-for="product in products"
@@ -131,6 +131,7 @@ export default {
 
       const { data: products } = await getProductsByCategory(this.idCategory);
       const { data: categories } = await getCategories();
+      
       this.categories = categories;
       this.products = products;
     },
@@ -182,7 +183,7 @@ body {
   background-color: #eee;
 }
 
-.container {
+.container1 {
   width: 80%;
   margin: auto;
   margin-top: 15px;
@@ -255,7 +256,6 @@ body {
 
 .category-wrap {
   margin-top: 115px;
-  width: calc(80% - 15px);
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -295,7 +295,7 @@ body {
 }
 
 @media screen and (max-width: 576px) {
-  .container {
+  .container1 {
     width: 100%;
   }
 

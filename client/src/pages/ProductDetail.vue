@@ -154,6 +154,7 @@ export default {
   methods: {
     async addToCart() {
       await apiAddToCart(this.product.id, this.quantitySelected);
+      
       const idProduct = this.product.id;
       const quantity = this.quantitySelected;
 
