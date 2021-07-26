@@ -222,3 +222,23 @@ func GetAllOrder() []models.Order {
 	}
 	return orders
 }
+
+func GetOrderToday() []string {
+	// date := strings.Split(time.Now().String(), " ")[0] + "%"
+	date := "2021-07-20%"
+	results, err := db.DbConn.Query("SELECT status FROM orders where created_at LIKE (?) ", date)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	var statusOrders []string
+	for results.Next() {
+		var status string
+		err = results.Scan(&status)
+		if err != nil {
+			fmt.Println(err)
+		}
+		statusOrders = append(statusOrders, status)
+	}
+	return statusOrders
+}
