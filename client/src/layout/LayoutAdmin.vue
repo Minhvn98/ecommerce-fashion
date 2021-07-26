@@ -3,7 +3,7 @@
     <Navbar />
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
-        <HeaderAdmin />
+        <header-admin></header-admin>
         <router-view></router-view>
       </div>
     </div>
@@ -13,11 +13,12 @@
 <script>
 import Navbar from "../admin/components/Navbar.vue";
 import HeaderAdmin from "../admin/components/HeaderAdmin.vue";
+
 export default {
   name: "LayoutAdmin",
   components: {
     Navbar,
-    HeaderAdmin
-  }
+    HeaderAdmin,
+  },
 };
 </script>

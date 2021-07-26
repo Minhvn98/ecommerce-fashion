@@ -9,7 +9,8 @@ const checkoutHandler = (
   payment
 ) => {
   const endpoint = '/checkout';
-  const body = {
+  
+  const payload = {
     first_name,
     last_name,
     email,
@@ -18,6 +19,7 @@ const checkoutHandler = (
     payment
   };
 
-  return apiHandler.post(endpoint, body);
+  return apiHandler.post(endpoint, payload);
 };
+
 export { checkoutHandler };

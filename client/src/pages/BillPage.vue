@@ -101,23 +101,28 @@ export default {
       orders: null,
     };
   },
+
   methods: {
     handleSelectTab(index) {
       this.tabSelected = index;
     },
   },
+
   beforeRouteUpdate(to) {
     getOrdersByStatus(to.query.status).then((res) => {
       this.orders = res.data;
       this.tabSelected = to.query.tabSelected;
     });
   },
-  created() {
+
+  async created() {
     document.title = "Danh sách hóa đơn";
+
     this.tabSelected = this.$route.query.tabSelected;
-    getOrdersByStatus(this.$route.query.status).then((res) => {
-      this.orders = res.data;
-    });
+
+    const { data: orders } = await getOrdersByStatus(this.$route.query.status);
+
+    this.orders = orders;
   },
 };
 </script>

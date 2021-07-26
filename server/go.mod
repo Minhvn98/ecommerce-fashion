@@ -9,8 +9,7 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/robfig/cron/v3 v3.0.0 // indirect
 	github.com/rs/cors v1.8.0
-	github.com/sony/sonyflake v1.0.0 // indirect
 	github.com/spf13/viper v1.8.1
-	github.com/streadway/amqp v1.0.0 // indirect
+	github.com/streadway/amqp v1.0.0
 	golang.org/x/crypto v0.0.0-20210616213533-5ff15b29337e
 )

@@ -1,6 +1,6 @@
 import { createStore } from 'vuex';
 import router from '../router';
-import { searchProducts as apiSearch } from '../services/products.service';
+// import { searchProducts as apiSearch } from '../services/products.service';
 import {
   addToCart,
   getCart,
@@ -8,13 +8,13 @@ import {
   deleteProductCart as apiDeleteProductCart
 } from '../services/cart.service';
 
+import product from './modules/product.store';
+
 const store = createStore({
   state() {
     return {
       user: null,
       count: 0,
-      textSearch: '',
-      productsSearch: [],
       cart: [],
       layout: 'LayoutShop'
     };
@@ -31,14 +31,6 @@ const store = createStore({
   },
 
   mutations: {
-    setProducts(state, products) {
-      state.productsSearch = products;
-    },
-
-    setText(state, text) {
-      state.textSearch = text;
-    },
-
     setUser(state, user) {
       state.user = user;
     },
@@ -57,13 +49,6 @@ const store = createStore({
   },
 
   actions: {
-    async searchProducts({ commit }, { textSearch }) {
-      const { data: products } = await apiSearch(textSearch);
-
-      commit('setProducts', products);
-      commit('setText', textSearch);
-    },
-
     setUser({ commit }, user) {
       commit('setUser', user);
     },
@@ -102,6 +87,9 @@ const store = createStore({
 
       commit('setCart', products);
     }
+  },
+  modules: {
+    product
   }
 });
 
