@@ -1,0 +1,151 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #ee4d2d;
+}
+
+/* menu-top  */
+.logo {
+  width: 150px;
+}
+
+.logo img {
+  width: 150px;
+}
+
+.menu-top {
+  background: linear-gradient(-180deg, #f53d2ded, #f05c2af0);
+  width: 100%;
+  height: 100px;
+}
+
+.navbar {
+  width: calc(80% - 30px);
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+}
+
+.btn-search {
+  color: #fff;
+  font-size: 23px;
+  background: #ee4d2d;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 18px;
+  margin-left: -63px;
+}
+
+.box-search {
+  width: 70%;
+  display: flex;
+  height: 65px;
+  align-items: center;
+}
+
+#search {
+  padding-left: 15px;
+  width: 100%;
+  font-size: 1.1rem;
+  outline: none;
+  border-radius: 4px;
+  border: none;
+  height: 45px;
+}
+
+.cart-user i {
+  font-size: 25px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.navbar-cart {
+  width: 40px;
+}
+
+.cart-user {
+  margin-left: 15px;
+  width: 80px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* footer  */
+.footer-wrap {
+  width: 100%;
+  background: #f5f5f5;
+  color: #8c8787;
+  padding-bottom: 30px;
+}
+
+.footer {
+  display: flex;
+  width: calc(80% - 30px);
+  margin: auto;
+}
+
+.footer-item {
+  width: 25%;
+}
+
+.footer-item li {
+  list-style: none;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.footer-item li:hover {
+  color: var(--primary-color);
+}
+
+.footer-title {
+  padding: 20px 0;
+  font-size: 16px;
+}
+
+.footer-item i {
+  color: #333;
+  margin-right: 15px;
+}
+
+.footer-app {
+  display: flex;
+}
+
+.qrcode {
+  max-width: 60%;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    width: calc(100% - 30px);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .logo {
+    width: 50px;
+    overflow: hidden;
+    margin-right: 15px;
+  }
+
+  #search {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .footer {
+    width: calc(100% - 30px);
+    flex-wrap: wrap;
+  }
+
+  .footer-item {
+    width: 50%;
+  }
+}

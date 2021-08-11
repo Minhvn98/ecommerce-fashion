@@ -1,0 +1,297 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.logo-sale-number {
+  color: red;
+}
+
+.logo-sale {
+  position: absolute;
+  background: #fdd637e6;
+  top: 1px;
+  right: 1px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3px 5px;
+  color: #fff;
+  border-radius: 2px;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.sale-bg {
+  position: absolute;
+  width: 90%;
+  bottom: 0;
+  left: 0;
+}
+
+.thumbnail {
+  position: relative;
+}
+
+/* menu-top  */
+.logo {
+  width: 150px;
+}
+
+.logo img {
+  width: 150px;
+}
+
+.menu-top {
+  background: linear-gradient(-180deg, #ec4c3e, #fa6735);
+  width: 100%;
+  height: 100px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+}
+
+.navbar {
+  width: calc(80% - 30px);
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+}
+
+.btn-search {
+  color: #fff;
+  font-size: 23px;
+  background: #ee4d2d;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 18px;
+  margin-left: -63px;
+}
+
+.box-search {
+  width: 70%;
+  display: flex;
+  height: 65px;
+  align-items: center;
+}
+
+#search {
+  padding-left: 15px;
+  width: 100%;
+  font-size: 1.1rem;
+  outline: none;
+  border-radius: 4px;
+  border: none;
+  height: 45px;
+}
+
+.cart-user i {
+  font-size: 25px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.navbar-cart {
+  width: 40px;
+}
+
+.cart-user {
+  margin-left: 15px;
+  width: 80px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* footer  */
+.footer-wrap {
+  width: 100%;
+  background: #f5f5f5;
+  color: #8c8787;
+  padding-bottom: 30px;
+}
+
+.footer {
+  display: flex;
+  width: calc(80% - 30px);
+  margin: auto;
+}
+
+.footer-item {
+  width: 25%;
+}
+
+.footer-item li {
+  list-style: none;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.footer-item li:hover {
+  color: var(--primary-color);
+}
+
+.footer-title {
+  padding: 20px 0;
+  font-size: 16px;
+}
+
+.footer-item i {
+  color: #333;
+  margin-right: 15px;
+}
+
+.footer-app {
+  display: flex;
+}
+
+.qrcode {
+  max-width: 60%;
+}
+
+/* 
+
+----------Product -----------
+
+*/
+body {
+  background-color: #eee;
+}
+
+.container {
+  width: 80%;
+  margin: auto;
+  margin-top: 15px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+}
+
+.card-body {
+  padding: 0px 15px 25px 15px;
+  color: #ee4d2d;
+  font-size: 1.1rem;
+}
+
+.card-title {
+  padding: 15px;
+  font-size: 1.1rem;
+}
+
+.card-image {
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+}
+
+.card {
+  background: #fff;
+  width: calc(25% - 15px);
+  border-radius: 5px;
+  margin: 7.5px;
+  border: 1px solid #eee;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.price-sort {
+  display: flex;
+  align-items: center;
+}
+
+#sort-product {
+  width: 150px;
+  height: 39px;
+  padding: 10px;
+  border: transparent;
+  background: #fff;
+  border-radius: 3px;
+  font-size: 16px;
+  margin-left: 15px;
+}
+
+.sort-products {
+  font-size: 16px;
+}
+
+#category {
+  margin-top: 15px;
+  width: 200px;
+  height: 40px;
+  padding: 10px;
+  font-size: 16px;
+  background: #fff;
+  border-radius: 3px;
+  border: transparent;
+}
+
+.category-wrap {
+  margin-top: 115px;
+  width: calc(80% - 15px);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+/* 
+ 
+  ------Responsive -------
+ 
+ */
+
+@media screen and (max-width: 992px) {
+  .card {
+    width: calc(33.333% - 15px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    width: calc(100% - 30px);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .container {
+    width: 100%;
+  }
+
+  .logo {
+    width: 50px;
+    overflow: hidden;
+    margin-right: 15px;
+  }
+
+  #search {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .footer {
+    width: calc(100% - 30px);
+    flex-wrap: wrap;
+  }
+
+  .footer-item {
+    width: 50%;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  .category-wrap {
+    width: calc(100% - 15px);
+  }
+
+  .sort-products label {
+    display: none;
+  }
+}
