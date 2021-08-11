@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.description {
+    font-size: 25px;
+}
+
+.wrapper-404 {
+    width: 400px;
+    margin: auto;
+    /* background: #fff; */
+    text-align: center;
+    padding: 30px;
+    border-radius: 3px;
+}
+
+.title {
+    color: #ee4d2d;
+    font-size: 115px;
+}
+
+.back-to-home {
+    color: #ee4d2d;
+    text-decoration: none;
+}

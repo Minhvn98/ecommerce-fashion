@@ -1,0 +1,291 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.detail-right {
+  display: flex;
+  align-items: center;
+}
+
+.not-products {
+  width: 100%;
+  background: #fff;
+  margin-bottom: 15px;
+  padding: 20px 15px;
+  border-radius: 4px;
+}
+
+.summary li {
+  list-style: none;
+  padding-bottom: 10px;
+}
+strong {
+  color: var(--shopee);
+}
+input#discount {
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.discount {
+  width: 70%;
+}
+
+.discount label {
+  color: var(--shopee);
+  padding-right: 15px;
+}
+
+.shopping-cart-footer {
+  font-size: 1.1rem;
+  background: #fff;
+  border-radius: 5px;
+  padding: 15px;
+  display: flex;
+  position: fixed;
+  bottom: 15px;
+  width: 80%;
+  z-index: 111;
+  height: 260px;
+  /* display: none; */
+}
+
+body {
+  background: #eee;
+}
+
+.delete {
+  color: var(--shopee);
+  cursor: pointer;
+  background: #eee;
+  padding: 6px 15px;
+  border-radius: 3px;
+}
+
+input[type='number'] {
+  padding-left: 10px;
+  width: calc(100% - 140px);
+  font-size: 1.1rem;
+  border: 1px solid #ddd;
+  height: 35px;
+}
+
+.quantity {
+  width: 60px;
+}
+
+:root {
+  --shopee: #ee4d2d;
+}
+
+.price {
+  padding-top: 15px;
+  color: var(--shopee);
+}
+
+.name {
+  font-size: 1.2rem;
+}
+
+.detail {
+  width: 80%;
+  padding-left: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.thumbnail img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.thumbnail {
+  width: 15%;
+  margin-left: 15px;
+}
+
+.card {
+  width: 100%;
+  display: flex;
+  padding: 15px 0;
+  background: #fff;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.005);
+}
+
+.products {
+  width: 100%;
+  margin-bottom: 300px;
+}
+
+.shopping-cart h1 {
+  color: var(--shopee);
+  padding: 20px 0;
+}
+
+.shopping-cart {
+  width: 100%;
+}
+
+.container {
+  width: 80%;
+  margin: auto;
+}
+.btn-checkout {
+  border: 1px solid transparent;
+  background: var(--shopee);
+  font-size: 1.1rem;
+  color: #fff;
+  border-radius: 4px;
+  width: 100%;
+  height: 40px;
+}
+.btn-checkout:hover {
+  background: #d6563d;
+}
+.delete:hover {
+  text-decoration: underline;
+}
+
+.checkout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.quantity {
+  display: flex;
+  width: 205px;
+  margin-right: 50px;
+}
+
+.btn-quantity {
+  width: 65px;
+  height: 35px;
+  font-size: 32px;
+  color: #555;
+  background: #fff;
+  border: 0.5px solid #ccc;
+  cursor: pointer;
+  line-height: 16px;
+}
+
+.modal {
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-dialog {
+  max-width: 540px;
+  position: fixed;
+  top: 200px;
+  background: #ddd;
+  margin: auto;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 15px;
+}
+.modal-title {
+  font-weight: 500;
+  font-size: 22px;
+  color: var(--shopee);
+}
+.btn-close {
+  width: 40px;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  background: transparent;
+  font-weight: 600;
+  color: #555;
+}
+.btn-close:hover {
+  color: #000;
+}
+
+.modal-footer {
+  padding-top: 25px;
+  border-top: 1px solid #ccc;
+}
+
+.modal-body {
+  padding-top: 25px;
+}
+.modal-body p {
+  padding-bottom: 25px;
+  font-size: 17px;
+}
+
+.btn {
+  padding: 11px 20px;
+  font-size: 18px;
+  width: calc(50% - 3px);
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+.btn.btn-ok {
+  background: var(--shopee);
+  color: #fff;
+}
+
+.btn-no {
+  background-color: #fff;
+}
+
+.btn-ok:hover {
+  background-color: #d6563d;
+}
+
+.btn-no:hover {
+  background-color: #eee;
+}
+@media screen and (max-width: 768px) {
+  .container {
+    width: calc(100% - 30px);
+    margin: 0 15px;
+  }
+
+  /* .quantity {
+    width: 60px;
+  } */
+
+  .discount {
+    width: 100%;
+    padding-bottom: 15px;
+  }
+
+  .shopping-cart-footer {
+    flex-direction: column;
+    width: calc(100% - 30px);
+  }
+
+  .card {
+    align-items: center;
+  }
+  #discount {
+    width: calc(100% - 111px);
+  }
+}
+
+@media screen and (max-width: 576px) {
+}
